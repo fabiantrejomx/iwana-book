@@ -1,6 +1,7 @@
 package mx.dev.blank.entity;
 
 import lombok.*;
+import mx.dev.blank.web.controller.request.BookRequest;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,7 +9,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "books")
 @EqualsAndHashCode(of = {"id"})
-@Setter
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -47,7 +47,30 @@ public class Book implements Serializable {
     @Column(name = "publication_year", nullable = false)
     private int publicationYear;
 
-    @Column(name = "deleted", nullable = false)
-    private boolean deleted;
+    public Book(final String title, final int pagesNumber, final String authors, final String editorial, final int isbn,
+                final String category, final String price, final String summary, final int publicationYear) {
+        this.title = title;
+        this.pagesNumber = pagesNumber;
+        this.authors = authors;
+        this.editorial = editorial;
+        this.isbn = isbn;
+        this.category = category;
+        this.price = price;
+        this.summary = summary;
+        this.publicationYear = publicationYear;
+    }
+
+    public void update(final BookRequest request) {
+        this.title = request.getTitle();
+        this.pagesNumber = request.getPagesNumber();
+        this.authors = request.getAuthors();
+        this.editorial = request.getEditorial();
+        this.isbn = request.getIsbn();
+        this.category = request.getCategory();
+        this.price = request.getPrice();
+        this.summary = request.getSummary();
+        this.publicationYear = request.getPublicationYear();
+    }
+
 
 }
