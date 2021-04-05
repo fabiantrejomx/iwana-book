@@ -35,7 +35,7 @@ public class UserJpaDAOTest extends AbstractTransactionalTestNGSpringContextTest
 
     @Test(dataProvider = "getById_dataProvider")
     @DatabaseSetup(DBUNIT_XML)
-    public void getById_should_returnTeacher(final String userID, final String userName) {
+    public void getById_should_returnUser(final String userID, final String userName) {
         final User user= userDAO.getById(userID);
 
         assertThat(user).isNotNull();
