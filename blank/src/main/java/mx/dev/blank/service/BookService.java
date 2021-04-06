@@ -1,5 +1,6 @@
 package mx.dev.blank.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -62,24 +63,69 @@ public class BookService {
         log.info("Delete book successful: {}", book);
     }
 
+    //1
+
     @Transactional
     public List<Book> getBooksListByPublicationDateOrderByAsc(final BookFilterRequest request) {
         return bookDAO.getBooksByPublicationDateAsc(request);
     }
+
+    //2
 
     @Transactional
     public List<Book> getBooksListByPublicationDateOrderByDesc(final BookFilterRequest request) {
         return bookDAO.getBooksByPublicationDateDesc(request);
     }
 
+    //3
+
+    @Transactional
+    public List<Book> getBooksListByAuthorNameOrLastname(final BookFilterRequest request) {
+        return bookDAO.getBooksByAuthorNameOrLastname(request.getNameOrLastname());
+    }
+
+    //4
+
     @Transactional
     public List<Book> getBooksListByMinAndMaxPrice(final BookFilterRequest request) {
-        return bookDAO.getBooksByMinAndMaxPrice(request);
+        return bookDAO.getBooksByMinAndMaxPrice(request.getMinPrice(), request.getMaxPrice());
     }
+
+    //5
+
+    //6
 
     @Transactional
     public List<Book> getBooksListByInitAndFinalPublicationDate(final BookFilterRequest request) {
-        return bookDAO.getBooksByInitAndFinalPublicationDate(request);
+        return bookDAO.getBooksByInitAndFinalPublicationDate(request.getInitialPublicationDate(),
+                request.getFinalPublicationDate());
     }
+
+    //7
+
+    @Transactional
+    public int countBooksByXCategory(final String category) {
+        return bookDAO.countBooksByXCategory(category);
+    }
+
+    //8
+
+    @Transactional
+    public List<Book> getBooksListByCategory(final BookFilterRequest request) {
+        return bookDAO.getBooksByCategory(request);
+    }
+
+    //9
+
+    @Transactional
+    public List<Book> getBooksListByPagesNumberOrderByAsc(final BookFilterRequest request) {
+        return bookDAO.getBooksByPageNumberAsc(request);
+    }
+
+    @Transactional
+    public List<Book> getBooksListByPagesNumberOrderByDesc(final BookFilterRequest request) {
+        return bookDAO.getBooksByPageNumberDesc(request);
+    }
+
 
 }

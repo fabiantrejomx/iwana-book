@@ -27,8 +27,9 @@ public class Book implements Serializable {
     @Column(name = "pages_number", nullable = false)
     private int pagesNumber;
 
-    @Column(name = "authors", nullable = false)
-    private String authors;
+    @OneToMany(fetch = FetchType.LAZY)
+    @Column(name = "authors_id", nullable = false)
+    private Author authors;
 
     @Column(name = "editorial", nullable = false)
     private String editorial;
@@ -36,8 +37,9 @@ public class Book implements Serializable {
     @Column(name = "isbn", nullable = false)
     private int isbn;
 
-    @Column(name = "category", nullable = false)
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "price", nullable = false)
     private int price;
@@ -51,8 +53,8 @@ public class Book implements Serializable {
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
 
-    public Book(final String title, final int pagesNumber, final String authors, final String editorial, final int isbn,
-                final String category, final int price, final String summary, final Date publicationDate) {
+    public Book(final String title, final int pagesNumber, final Author authors, final String editorial, final int isbn,
+                final Category category, final int price, final String summary, final Date publicationDate) {
         this.title = title;
         this.pagesNumber = pagesNumber;
         this.authors = authors;

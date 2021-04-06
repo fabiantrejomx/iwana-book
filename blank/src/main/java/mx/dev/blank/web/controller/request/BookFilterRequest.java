@@ -9,11 +9,15 @@ import java.util.Date;
 @Getter
 public class BookFilterRequest {
 
-    private Date publicationDate;
     private int price;
     private int minPrice;
     private int maxPrice;
+    private int pagesNumber;
+    private String nameOrLastname;
+    private String category;
+    private Date publicationDate;
     private Date initialPublicationDate;
     private Date finalPublicationDate;
+
 
 }

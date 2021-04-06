@@ -94,13 +94,16 @@ public class BookRestController {
     private void initBinderRouteCoverageFilterRequestByPublicationDate(final WebDataBinder binder) {
         binder.setAllowedFields("publicationDate");
         binder.setAllowedFields("price");
+        binder.setAllowedFields("category");
+        binder.setAllowedFields("title");
+        binder.setAllowedFields("pagesNumber");
     }
 
     /*
      * 1. Get a list of courses by publicationDate order by asc
      */
     @GetMapping(path = "/filter")
-    public ResponseEntity<BookResponse> getBookPublicationDateFilterOrderByAsc(@ModelAttribute("BookFilter")
+    public ResponseEntity<BookResponse> getBookByPublicationDateFilterOrderByAsc(@ModelAttribute("BookFilter")
                                                             final BookFilterRequest filters){
         log.info("Request {}", filters);
         final BookResponse response = new BookResponse();
@@ -114,7 +117,7 @@ public class BookRestController {
      * 2. Get a list of books by publicationDate order by desc
      */
     @GetMapping(path = "/filter")
-    public ResponseEntity<BookResponse> getBookPublicationDateFilterOrderByDesc(@ModelAttribute("BookFilter")
+    public ResponseEntity<BookResponse> getBookByPublicationDateFilterOrderByDesc(@ModelAttribute("BookFilter")
                                                                                final BookFilterRequest filters){
         log.info("Request {}", filters);
         final BookResponse response = new BookResponse();
@@ -128,12 +131,24 @@ public class BookRestController {
      * 3. Get a list of books by author name or lastname
      */
 
+    @GetMapping(path = "/filter")
+    public ResponseEntity<BookResponse> getBooksByAuthorNameOrLastname(@ModelAttribute("BookFilter")
+                                                          final BookFilterRequest filters) {
+
+        log.info("Request {}", filters);
+        final BookResponse response = new BookResponse();
+        final List<Book> books = bookService.getBooksListByAuthorNameOrLastname(filters);
+        response.setBooks(books.stream().map(this::build).collect(Collectors.toList()));
+
+        return ResponseEntity.ok(response);
+    }
+
     /*
      * 4. Get a list of books by minPrice & maxPrice
      */
 
     @GetMapping(path = "/filter")
-    public ResponseEntity<BookResponse> getBookMinAndMaxPriceFilter(@ModelAttribute("BookFilter")
+    public ResponseEntity<BookResponse> getBookByMinAndMaxPriceFilter(@ModelAttribute("BookFilter")
                                                                     final BookFilterRequest filters) {
         log.info("Request {}", filters);
         final BookResponse response = new BookResponse();
@@ -152,7 +167,7 @@ public class BookRestController {
      */
 
     @GetMapping(path = "/filter")
-    public ResponseEntity<BookResponse> getBookInitAndFinalPublicationDateFilter(@ModelAttribute("BookFilter")
+    public ResponseEntity<BookResponse> getBookByInitAndFinalPublicationDateFilter(@ModelAttribute("BookFilter")
                                                                                 final BookFilterRequest filters) {
         log.info("Request {}", filters);
         final BookResponse response = new BookResponse();
@@ -163,14 +178,61 @@ public class BookRestController {
     }
 
     /*
-     * 7. Get a list of books x category
+     * 7. Get a numbers of Books of X Category
      */
+
+    @GetMapping(path = "/{category}")
+    public @ResponseBody int countBooksByXCategory(@PathVariable("category") final String category){
+
+        try {
+            return (bookService.countBooksByXCategory(category));
+        } catch(final ResourceNotFound ex) {
+            log.warn("Incorrect category: {}", category);
+            return 0;
+        }
+    }
 
     /*
      * 8. Get a list of books by category
      */
 
+    @GetMapping(path = "/filter")
+    public ResponseEntity<BookResponse> getBookByCategory(@ModelAttribute("BookFilter")
+                                                           final BookFilterRequest filters) {
+
+        log.info("Request {}", filters);
+        final BookResponse response = new BookResponse();
+        final List<Book> books = bookService.getBooksListByCategory(filters);
+        response.setBooks(books.stream().map(this::build).collect(Collectors.toList()));
+
+        return ResponseEntity.ok(response);
+    }
+
     /*
      * 9. Get a list of books by pageNumber By Asc and Desc
      */
+
+    @GetMapping(path = "/filter")
+    public ResponseEntity<BookResponse> getBookByPagesNumberFilterOrderByAsc(@ModelAttribute("BookFilter")
+                                                                                 final BookFilterRequest filters){
+        log.info("Request {}", filters);
+        final BookResponse response = new BookResponse();
+        final List<Book> courses = bookService.getBooksListByPagesNumberOrderByAsc(filters);
+        response.setBooks(courses.stream().map(this::build).collect(Collectors.toList()));
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/filter")
+    public ResponseEntity<BookResponse> getBookByPagesNumberFilterOrderByDesc(@ModelAttribute("BookFilter")
+                                                                             final BookFilterRequest filters){
+        log.info("Request {}", filters);
+        final BookResponse response = new BookResponse();
+        final List<Book> courses = bookService.getBooksListByPagesNumberOrderByDesc(filters);
+        response.setBooks(courses.stream().map(this::build).collect(Collectors.toList()));
+
+        return ResponseEntity.ok(response);
+    }
+
+
 }
