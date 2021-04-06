@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -22,10 +23,10 @@ public class BookRequest {
     @NotBlank
     private String category;
     @NotBlank
-    private String price;
+    private int price;
     @NotBlank
     private String summary;
     @NotBlank
-    private int publicationYear;
+    private Date publicationDate;
 
 }

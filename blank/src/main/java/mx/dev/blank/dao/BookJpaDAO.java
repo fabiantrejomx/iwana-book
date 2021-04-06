@@ -25,7 +25,7 @@ public class BookJpaDAO implements BookDAO {
      */
 
     @Override
-    public void create(final Book book) {
+    public void add(final Book book) {
         em.persist(book);
     }
 
@@ -59,15 +59,59 @@ public class BookJpaDAO implements BookDAO {
     }
 
     @Override
-    public List<Book> getBooks(final BookFilterRequest request) {
+    public List<Book> getBooksByPublicationDateAsc(final BookFilterRequest request) {
         final CriteriaBuilder builder = em.getCriteriaBuilder();
         final CriteriaQuery<Book> query = builder.createQuery(Book.class);
         final Root<Book> root = query.from(Book.class);
 
-        if(request != null && request.getIsbn() != 0) {
-            query.where(builder.equal(root.get(Book_.isbn), request.getIsbn()));
+        if (request != null && request.getPublicationDate() != null) {
+            query.orderBy(builder.asc(root.get(Book_.publicationDate)));
         }
 
         return HibernateHelper.getResults(em, query);
     }
+    @Override
+    public List<Book> getBooksByPublicationDateDesc(final BookFilterRequest request) {
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Book> query = builder.createQuery(Book.class);
+        final Root<Book> root = query.from(Book.class);
+
+        if (request != null && request.getPublicationDate() != null) {
+            query.orderBy(builder.desc(root.get(Book_.publicationDate)));
+        }
+
+        return HibernateHelper.getResults(em, query);
+    }
+
+    @Override
+    public List<Book> getBooksByMinAndMaxPrice(final BookFilterRequest request) {
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Book> query = builder.createQuery(Book.class);
+        final Root<Book> root = query.from(Book.class);
+        em.persist(request.getMinPrice());
+        em.persist(request.getMaxPrice());
+
+        if (request.getPrice() != 0) {
+            query.where(builder.between(root.get(Book_.price), request.getMinPrice(), request.getMaxPrice()));
+        }
+
+        return HibernateHelper.getResults(em, query);
+    }
+
+    @Override
+    public List<Book> getBooksByInitAndFinalPublicationDate(final BookFilterRequest request) {
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Book> query = builder.createQuery(Book.class);
+        final Root<Book> root = query.from(Book.class);
+        em.persist(request.getInitialPublicationDate());
+        em.persist(request.getFinalPublicationDate());
+
+        if (request.getPublicationDate() != null) {
+            query.where(builder.between(root.get(Book_.publicationDate), request.getInitialPublicationDate(),
+                    request.getFinalPublicationDate()));
+        }
+
+        return HibernateHelper.getResults(em, query);
+    }
+
 }

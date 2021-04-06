@@ -5,6 +5,7 @@ import mx.dev.blank.web.controller.request.BookRequest;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "books")
@@ -39,16 +40,19 @@ public class Book implements Serializable {
     private String category;
 
     @Column(name = "price", nullable = false)
-    private String price;
+    private int price;
 
     @Column(name = "summary", nullable = false)
     private String summary;
 
-    @Column(name = "publication_year", nullable = false)
-    private int publicationYear;
+    @Column(name = "publication_date", nullable = false)
+    private Date publicationDate;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted;
 
     public Book(final String title, final int pagesNumber, final String authors, final String editorial, final int isbn,
-                final String category, final String price, final String summary, final int publicationYear) {
+                final String category, final int price, final String summary, final Date publicationDate) {
         this.title = title;
         this.pagesNumber = pagesNumber;
         this.authors = authors;
@@ -57,7 +61,7 @@ public class Book implements Serializable {
         this.category = category;
         this.price = price;
         this.summary = summary;
-        this.publicationYear = publicationYear;
+        this.publicationDate = publicationDate;
     }
 
     public void update(final BookRequest request) {
@@ -69,7 +73,7 @@ public class Book implements Serializable {
         this.category = request.getCategory();
         this.price = request.getPrice();
         this.summary = request.getSummary();
-        this.publicationYear = request.getPublicationYear();
+        this.publicationDate = request.getPublicationDate();
     }
 
 

@@ -8,7 +8,9 @@ CREATE TABLE books (
   category varchar(255) NOT NULL,
   price varchar(10) NOT NULL,
   summary text NOT NULL,
-  publication_year int(4) NOT NULL,
+  publication_date date NOT NULL,
+  deleted boolean NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX isbn_uk (isbn)
 ) ENGINE=InnoDB;
+

@@ -10,7 +10,7 @@ import java.util.List;
 @Validated
 public interface BookDAO {
 
-    void create(@NotNull Book book);
+    void add(@NotNull Book book);
 
     void update(@NotNull Book book);
 
@@ -18,6 +18,12 @@ public interface BookDAO {
 
     Book findById(final long courseId);
 
-    List<Book> getBooks(BookFilterRequest request);
+    List<Book> getBooksByPublicationDateAsc(final BookFilterRequest request);
+
+    List<Book> getBooksByPublicationDateDesc(final BookFilterRequest request);
+
+    List<Book> getBooksByMinAndMaxPrice(final BookFilterRequest request);
+
+    List<Book> getBooksByInitAndFinalPublicationDate(final BookFilterRequest request);
 
 }
