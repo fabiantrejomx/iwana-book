@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -35,7 +36,7 @@ public class Book implements Serializable {
     private Editor editorID;
 
     @Column(name = "isbn", nullable = false)
-    private Integer isbn;
+    private BigDecimal isbn;
 
     @Column(name = "price")
     private Integer price;
@@ -52,7 +53,7 @@ public class Book implements Serializable {
                 final Integer numPages,
                 final Category categoryID,
                 final Editor editorID,
-                final Integer isbn,
+                final BigDecimal isbn,
                 final Integer price,
                 final String resume,
                 final Date datePublished

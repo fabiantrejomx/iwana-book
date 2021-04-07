@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -25,7 +26,7 @@ public class BookForm  implements Serializable {
 
     private Editor editorID;
 
-    private int isbn;
+    private BigDecimal isbn;
     @Length(max = 1)
     private Integer price;
 

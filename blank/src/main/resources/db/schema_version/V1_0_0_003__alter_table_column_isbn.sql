@@ -1,0 +1,1 @@
+ALTER TABLE book MODIFY isbn DECIMAL(13);
