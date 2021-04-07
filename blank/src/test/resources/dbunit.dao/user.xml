@@ -1,4 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     <user id="1" name="user 1"/>
+
+    <editor id="1" name="gandhi"/>
+    <editor id="2" name="gandhi 2"/>
+
+    <category id="1" name="romantic"/>
+    <category id="2" name="romantic 2"/>
+
+    <book id="1" title="100 años de soledad" num_pages="260"  id_categories="1" id_editorial="1"  isbn="1234567890123"
+    price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="1927-10-03"/>
+    <book id="2" title="El amor en los tiempos de colera" num_pages="260" id_categories="2" id_editorial="2"  isbn="1234567890123"
+           price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="1927-10-03"/>
+
+    <author id="1" name="gabriel"/>
+
 </dataset>
