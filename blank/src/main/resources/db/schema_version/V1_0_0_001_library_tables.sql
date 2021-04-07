@@ -20,7 +20,7 @@ CREATE TABLE authors (
   id int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   name varchar(50) NOT NULL,
   first_surname varchar(50) NOT NULL,
-  second_surname varchar(50) NOT NULL,
+  second_surname varchar(50) NULL,
   birthdate date NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;

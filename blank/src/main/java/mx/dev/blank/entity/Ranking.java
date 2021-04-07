@@ -1,17 +1,18 @@
 package mx.dev.blank.entity;
-import lombok.*;
 
+import lombok.*;
+import mx.dev.blank.web.controller.request.BookRequest;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
-@Table(name = "category")
+@Table(name = "ranking")
 @EqualsAndHashCode(of = {"id"})
+@Setter
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Category implements Serializable {
+public class Ranking implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -19,11 +20,6 @@ public class Category implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "category", nullable = false)
-    private String category;
-
-    public Category(final String category) {
-        this.category = category;
-    }
-
+    @Column(name = "rank", nullable = false)
+    private String rank;
 }

@@ -32,4 +32,10 @@ public class Author implements Serializable {
     @Column(name = "birthdate", nullable = false)
     private Date birthdate;
 
+    public Author(final String name, final String firstSurname, final String secondSurname, final Date birthdate) {
+        this.name = name;
+        this.firstSurname = firstSurname;
+        this.secondSurname = secondSurname;
+        this.birthdate = birthdate;
+    }
 }

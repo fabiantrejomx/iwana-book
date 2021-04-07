@@ -10,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "books")
 @EqualsAndHashCode(of = {"id"})
+@Setter
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -49,6 +50,10 @@ public class Book implements Serializable {
 
     @Column(name = "publication_date", nullable = false)
     private Date publicationDate;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @Column(name = "ranking_id", nullable = false)
+    private Ranking ranking;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;

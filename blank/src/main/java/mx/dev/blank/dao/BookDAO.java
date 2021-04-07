@@ -2,6 +2,7 @@ package mx.dev.blank.dao;
 
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.web.controller.request.BookFilterRequest;
+import mx.dev.blank.web.controller.request.BookRequest;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
@@ -16,17 +17,19 @@ public interface BookDAO {
 
     void update(@NotNull Book book);
 
-    void delete(@NotNull Book book);
+    void delete(final int bookId);
 
     Book findById(final long courseId);
 
-    //1.
+    /*
+     * 1.
+     * 2.
+     * 9.
+     */
 
-    List<Book> getBooksByPublicationDateAsc(final BookFilterRequest request);
+    List<Book> getBooksByAnyFieldOrderByAsc(final BookRequest request, final String field);
 
-    //2.
-
-    List<Book> getBooksByPublicationDateDesc(final BookFilterRequest request);
+    List<Book> getBooksByAnyFieldOrderByDesc(final BookRequest request, final String field);
 
     //3.
 
@@ -38,7 +41,7 @@ public interface BookDAO {
 
     //5.
 
-
+    List<Book> getBooksByXAuthorsNumber(final int authorsNumber);
 
     //6.
 
@@ -50,13 +53,8 @@ public interface BookDAO {
 
     //8.
 
-    List<Book> getBooksByCategory(final BookFilterRequest request);
+    List<Book> getBooksByCategory(final String category);
 
-    //9.
-
-    List<Book> getBooksByPageNumberAsc(final BookFilterRequest request);
-
-    List<Book> getBooksByPageNumberDesc(final BookFilterRequest request);
 
 
 }

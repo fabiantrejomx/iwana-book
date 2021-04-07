@@ -21,15 +21,6 @@ public class BookService {
 
     private final BookDAO bookDAO;
 
-    @Transactional
-    public Book findBook(final long bookId) {
-        final Book book = bookDAO.findById(bookId);
-        if(book == null) {
-            throw new ResourceNotFound("Book not found: " + bookId);
-        }
-        return book;
-    }
-
     @Transactional(readOnly = false)
     public void addBook(final BookRequest request) {
         Book book = new Book(request.getTitle(), request.getPagesNumber(), request.getAuthors(), request.getEditorial(),
@@ -58,47 +49,62 @@ public class BookService {
         if(book == null) {
             throw new ResourceNotFound("Book not found" + bookId);
         }
-        bookDAO.delete(book);
+        bookDAO.update(book);
 
         log.info("Delete book successful: {}", book);
     }
 
-    //1
-
     @Transactional
-    public List<Book> getBooksListByPublicationDateOrderByAsc(final BookFilterRequest request) {
-        return bookDAO.getBooksByPublicationDateAsc(request);
+    public Book findBook(final long bookId) {
+        final Book book = bookDAO.findById(bookId);
+        if(book == null) {
+            throw new ResourceNotFound("Book not found: " + bookId);
+        }
+        return book;
     }
 
-    //2
+    /*
+     * 1.
+     * 2.
+     * 9.
+     */
 
     @Transactional
-    public List<Book> getBooksListByPublicationDateOrderByDesc(final BookFilterRequest request) {
-        return bookDAO.getBooksByPublicationDateDesc(request);
+    public List<Book> getBooksListByAnyFieldAsc(final BookRequest request, final String field) {
+        return bookDAO.getBooksByAnyFieldOrderByAsc(request, field);
+    }
+
+    @Transactional
+    public List<Book> getBooksListByAnyFieldDesc(final BookRequest request, final String field) {
+        return bookDAO.getBooksByAnyFieldOrderByDesc(request, field);
     }
 
     //3
 
     @Transactional
-    public List<Book> getBooksListByAuthorNameOrLastname(final BookFilterRequest request) {
-        return bookDAO.getBooksByAuthorNameOrLastname(request.getNameOrLastname());
+    public List<Book> getBooksListByAuthorNameOrLastname(final String nameOrLastname) {
+        return bookDAO.getBooksByAuthorNameOrLastname(nameOrLastname);
     }
 
     //4
 
     @Transactional
-    public List<Book> getBooksListByMinAndMaxPrice(final BookFilterRequest request) {
-        return bookDAO.getBooksByMinAndMaxPrice(request.getMinPrice(), request.getMaxPrice());
+    public List<Book> getBooksListByMinAndMaxPrice(final int minPrice, final int maxPrice) {
+        return bookDAO.getBooksByMinAndMaxPrice(minPrice, maxPrice);
     }
 
     //5
 
+    @Transactional
+    public List<Book> getBooksListByXAuthorsNumber(final int authorsNumber) {
+        return bookDAO.getBooksByXAuthorsNumber(authorsNumber);
+    }
+
     //6
 
     @Transactional
-    public List<Book> getBooksListByInitAndFinalPublicationDate(final BookFilterRequest request) {
-        return bookDAO.getBooksByInitAndFinalPublicationDate(request.getInitialPublicationDate(),
-                request.getFinalPublicationDate());
+    public List<Book> getBooksListByInitAndFinalPublicationDate(final Date initialDate, final Date finalDate) {
+        return bookDAO.getBooksByInitAndFinalPublicationDate(initialDate, finalDate);
     }
 
     //7
@@ -111,21 +117,8 @@ public class BookService {
     //8
 
     @Transactional
-    public List<Book> getBooksListByCategory(final BookFilterRequest request) {
-        return bookDAO.getBooksByCategory(request);
+    public List<Book> getBooksListByCategory(final String category) {
+        return bookDAO.getBooksByCategory(category);
     }
-
-    //9
-
-    @Transactional
-    public List<Book> getBooksListByPagesNumberOrderByAsc(final BookFilterRequest request) {
-        return bookDAO.getBooksByPageNumberAsc(request);
-    }
-
-    @Transactional
-    public List<Book> getBooksListByPagesNumberOrderByDesc(final BookFilterRequest request) {
-        return bookDAO.getBooksByPageNumberDesc(request);
-    }
-
 
 }
