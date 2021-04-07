@@ -1,7 +1,7 @@
 package mx.dev.blank.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,23 +12,25 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "user")
+@Table(name = "Escritos")
 @EqualsAndHashCode(of = {"id"})
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Escrito implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
-  @Column(name = "id", nullable = false)
-  private String id;
+    @Id
+    @GeneratedValue(generator = "esid")
+    @GenericGenerator(name = "esid", strategy = "esid2")
+    @Column(name = "id", nullable = false)
+    private int id;
 
-  @Column(name = "name", nullable = false)
-  private String name;
+    @Column(name = "Autor")
+    private int autor;
+
+    @Column(name = "Libro")
+    private int libros;
 }

@@ -4,12 +4,11 @@ import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import mx.dev.blank.entity.User;
+import mx.dev.blank.entity.Libro;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-public interface UserDAO {
+public interface LibroDAO {
 
-  User getById(@NotBlank String id);
-
+    Libro getById(@NotBlank int id);
 }
