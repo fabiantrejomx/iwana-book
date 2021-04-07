@@ -25,7 +25,7 @@ public class BookForm  implements Serializable {
     private Category categoryID;
 
     private Editor editorID;
-
+    @Length(max = 13)
     private BigDecimal isbn;
     @Length(max = 1)
     private Integer price;
