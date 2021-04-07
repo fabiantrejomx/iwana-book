@@ -19,5 +19,16 @@ password: demo
 
 
 ## Collections Postman
-
 Solo tiene las peticiones Post y Get
+
+## Description of the work perfomed
+
+Create Book(POST)
+Get Books(GET)
+
+
+## Description of the work TO DO
+
+update Book(UPDATE)
+delete Boook (DELETE)
+
