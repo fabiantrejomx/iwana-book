@@ -4,4 +4,55 @@
     <user id="2" name="Usuario 2"/>
     <user id="3" name="Usuario 3"/>
 
+    <category id="1" name="Drama"/>
+    <category id="2" name="Arte"/>
+    <category id="3" name="Terror"/>
+    <category id="4" name="Poesia"/>
+    <category id="5" name="Amor"/>
+    <category id="6" name="Medicina"/>
+
+    <author id="1" name="AuthorA" fist_name="firstname-1" second_name="secondname-1" birthday="1996-12-04" />
+    <author id="2" name="AuthorB" fist_name="firstname-2" second_name="secondname-2" birthday="1888-11-06" />
+    <author id="3" name="AuthorC" fist_name="firstname-3" second_name="secondname-3" birthday="1795-12-03" />
+    <author id="4" name="AuthorD" fist_name="firstname-4" second_name="secondname-4" birthday="1985-08-05"/>
+    <author id="5" name="AuthorE" fist_name="firstname-5" second_name="secondname-5" birthday="1795-08-09" />
+    <author id="6" name="AuthorF" fist_name="firstname-7" second_name="secondname-6" birthday="1695-08-09" />
+    <author id="7" name="AuthorG" fist_name="firstname-8" second_name="secondname-7" birthday="1595-11-09" />
+    <author id="8" name="AuthorH" fist_name="firstname-9" second_name="secondname-8" birthday="1495-05-09" />
+    <author id="9" name="AuthorI" fist_name="firstname-10" second_name="secondname-9" birthday="1395-02-09" />
+    <author id="10" name="AuthorJ" fist_name="firstname-11" second_name="secondname-10" birthday="1495-01-09"/>
+
+
+    <book id="1" tile="Book 1" pages="100" isbn="0-7645-2641-1" price="255.00" summary="adstract 1" editorial="editorial 1" date_publication="1995-02-25" deleted="0" category_id="1"/>
+    <book id="2" tile="Book 2" pages="150" isbn="0-7645-2641-2" price="225.00" summary="adstract 2" editorial="editorial 2" date_publication="1996-04-17" deleted="0" category_id="2"/>
+    <book id="3" tile="Book 3" pages="180" isbn="0-7645-2641-3" price="336.68" summary="adstract 3" editorial="editorial 4" date_publication="1993-03-08" deleted="0" category_id="3"/>
+    <book id="4" tile="Book 3" pages="156" isbn="0-7645-2641-4" price="441.33" summary="adstract 4" editorial="editorial 4" date_publication="1888-02-14" deleted="0" category_id="4"/>
+    <book id="5" tile="Book 4" pages="222" isbn="0-7645-2641-5" price="447.36" summary="adstract 5" editorial="editorial 5" date_publication="1998-05-23" deleted="0" category_id="5"/>
+    <book id="6" tile="Book 6" pages="456" isbn="0-7645-2641-6" price="584.96" summary="adstract 6" editorial="editorial 6" date_publication="1775-02-09" deleted="0" category_id="1"/>
+    <book id="7" tile="Book 7" pages="222" isbn="0-7645-2641-7" price="284.96" summary="adstract 7" editorial="editorial 7" date_publication="1887-02-08" deleted="0" category_id="6"/>
+    <book id="8" tile="Book 8" pages="145" isbn="0-7645-2641-8" price="594.96" summary="adstract 8" editorial="editorial 8" date_publication="1996-03-09" deleted="0" category_id="1"/>
+    <book id="9" tile="Book 9" pages="696" isbn="0-7645-2641-9" price="684.96" summary="adstract 9" editorial="editorial 9" date_publication="1878-12-11" deleted="0" category_id="8"/>
+    <book id="10" tile="Book 10" pages="896" isbn="0-7645-2641-10" price="284.96" summary="adstract 10" editorial="editorial 10" date_publication="1785-02-12" deleted="1" category_id="1"/>
+
+    <book_author id="1" book_id="1" author_id="1"/>
+    <book_author id="2" book_id="2" author_id="1"/>
+    <book_author id="3" book_id="3" author_id="2"/>
+    <book_author id="4" book_id="1" author_id="3"/>
+
+    <ranking id="1" score="1" book_id="1"/>
+    <ranking id="2" score="3" book_id="1"/>
+    <ranking id="3" score="4" book_id="2"/>
+    <ranking id="4" score="5" book_id="2"/>
+    <ranking id="5" score="1" book_id="3"/>
+    <ranking id="6" score="2" book_id="4"/>
+    <ranking id="7" score="5" book_id="5"/>
+    <ranking id="8" score="1" book_id="6"/>
+    <ranking id="9" score="1" book_id="7"/>
+    <ranking id="10" score="3" book_id="8"/>
+    <ranking id="11" score="4" book_id="9"/>
+    <ranking id="12" score="5" book_id="10"/>
+
+
+
+
 </dataset>
