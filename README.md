@@ -13,7 +13,7 @@ https://vaadin.com/docs/v14/flow/tutorials/in-depth-course/project-setup
 
 #test with postman
 Postman:
-https://drive.google.com/file/d/1bM29maFzlD2BsReoGwEAYRjj50s1URn_/view?usp=sharing 
+https://drive.google.com/file/d/1mUH0Ijmua9iyJ-ti-zmzrSqn9F5u-Cxg/view?usp=sharing 
 
 
 ## Database
@@ -47,7 +47,10 @@ password: demo
     1. Soft delete
     2. Pots review
     3. Calcule record score
- 
+    
+    
+#Git compare VS develop
+    https://github.com/fabiantrejomx/iwana-book/compare/SENDY-CRUZ 
  
  
 
