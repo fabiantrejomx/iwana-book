@@ -1,0 +1,29 @@
+package mx.dev.blank.entity;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "category")
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Category implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private int id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+}
+
