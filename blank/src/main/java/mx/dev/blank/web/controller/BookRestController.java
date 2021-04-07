@@ -110,4 +110,16 @@ public class BookRestController {
         return new ResponseEntity<Integer>(isUpdated, HttpStatus.OK);
     }
 
+
+    @DeleteMapping(path = "/delete/{bookID}")
+    public ResponseEntity<Integer> deleteBook(
+            @PathVariable final int bookID,
+            @RequestBody final BookRequest bookRequest
+    ){
+        System.out.println(bookRequest);
+        System.out.println(bookID);
+        Integer isUpdated = bookService.deleteBook(bookID, bookRequest);
+        return new ResponseEntity<Integer>(isUpdated, HttpStatus.OK);
+    }
+
 }

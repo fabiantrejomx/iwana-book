@@ -31,5 +31,7 @@ public interface BookDAO {
 
     Integer putBook(final int bookID, final BookRequest bookRequest);
 
+    Integer deleteBook(final int bookID, final BookRequest bookRequest);
+
 
 }

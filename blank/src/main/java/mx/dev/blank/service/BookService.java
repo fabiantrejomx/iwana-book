@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +75,12 @@ public class BookService {
     public Integer putBook(final int bookID, final BookRequest bookRequest){
         Integer isPut = bookJpaDAO.putBook(bookID, bookRequest);
         return isPut;
+    }
+
+    @Transactional
+    public Integer deleteBook(final int bookID, final BookRequest bookRequest){
+       Integer isDelete = bookJpaDAO.deleteBook(bookID, bookRequest);
+        return isDelete;
     }
 
 
