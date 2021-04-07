@@ -265,4 +265,19 @@ public class BookJpaDAO implements BookDAO {
         // perform update
         return this.em.createQuery(update).executeUpdate();
     }
+
+
+    /*Delete*/
+    public Integer deleteBook(final int bookId) {
+        CriteriaBuilder cb = this.em.getCriteriaBuilder();
+        // create delete
+        CriteriaDelete<Book> delete = cb.
+                createCriteriaDelete(Book.class);
+        // set the root class
+        Root e = delete.from(Book.class);
+        // set where clause
+        delete.where(cb.equal(e.get("id"), bookId));
+        // perform update
+        return this.em.createQuery(delete).executeUpdate();
+    }
 }

@@ -63,4 +63,10 @@ public class BookService {
         return isUpdated;
     }
 
+    @Transactional
+    public Integer deleteBook(final int bookId){
+        Integer isDelete = bookJpaDAO.deleteBook(bookId);
+        return isDelete;
+    }
+
 }

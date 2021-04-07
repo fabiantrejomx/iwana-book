@@ -2,6 +2,8 @@ package mx.dev.blank.entity;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,29 +15,42 @@ import java.util.Date;
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+/*Soft delete only work for hibernate*/
+/*@SQLDelete(sql="UPDATE book SET deleted = true WHERE id = ?")
+@Where(clause="deleted = false")*/
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
+
     @Column(name = "title", nullable = false)
     private String title;
+
     @Column(name = "pages", nullable = false)
     private int pages;
+
     @Column(name = "isbn", nullable = false)
     private String isbn;
+
     @Column(name = "price", nullable = false)
     private float price ;
+
     @Column(name = "summary", nullable = false)
     private String summary;
+
     @Column(name = "editorial", nullable = false)
     private String editorial;
+
     @Column(name = "date_publication", nullable = false)
     private Date datePublication;
+
     @Column(name = "deleted", nullable = false, columnDefinition = "BIT default 0")
     private boolean deleted;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

@@ -30,4 +30,6 @@ public interface BookDAO {
     Book createBook(BookRequest bookRequest);
 
     Integer updateBook(final Integer bookId, final BookRequest bookRequest);
+
+    Integer deleteBook(final int bookId);
 }

@@ -12,14 +12,43 @@ https://vaadin.com/docs/v14/flow/tutorials/in-depth-course/project-setup
 ```
 
 #test with postman
-Drive:
+Postman:
 https://drive.google.com/file/d/1bM29maFzlD2BsReoGwEAYRjj50s1URn_/view?usp=sharing 
 
-Postman:
-https://www.getpostman.com/collections/7c24549784488aa10e6f
 
 ## Database
 
 name: test
 username: dev
 password: demo
+
+## Description of the work performed
+ Tasks:
+    - Create new books (Post)
+    - Update books (Put)
+    - Get Books (Get)
+    - Delete books (without soft delete)
+    
+ File:
+    Postman collection
+    
+ Endpoints
+    1. Show all books sorted by year of publication in ascending order, the results should be paginated. (10 books in total, leaving 2 books per page)
+    2. Books descending by year of publication. (10 books in total, leaving 2 books per page)
+    3. Search for those books where X author participated by matching either his first or last name.
+    4. Where the price is in the range from priceMinimum to priceMaximum.
+    5. Given a number, search for books containing that number of authors.
+    6. Search for those books in a date range (StartDate, EndDate) of publication.
+    7. Number of books that exist of x category
+    8. Filter books by category.
+    9. Filter books in ascending and descending order by number of pages contained in the book.
+
+## Description of the work TO DO
+    1. Soft delete
+    2. Pots review
+    3. Calcule record score
+ 
+ 
+ 
+
+
