@@ -10,5 +10,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public interface LibroDAO {
 
-    Libro getById(@NotBlank int id);
+    List<Libro> ascendente(@Min(0) int currentPos, @Min(1) int size);
+
+    List<Libro> descendente(@Min(0) int currentPos, @Min(1) int size);
 }

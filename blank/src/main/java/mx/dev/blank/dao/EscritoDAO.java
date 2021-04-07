@@ -10,5 +10,5 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public interface EscritoDAO {
 
-    Escrito getById(@NotBlank int id);
+    List<Escrito> xAutor(@NotBlank String campo);
 }
