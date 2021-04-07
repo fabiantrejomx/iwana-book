@@ -3,11 +3,10 @@ package mx.dev.blank.entity;
 import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
 import java.sql.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,4 +30,10 @@ public class Categoria implements Serializable {
 
     @Column(name = "Nombre")
     private String nombre;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Pertenecen> pertenecens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "categoria2")
+    private List<Pertenecian> pertenecians = new ArrayList<>();
 }

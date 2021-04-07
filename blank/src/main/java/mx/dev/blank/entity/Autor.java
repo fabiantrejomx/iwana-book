@@ -3,11 +3,10 @@ package mx.dev.blank.entity;
 import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
 import java.sql.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,4 +39,10 @@ public class Autor implements Serializable {
 
     @Column(name = "Nacimiento")
     private Date nacimiento;
+
+    @OneToMany(mappedBy = "autor")
+    private List<Escrito> escritos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "autor2")
+    private List<Borrado> borrados = new ArrayList<>();
 }

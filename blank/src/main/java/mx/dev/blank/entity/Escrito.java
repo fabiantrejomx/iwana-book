@@ -2,11 +2,8 @@ package mx.dev.blank.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,9 +25,11 @@ public class Escrito implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "Autor")
-    private int autor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Autor")
+    private Autor autor;
 
-    @Column(name = "Libro")
-    private int libros;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Libro")
+    private Libro libro;
 }

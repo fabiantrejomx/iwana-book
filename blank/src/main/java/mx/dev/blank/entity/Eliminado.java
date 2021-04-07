@@ -2,17 +2,16 @@ package mx.dev.blank.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Eliminados")
@@ -55,4 +54,10 @@ public class Eliminado implements Serializable {
 
     @Column(name = "Publicacion")
     private Date publicacion;
+
+    @OneToMany(mappedBy = "eliminado")
+    private List<Borrado> borrado = new ArrayList<>();
+
+    @OneToMany(mappedBy = "eliminado2")
+    private List<Pertenecian> pertenecians = new ArrayList<>();
 }
