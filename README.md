@@ -16,3 +16,8 @@ https://vaadin.com/docs/v14/flow/tutorials/in-depth-course/project-setup
 name: test
 username: dev
 password: demo
+
+
+## Collections Postman
+
+Solo tiene las peticiones Post y Get

@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "76515189-a02b-471e-9551-3ca262f20258",
+		"name": "Cretae book ",
+		"description": "#Create book \n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/blank-api/api/book/books",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":1,\n    \"title\": \"hola\",\n    \"numPages\": 250,\n    \"categoryID\": {\n  \"category_id\" : 123\n},\n    \"editorID\": {\n  \"editor_id\" : 123\n},\n    \"isbn\": 12345678901237,\n    \"price\": 200,\n    \"resume\": \"holala\",\n    \"datePublished\": \"2000-11-03\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/blank-api/api/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blank-api",
+						"api",
+						"book"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
