@@ -46,4 +46,25 @@ public class Book implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "date_public", nullable = false)
     private Date datePublished;
+
+    public Book(final Integer id,
+                final String title,
+                final Integer numPages,
+                final Category categoryID,
+                final Editor editorID,
+                final Integer isbn,
+                final Integer price,
+                final String resume,
+                final Date datePublished
+    ){
+        this.id=id;
+        this.title=title;
+        this.numPages=numPages;
+        this.categoryID=categoryID;
+        this.editorID=editorID;
+        this.isbn=isbn;
+        this.price=price;
+        this.resume=resume;
+        this.datePublished=datePublished;
+    }
 }

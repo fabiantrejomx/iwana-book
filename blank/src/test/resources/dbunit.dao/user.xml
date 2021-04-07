@@ -8,10 +8,14 @@
     <category id="1" name="romantic"/>
     <category id="2" name="romantic 2"/>
 
-    <book id="1" title="100 años de soledad" num_pages="260"  id_categories="1" id_editorial="1"  isbn="1234567890123"
+    <book id="1" title="100 años de soledad" num_pages="260"  id_category="1" id_editor="1"  isbn="1234567890123"
     price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="1927-10-03"/>
-    <book id="2" title="El amor en los tiempos de colera" num_pages="260" id_categories="2" id_editorial="2"  isbn="1234567890123"
-           price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="1927-10-03"/>
+    <book id="2" title="El amor en los tiempos de colera" num_pages="260" id_category="2" id_editor="2"  isbn="1234567890123"
+           price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="1934-07-20"/>
+    <book id="3" title="y colorin colorado" num_pages="260" id_category="1" id_editor="2"  isbn="1234567890123"
+          price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="2000-11-01"/>
+    <book id="4" title="y si nos tomamos un cafe?" num_pages="260" id_category="2" id_editor="1"  isbn="1234567890123"
+          price="200" resume="El libro narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo." date_public="2003-01-19"/>
 
     <author id="1" name="gabriel"/>
 

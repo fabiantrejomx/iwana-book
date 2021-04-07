@@ -34,15 +34,59 @@ public class BookJpaDAOTest extends AbstractTransactionalTestNGSpringContextTest
     private Object[][] getAll_dataProvider() {
 
         return new Object[][] {
-                {Lists.newArrayList("100 años de soledad","El amor en los tiempos de colera")}
+                {"Test case all titles the books",Lists.newArrayList("100 años de soledad","El amor en los tiempos de colera","y colorin colorado","y si nos tomamos un cafe?")}
         };
     }
 
     @Test(dataProvider = "getAll_dataProvider")
     @DatabaseSetup(DBUNIT_XML)
-    private void getAll_Test(final List<String> expectedbooks) {
+    private void getAll_Test(final String testCase,final List<String> expectedbooks) {
 
         final List<Book> books = bookDAO.getAll();
+        assertThat(books).extracting(Book::getTitle).hasSameElementsAs(expectedbooks);
+
+    }
+
+    @DataProvider
+    private Object[][] getAllOrderAsc_dataProvider() {
+
+        return new Object[][] {
+                {"Test case all by pagination",
+                        "asc",
+                        2,
+                        0,
+                        Lists.newArrayList("y colorin colorado","y si nos tomamos un cafe?")}
+
+        };
+    }
+
+    @Test(dataProvider = "getAllOrderAsc_dataProvider")
+    @DatabaseSetup(DBUNIT_XML)
+    private void getAllOrderAsc_Test(final String testCase,final String order,final Integer limit,final Integer offset,final List<String> expectedbooks) {
+
+        final List<Book> books = bookDAO.getAllOrderAsc(order,limit,offset);
+        assertThat(books).extracting(Book::getTitle).hasSameElementsAs(expectedbooks);
+
+    }
+
+    @DataProvider
+    private Object[][] getAllOrderDesc_dataProvider() {
+
+        return new Object[][] {
+                {"Test case all by pagination",
+                        "desc",
+                        2,
+                        0,
+                        Lists.newArrayList("y si nos tomamos un cafe?","y colorin colorado")}
+
+        };
+    }
+
+    @Test(dataProvider = "getAllOrderDesc_dataProvider")
+    @DatabaseSetup(DBUNIT_XML)
+    private void getAllOrderDesc_Test(final String testCase,final String order,final Integer limit,final Integer offset,final List<String> expectedbooks) {
+
+        final List<Book> books = bookDAO.getAllOrderAsc(order,limit,offset);
         assertThat(books).extracting(Book::getTitle).hasSameElementsAs(expectedbooks);
 
     }
