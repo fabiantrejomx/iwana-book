@@ -219,6 +219,24 @@ public class BookJpaDAO implements BookDAO {
 
     }
 
+    /*Ranking by book
+    * select avg(ranking.score)  from ranking
+       inner join book on ranking.book_id = book.id
+      where ranking.book_id=2
+    * */
+
+    @Override
+    public Double getRankingByBook(final long book_id) {
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        final Root<Ranking> root = query.from(Ranking.class);
+
+        query
+                .select(builder.avg(root.get(Ranking_.score)))
+                .where(builder.equal(root.get(Ranking_.book), book_id));
+
+        return em.createQuery(query).getSingleResult();
+    }
 
     /*create*/
 

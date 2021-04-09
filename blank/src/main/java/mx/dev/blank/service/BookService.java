@@ -3,9 +3,12 @@ import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.BookJpaDAO;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.web.request.BookRequest;
+import mx.dev.blank.web.response.BookWithRanking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +43,7 @@ public class BookService {
     }
 
     public List<String> getBooksByCategory(final String category){
+
         return bookJpaDAO.getBooksByCategory(category);
     }
 
@@ -50,6 +54,23 @@ public class BookService {
     public List<Book> getBooksByAmountAuthors(final long authors){
         return bookJpaDAO.getBooksByAmountAuthors(authors);
     }
+
+    public List<BookWithRanking> getBooksWithScore(String order, Integer limit, Integer offset){
+        List<Book> books= bookJpaDAO.getBooksByPages(order, limit, offset);
+        List <BookWithRanking> booksRankings = new ArrayList<>();
+
+        for (Book book:books) {
+            BookWithRanking br= new BookWithRanking();
+            Double ranking = bookJpaDAO.getRankingByBook(book.getId());
+            br.setScore(ranking);
+            br.setTitle(book.getTitle());
+            booksRankings.add(br);
+        }
+        return booksRankings;
+    }
+
+
+    /*CRUD*/
 
     @Transactional
     public Book createBook(final BookRequest bookRequest){

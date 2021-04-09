@@ -13,8 +13,7 @@ https://vaadin.com/docs/v14/flow/tutorials/in-depth-course/project-setup
 
 #Test
 Postman:
-https://drive.google.com/file/d/1mUH0Ijmua9iyJ-ti-zmzrSqn9F5u-Cxg/view?usp=sharing 
-
+    https://drive.google.com/file/d/1sgQGSn6gZv3F7AXiC1gtPS8HzyggTFGX/view?usp=sharing
 
 ## Database
 
