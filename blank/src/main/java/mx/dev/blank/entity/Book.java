@@ -1,6 +1,7 @@
 package mx.dev.blank.entity;
 
 import lombok.*;
+import mx.dev.blank.web.form.BookForm;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,11 +28,11 @@ public class Book implements Serializable {
     @Column(name = "num_pages")
     private Integer numPages;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "id_category", nullable = false)
     private Category categoryID;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "id_editor", nullable = false)
     private Editor editorID;
 
@@ -67,5 +68,16 @@ public class Book implements Serializable {
         this.price=price;
         this.resume=resume;
         this.datePublished=datePublished;
+    }
+
+    public void update(final BookForm form) {
+        this.title = form.getTitle();
+        this.numPages = form.getNumPages();
+        this.categoryID = form.getCategoryID();
+        this.editorID = form.getEditorID();
+        this.isbn = form.getIsbn();
+        this.price = form.getPrice();
+        this.resume = form.getResume();
+        this.datePublished = form.getDatePublished();
     }
 }

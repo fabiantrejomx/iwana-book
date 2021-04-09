@@ -14,7 +14,9 @@ public interface BookDAO {
     List<Book> getAllOrderAsc(final String order, final @Min(1)Integer limit, final @Max(0) Integer offset);
     List<Book> getAllOrderDesc(final String order, final @Min(1)Integer limit, final @Max(0) Integer offset);
     Long getBookByCategory(final String category);
-    List<String> getBookByAutor(final String autor);
+    List<String> getBookByAuthor(final String author);
 
+    Book findById(Integer bookID);
     Book createBook(BookForm form);
+    void updatedBook(Book book);
 }

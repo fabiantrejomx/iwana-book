@@ -25,6 +25,17 @@ public class BookJpaDAO implements BookDAO {
     private EntityManager em;
 
     @Override
+    public Book findById(Integer bookID) {
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Book> query = builder.createQuery(Book.class);
+        final Root<Book> root = query.from(Book.class);
+
+        query.where(builder.equal(root.get(Book_.id), bookID));
+
+        return em.createQuery(query).getSingleResult();
+    }
+
+    @Override
     public List<Book> getAll() {
         final CriteriaBuilder builder = em.getCriteriaBuilder();
         final CriteriaQuery<Book> query = builder.createQuery(Book.class);
@@ -93,7 +104,7 @@ public class BookJpaDAO implements BookDAO {
     }
 
     @Override
-    public List<String> getBookByAutor(String autor) {
+    public List<String> getBookByAuthor(String author) {
         return null;
     }
 
@@ -110,5 +121,10 @@ public class BookJpaDAO implements BookDAO {
                 form.getDatePublished());
         em.persist(book);
         return book;
+    }
+
+    @Override
+    public void updatedBook(Book book) {
+        em.merge(book);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,6 +29,7 @@ public class BookService {
         return bookJpaDAO.getAllOrderDesc(order,limit,offset);
     }
 
+    @Transactional
     public Book createBook(final BookForm form){
 
         final Book book =
@@ -44,5 +46,12 @@ public class BookService {
                         );
 
             return book;
+    }
+
+    @Transactional
+    public void updateBook(final int bookID, final BookForm bookForm){
+        final Book book = bookJpaDAO.findById(bookID);
+        book.update(bookForm);
+        bookJpaDAO.updatedBook(book);
     }
 }

@@ -42,4 +42,13 @@ public class BookController {
         Book book= bookService.createBook(form);
         return  ResponseEntity.ok(book);
     }
+
+    @PutMapping(path = "/update/{bookID}")
+    public ResponseEntity<String> putBook(
+            @PathVariable final int bookID,
+            @RequestBody final BookForm bookForm
+    ){
+        bookService.updateBook(bookID, bookForm);
+        return ResponseEntity.ok("Book UPDATE");
+    }
 }
