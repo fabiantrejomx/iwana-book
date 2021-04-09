@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.BookJpaDAO;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.web.request.BookRequest;
+import mx.dev.blank.web.response.BookWithScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,5 +85,17 @@ public class BookService {
         return isDelete;
     }
 
+    public List<BookWithScore> getBooksWithScore(String order, Integer limit, Integer offset){
+        List<Book> books= bookJpaDAO.getBooksOrderedByPages(order, limit, offset);
+        List <BookWithScore> booksRankings = new ArrayList<>();
+        for (Book book:books) {
+            BookWithScore br= new BookWithScore();
+            Double ranking = bookJpaDAO.getRankingByBook(book.getId());
+            br.setScore(ranking);
+            br.setTitle(book.getTitle());
+            booksRankings.add(br);
+        }
+        return booksRankings;
+    }
 
 }

@@ -186,6 +186,24 @@ public List<Book> getBooksByCountAuthors(final long numAuthors) {
         return typedQuery.getResultList();
     }
 
+    /*review
+   select avg(rk) from
+    (select ranking.score as rk, ranking.book_id as rid  from ranking
+     inner join book on ranking.book_id = book.id) subquery
+    where rid=2;
+    * */
+    @Override
+    public Double getRankingByBook(final long book_id) {
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        final Root<Ranking> root = query.from(Ranking.class);
+        query
+                .select(builder.avg(root.get(Ranking_.score)))
+                .where(builder.equal(root.get(Ranking_.bookID), book_id));
+        return em.createQuery(query).getSingleResult();
+    }
+
+
 
     public Book createBook(final BookRequest bookRequest){
         Book book = Book.newBook(bookRequest.getTitle(),
@@ -234,6 +252,8 @@ public List<Book> getBooksByCountAuthors(final long numAuthors) {
 
             return this.em.createQuery(delete).executeUpdate();
         }
+
+
 
 }
 

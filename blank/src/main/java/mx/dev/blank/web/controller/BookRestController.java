@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.service.BookService;
 import mx.dev.blank.web.request.BookRequest;
+import mx.dev.blank.web.response.BookWithScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,6 +121,12 @@ public class BookRestController {
         System.out.println(bookID);
         Integer isUpdated = bookService.deleteBook(bookID, bookRequest);
         return new ResponseEntity<Integer>(isUpdated, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/list/ordered/ranking")
+    public ResponseEntity<List<BookWithScore>> getBooksWithScore(@RequestParam Integer limit, @RequestParam(defaultValue ="0") int offset){
+        List<BookWithScore> books= bookService.getBooksWithScore("desc", limit, offset);
+        return new ResponseEntity<List<BookWithScore>>(books, HttpStatus.OK);
     }
 
 }

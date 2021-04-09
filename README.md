@@ -42,7 +42,49 @@ Following endpoints:
 *Calcule record score
 
 
-
-
 ##JSON request
 https://www.getpostman.com/collections/b1cf6c0cc12ca79d70db
+
+##Git compare vs develop
+https://github.com/fabiantrejomx/iwana-book/compare/AYLIN-RIOS
+
+##Endpoint
+-- Ordenar por fecha de publicación ascendente
+
+http://localhost:8080/blank-api/api/book/list/ordered/asc?limit=2&offset=2
+
+-- Ordenar por fecha de publicación descendente
+
+http://localhost:8080/blank-api/api/book/list/ordered/desc?limit=2&offset=2
+
+-- Ordenar por paginas asc
+
+http://localhost:8080/blank-api/api/book/list/ordered/pages/asc?limit=2&offset=2
+
+-- Ordenar por paginas desc
+
+http://localhost:8080/blank-api/api/book/list/ordered/pages/desc?limit=2&offset=2
+
+-- Libros por author
+
+http://localhost:8080/blank-api/api/book/list/author?author=authorA
+
+-- Libros por rango de precio
+
+http://localhost:8080/blank-api/api/book/list/price?priceMin=300&priceMax=600
+
+-- Libros por rango de fecha
+
+http://localhost:8080/blank-api/api/book/list/datePublication?startDate=1620-01-01&endDate=1963-01-01
+
+-- Cantidad de libros por categoria
+
+http://localhost:8080/blank-api/api/book/list/countByCategory?category=drama
+
+-- Libros que tienen cierto numero de autores
+
+http://localhost:8080/blank-api/api/book/list/countAuthors?numAuthors=3
+
+-- Book with ranking
+
+http://localhost:8080/blank-api/api/book/list/ordered/ranking?limit=5&offset=2
