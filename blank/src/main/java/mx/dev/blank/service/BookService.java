@@ -80,9 +80,8 @@ public class BookService {
     }
 
     @Transactional
-    public Integer deleteBook(final int bookID, final BookRequest bookRequest){
-       Integer isDelete = bookJpaDAO.deleteBook(bookID, bookRequest);
-        return isDelete;
+    public void deleteBook(final int bookID){
+       bookJpaDAO.deleteBook(bookID);
     }
 
     public List<BookWithScore> getBooksWithScore(String order, Integer limit, Integer offset){

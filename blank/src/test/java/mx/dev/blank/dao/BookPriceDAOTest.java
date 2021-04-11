@@ -31,7 +31,7 @@ public class BookPriceDAOTest extends AbstractTransactionalTestNGSpringContextTe
 
     @DataProvider
     public Object[][] findBookByPrice_dataProvider() {
-        List<String> namesBook = Lists.newArrayList("title 1", "title 3");
+        List<String> namesBook = Lists.newArrayList("Book 3", "Book 3", "Book 4");
 
         return new Object[][] {
                 {300, 500, namesBook}

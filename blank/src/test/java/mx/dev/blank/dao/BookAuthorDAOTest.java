@@ -32,12 +32,10 @@ public class BookAuthorDAOTest extends AbstractTransactionalTestNGSpringContextT
 
     @DataProvider
     public Object[][] findBookByAuthor_dataProvider() {
-        List<String> namesBook = Lists.newArrayList("title 1", "title 2");
+        List<String> namesBook = Lists.newArrayList("Book 1", "Book 2");
 
         return new Object[][] {
-                //{"U-1", "Oscar", "H1", "Historia"}
-                {"author-1", namesBook}/*,
-                {null}*/
+                {"authorA", namesBook}
         };
     }
     @Test(dataProvider = "findBookByAuthor_dataProvider")

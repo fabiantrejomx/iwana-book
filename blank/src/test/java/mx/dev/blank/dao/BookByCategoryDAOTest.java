@@ -32,7 +32,7 @@ public class BookByCategoryDAOTest extends AbstractTransactionalTestNGSpringCont
 
     @DataProvider
     public Object[][] findBookByCategory_dataProvider() {
-        List<String> namesBook = Lists.newArrayList("title 2", "title 4");
+        List<String> namesBook = Lists.newArrayList("Book 1", "Book 6", "Book 8", "Book 9");
 
         return new Object[][] {
                 {"drama", namesBook}

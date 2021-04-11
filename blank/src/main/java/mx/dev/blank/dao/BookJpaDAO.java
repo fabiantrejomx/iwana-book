@@ -239,21 +239,16 @@ public List<Book> getBooksByCountAuthors(final long numAuthors) {
         return this.em.createQuery(update).executeUpdate();
     }
 
-
-        public Integer deleteBook(final int bookID, final BookRequest bookRequest) {
-            CriteriaBuilder cb = this.em.getCriteriaBuilder();
-
-            CriteriaDelete<Book> delete = cb.
-                    createCriteriaDelete(Book.class);
-
-            Root e = delete.from(Book.class);
-
-            delete.where(cb.equal(e.get(Book_.id), bookID));
-
-            return this.em.createQuery(delete).executeUpdate();
+        /*Soft delete*/
+        public void deleteBook(final int bookID) {
+            final CriteriaBuilder cb = em.getCriteriaBuilder();
+            final CriteriaQuery<Book> query = cb.createQuery(Book.class);
+            query.where(cb.equal(query.from(Book.class).get(Book_.id), bookID));
+            if (this.em.createQuery(query).getResultList().size() > 0)
+                this.em.remove(this.em.createQuery(query).getSingleResult());
+            else
+                System.out.println("elemento no encontrado");
         }
-
-
 
 }
 

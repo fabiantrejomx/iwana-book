@@ -34,7 +34,7 @@ public class CountBookByCategoryDAOTest extends AbstractTransactionalTestNGSprin
     public Object[][] findAmountBookByCategory_dataProvider() {
 
         return new Object[][] {
-                {"drama", 2}
+                {"Drama", 4}
         };
     }
 

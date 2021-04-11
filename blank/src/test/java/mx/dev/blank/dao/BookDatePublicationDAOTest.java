@@ -35,9 +35,9 @@ public class BookDatePublicationDAOTest extends AbstractTransactionalTestNGSprin
 
     @DataProvider
     public Object[][] findBooksByDate_dataProvider() throws ParseException {
-        List<String> namesBook = Lists.newArrayList("title 1", "title 2");
-        String start = "1955-01-01";
-        String end = "1961-01-01";
+        List<String> namesBook = Lists.newArrayList("Book 1", "Book 2", "Book 3", "Book 8");
+        String start = "1955-02-025";
+        String end = "1996-04-17";
 
         DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = date.parse(start);

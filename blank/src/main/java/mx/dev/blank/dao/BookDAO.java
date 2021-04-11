@@ -31,7 +31,7 @@ public interface BookDAO {
 
     Integer putBook(final int bookID, final BookRequest bookRequest);
 
-    Integer deleteBook(final int bookID, final BookRequest bookRequest);
+    void deleteBook(final int bookID);
 
     Double getRankingByBook(final long book_id);
 }

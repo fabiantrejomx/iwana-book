@@ -23,7 +23,7 @@ Shares:
 Post of books.
 Get the books
 Put the books.
-Delete books //TODO soft delete.
+Delete books.
 
 Following endpoints:
 
@@ -39,7 +39,7 @@ Following endpoints:
 
 ##TO DO
 *Post review
-*Calcule record score
+
 
 
 ##JSON request
@@ -88,3 +88,7 @@ http://localhost:8080/blank-api/api/book/list/countAuthors?numAuthors=3
 -- Book with ranking
 
 http://localhost:8080/blank-api/api/book/list/ordered/ranking?limit=5&offset=2
+
+-- Soft Delete
+
+http://localhost:8080/blank-api/api/book/delete/2
