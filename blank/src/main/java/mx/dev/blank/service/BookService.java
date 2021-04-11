@@ -85,9 +85,8 @@ public class BookService {
     }
 
     @Transactional
-    public Integer deleteBook(final int bookId){
-        Integer isDelete = bookJpaDAO.deleteBook(bookId);
-        return isDelete;
+    public void deleteBook(final int bookId){
+       bookJpaDAO.deleteBook(bookId);
     }
 
 }

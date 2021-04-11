@@ -15,9 +15,10 @@ import java.util.Date;
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-/*Soft delete only work for hibernate*/
-/*@SQLDelete(sql="UPDATE book SET deleted = true WHERE id = ?")
-@Where(clause="deleted = false")*/
+/*Soft delete*/
+@SQLDelete(sql="UPDATE book SET deleted = true WHERE id = ?")
+@Where(clause="deleted = false")
+
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
