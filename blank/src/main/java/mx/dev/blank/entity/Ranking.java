@@ -1,12 +1,11 @@
 package mx.dev.blank.entity;
 
+import java.io.Serializable;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "ranking")
@@ -15,19 +14,20 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Ranking implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false)
+  private int id;
 
-    @Column(name = "score", nullable = false)
-    private int score;
+  @Column(name = "score", nullable = false)
+  private int score;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "book_id", nullable = false)
+  private Book book;
 
+  @Column(name = "book_id", updatable = false, insertable = false)
+  private int bookId;
 }
-

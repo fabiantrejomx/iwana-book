@@ -1,88 +1,114 @@
 package mx.dev.blank.entity;
 
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Table(name = "book")
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 /*Soft delete*/
-@SQLDelete(sql="UPDATE book SET deleted = true WHERE id = ?")
-@Where(clause="deleted = false")
-
+@SQLDelete(sql = "UPDATE book SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Book implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
+  private Book(
+      final String title,
+      final int pages,
+      final String isbn,
+      final BigDecimal price,
+      final String summary,
+      final String editorial,
+      final Date releaseDate,
+      final List<Category> categories,
+      final List<Author> authors) {
+    this.title = title;
+    this.pages = pages;
+    this.isbn = isbn;
+    this.price = price;
+    this.summary = summary;
+    this.editorial = editorial;
+    this.releaseDate = releaseDate;
+    this.categories.addAll(categories);
+    this.authors.addAll(authors);
+  }
 
-    @Column(name = "title", nullable = false)
-    private String title;
+  public static Book createNewBook(
+      final String title,
+      final int pages,
+      final String isbn,
+      final BigDecimal price,
+      final String summary,
+      final String editorial,
+      final Date datePublication,
+      final List<Category> categories,
+      final List<Author> authors) {
+    return new Book(
+        title, pages, isbn, price, summary, editorial, datePublication, categories, authors);
+  }
 
-    @Column(name = "pages", nullable = false)
-    private int pages;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false)
+  private int id;
 
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
+  @Column(name = "title", nullable = false, length = 50)
+  private String title;
 
-    @Column(name = "price", nullable = false)
-    private float price ;
+  @Column(name = "pages", nullable = false)
+  private int pages;
 
-    @Column(name = "summary", nullable = false)
-    private String summary;
+  @Column(name = "isbn", nullable = false, length = 13)
+  private String isbn;
 
-    @Column(name = "editorial", nullable = false)
-    private String editorial;
+  @Column(name = "price", nullable = false, scale = 6, precision = 2)
+  private BigDecimal price;
 
-    @Column(name = "date_publication", nullable = false)
-    private Date datePublication;
+  @Column(name = "summary", nullable = false, length = 350)
+  private String summary;
 
-    @Column(name = "deleted", nullable = false, columnDefinition = "BIT default 0")
-    private boolean deleted;
+  @Column(name = "editorial", nullable = false, length = 35)
+  private String editorial;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+  @Column(name = "release_date", nullable = false)
+  private Date releaseDate;
 
-    private Book(final String title,
-                 final int pages,
-                 final String isbn,
-                 final float price,
-                 final String summary,
-                 final String editorial,
-                 final Date datePublication,
-                 final Category category){
-        this.setTitle(title);
-        this.setPages(pages);
-        this.setIsbn(isbn);
-        this.setPrice(price);
-        this.setSummary(summary);
-        this.setEditorial(editorial);
-        this.setDatePublication(datePublication);
-        this.setCategory(category);
-    }
+  @Column(name = "deleted", nullable = false)
+  private boolean deleted;
 
-    public static Book newBook(final String title,
-                               final int pages,
-                               final String isbn,
-                               final float price,
-                               final String summary,
-                               final String editorial,
-                               final Date datePublication,
-                               final Category category){
-        return new Book(title, pages, isbn, price, summary, editorial, datePublication, category);
-    }
+  @ManyToMany
+  @JoinTable(
+      name = "book_category",
+      joinColumns = {@JoinColumn(name = "book_id", nullable = false, updatable = false)},
+      inverseJoinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)})
+  private final Set<Category> categories = new HashSet<>();
 
+  @ManyToMany
+  @JoinTable(
+      name = "book_author",
+      joinColumns = {@JoinColumn(name = "book_id", nullable = false, updatable = false)},
+      inverseJoinColumns = {@JoinColumn(name = "author_id", nullable = false, updatable = false)})
+  private final Set<Author> authors = new HashSet<>();
 }

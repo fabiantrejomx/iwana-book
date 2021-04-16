@@ -1,11 +1,14 @@
 package mx.dev.blank.dao;
 
-import com.beust.jcommander.internal.Lists;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import mx.dev.blank.DAOTestConfig;
 import mx.dev.blank.DBTestConfig;
-import mx.dev.blank.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -13,38 +16,31 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 @ContextConfiguration(classes = {DAOTestConfig.class, DBTestConfig.class})
 @TestExecutionListeners({
-        DependencyInjectionTestExecutionListener.class,
-        DbUnitTestExecutionListener.class
+  DependencyInjectionTestExecutionListener.class,
+  DbUnitTestExecutionListener.class
 })
-
 public class BookPriceDAOTest extends AbstractTransactionalTestNGSpringContextTests {
-    private static final String DBUNIT_XML = "classpath:dbunit/dao/data.xml";
-    @Autowired
-    private BookDAO bookDAO;
+  private static final String DBUNIT_XML = "classpath:dbunit/dao/data.xml";
+  @Autowired private BookDAO bookDAO;
 
-    @DataProvider
-    public Object[][] findBookByPrice_dataProvider() {
-        List<String> namesBook = Lists.newArrayList("title 1", "title 3");
+  @DataProvider
+  public Object[][] findBookByPrice_dataProvider() {
+    List<String> namesBook = Arrays.asList("title 1", "title 3");
 
-        return new Object[][] {
-                {300, 500, namesBook}
-        };
-    }
-    @Test(dataProvider = "findBookByPrice_dataProvider")
-    @DatabaseSetup(DBUNIT_XML)
-    public void getBooksByPrice(final float priceMin, final float priceMax, final List<String> nameBook) {
+    return new Object[][] {{new BigDecimal(300), new BigDecimal(500), namesBook}};
+  }
 
-        final List<String> price = bookDAO.getBooksByPrice(priceMin, priceMax);
+  @Test(dataProvider = "findBookByPrice_dataProvider")
+  @DatabaseSetup(DBUNIT_XML)
+  public void getBooksByPrice(
+      final BigDecimal priceMin, final BigDecimal priceMax, final List<String> nameBook) {
 
-        assertThat(price).isNotNull();
-        assertThat(price).isEqualTo(nameBook);
+    final List<String> price = bookDAO.getBooksByPrice(priceMin, priceMax);
 
-    }
-
+    assertThat(price).isNotNull();
+    assertThat(price).isEqualTo(nameBook);
+  }
 }

@@ -1,12 +1,11 @@
 package mx.dev.blank.entity;
 
+import java.io.Serializable;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "category")
@@ -15,15 +14,13 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false)
+  private int id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
+  @Column(name = "name", nullable = false, length = 50)
+  private String name;
 }
-
