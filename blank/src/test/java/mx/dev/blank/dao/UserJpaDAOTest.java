@@ -1,6 +1,7 @@
 package mx.dev.blank.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import mx.dev.blank.DAOTestConfig;
@@ -16,30 +17,28 @@ import org.testng.annotations.Test;
 
 @ContextConfiguration(classes = {DAOTestConfig.class, DBTestConfig.class})
 @TestExecutionListeners({
-        DependencyInjectionTestExecutionListener.class,
-        DbUnitTestExecutionListener.class
+  DependencyInjectionTestExecutionListener.class,
+  DbUnitTestExecutionListener.class
 })
 public class UserJpaDAOTest extends AbstractTransactionalTestNGSpringContextTests {
 
-    private static final String DBUNIT_XML = "classpath:dbunit/dao/data.xml";
+  private static final String DBUNIT_XML = "classpath:dbunit/dao/data.xml";
 
-    @Autowired
-    private UserDAO userDAO;
+  @Autowired private UserDAO userDAO;
 
-    @DataProvider
-    public Object[][] getById_dataProvider() {
-        return new Object[][] {
-                {"1", "Usuario 1"},
-        };
-    }
+  @DataProvider
+  public Object[][] getById_dataProvider() {
+    return new Object[][] {
+      {"1", "Usuario 1"},
+    };
+  }
 
-    @Test(dataProvider = "getById_dataProvider")
-    @DatabaseSetup(DBUNIT_XML)
-    public void getById_should_returnUser(final String userID, final String userName) {
-        final User user= userDAO.getById(userID);
+  @Test(dataProvider = "getById_dataProvider")
+  @DatabaseSetup(DBUNIT_XML)
+  public void getById_should_returnUser(final String userID, final String userName) {
+    final User user = userDAO.getById(userID);
 
-        assertThat(user).isNotNull();
-        assertThat(user.getName()).isEqualTo(userName);
-
-    }
+    assertThat(user).isNotNull();
+    assertThat(user.getName()).isEqualTo(userName);
+  }
 }

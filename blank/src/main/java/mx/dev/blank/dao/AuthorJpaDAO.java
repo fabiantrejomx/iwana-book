@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class AuthorJpaDAO implements AuthorDAO {
 
-    @Setter(onMethod = @__(@PersistenceContext), value = AccessLevel.PACKAGE)
-    private EntityManager em;
-
-
+  @Setter(onMethod = @__(@PersistenceContext), value = AccessLevel.PACKAGE)
+  private EntityManager em;
 }

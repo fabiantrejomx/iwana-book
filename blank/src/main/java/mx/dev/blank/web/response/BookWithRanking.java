@@ -6,9 +6,6 @@ import mx.dev.blank.entity.Book;
 
 @Getter
 @Setter
-public class BookWithRanking extends Book{
-   private Double score;
-
-
-
+public class BookWithRanking extends Book {
+  private Double score;
 }

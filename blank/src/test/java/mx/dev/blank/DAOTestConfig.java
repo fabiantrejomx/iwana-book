@@ -6,5 +6,4 @@ import org.springframework.context.annotation.ScopedProxyMode;
 
 @Configuration
 @ComponentScan(basePackages = "mx.dev.blank.dao", scopedProxy = ScopedProxyMode.INTERFACES)
-public class DAOTestConfig {
-}
+public class DAOTestConfig {}
