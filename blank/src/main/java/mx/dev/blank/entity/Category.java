@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.dev.blank.web.request.CategoryRequest;
 
 @Entity
 @Table(name = "category")
@@ -23,4 +24,16 @@ public class Category implements Serializable {
 
   @Column(name = "name", nullable = false, length = 50)
   private String name;
+
+  public static Category newCategory(final String name) {
+    return new Category(name);
+  }
+
+  public Category(final String name) {
+    this.name = name;
+  }
+
+  public void update(final CategoryRequest request) {
+    this.name = request.getName();
+  }
 }

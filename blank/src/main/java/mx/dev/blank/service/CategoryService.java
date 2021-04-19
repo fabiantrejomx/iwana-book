@@ -1,0 +1,48 @@
+package mx.dev.blank.service;
+
+import lombok.RequiredArgsConstructor;
+import mx.dev.blank.dao.CategoryDAO;
+import mx.dev.blank.entity.Category;
+import mx.dev.blank.exception.ResourceNotFoundException;
+import mx.dev.blank.web.request.CategoryRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class CategoryService {
+
+  private final CategoryDAO categoryDAO;
+
+  /*CRUD*/
+
+  @Transactional
+  public void createCategory(final CategoryRequest request) {
+
+    final Category category = Category.newCategory(request.getName());
+    categoryDAO.create(category);
+  }
+
+  @Transactional
+  public void updateCategory(final int categoryId, final CategoryRequest request) {
+
+    final Category category = categoryDAO.findById(categoryId);
+    if (category == null) {
+      throw new ResourceNotFoundException("Category not found: " + categoryId);
+    }
+
+    category.update(request);
+
+    categoryDAO.update(category);
+  }
+
+  @Transactional
+  public void deleteCategory(final int categoryId) {
+    final Category category = categoryDAO.findById(categoryId);
+    if (category == null) {
+      throw new ResourceNotFoundException("Category not found: " + categoryId);
+    }
+
+    categoryDAO.delete(category);
+  }
+}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +18,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.dev.blank.web.request.BookRequest;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -42,8 +42,8 @@ public class Book implements Serializable {
       final String summary,
       final String editorial,
       final Date releaseDate,
-      final List<Category> categories,
-      final List<Author> authors) {
+      final Set<Category> categories,
+      final Set<Author> authors) {
     this.title = title;
     this.pages = pages;
     this.isbn = isbn;
@@ -63,10 +63,25 @@ public class Book implements Serializable {
       final String summary,
       final String editorial,
       final Date datePublication,
-      final List<Category> categories,
-      final List<Author> authors) {
+      final Set<Category> categories,
+      final Set<Author> authors) {
     return new Book(
         title, pages, isbn, price, summary, editorial, datePublication, categories, authors);
+  }
+
+  public void update(
+      final BookRequest request, final Set<Category> categories, final Set<Author> authors) {
+    this.title = request.getTitle();
+    this.pages = request.getPages();
+    this.isbn = request.getIsbn();
+    this.price = request.getPrice();
+    this.summary = request.getSummary();
+    this.editorial = request.getEditorial();
+    this.releaseDate = request.getDatePublication();
+    this.categories.clear();
+    this.categories.addAll(categories);
+    this.authors.clear();
+    this.authors.addAll(authors);
   }
 
   @Id

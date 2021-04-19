@@ -4,12 +4,21 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import mx.dev.blank.entity.Book;
-import mx.dev.blank.web.request.BookRequest;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 public interface BookDAO {
+
+  void create(@NotNull Book book);
+
+  void update(@NotNull Book book);
+
+  void delete(@NotNull Book book);
+
+  Book findById(@Min(1) int id);
+
   List<Book> getBooksByYearOfPublication(
       String order, @Min(1) Integer limit, @Min(0) Integer offset);
 
@@ -26,12 +35,6 @@ public interface BookDAO {
   List<Book> getBooksByPages(String order, @Min(1) Integer limit, @Min(0) Integer offset);
 
   List<Book> getBooksByAmountAuthors(long amountAuthors);
-
-  Book createBook(BookRequest bookRequest);
-
-  Integer updateBook(final Integer bookId, final BookRequest bookRequest);
-
-  void deleteBook(final int bookId);
 
   Double getRankingByBook(final long book_id);
 }

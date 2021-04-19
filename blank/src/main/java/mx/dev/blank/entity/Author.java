@@ -2,13 +2,12 @@ package mx.dev.blank.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.dev.blank.web.request.AuthorRequest;
 
 @Entity
 @Table(name = "author")
@@ -28,14 +27,31 @@ public class Author implements Serializable {
   private String name;
 
   @Column(name = "first_name", nullable = false, length = 50)
-  private String first_name;
+  private String firstName;
 
   @Column(name = "second_name", length = 50)
-  private String second_name;
+  private String secondName;
 
   @Column(name = "birthday")
   private Date birthday;
 
-  @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
-  private Set<Book> books = new HashSet<>();
+  public static Author newAuthor(
+      final String name, final String firstName, final String secondName, final Date birthday) {
+    return new Author(name, firstName, secondName, birthday);
+  }
+
+  private Author(
+      final String name, final String firstName, final String secondName, final Date birthday) {
+    this.name = name;
+    this.firstName = firstName;
+    this.secondName = secondName;
+    this.birthday = birthday;
+  }
+
+  public void update(final AuthorRequest request) {
+    this.name = request.getName();
+    this.firstName = request.getFirstName();
+    this.secondName = request.getSecondName();
+    this.birthday = request.getBirthday();
+  }
 }

@@ -30,4 +30,14 @@ public class Ranking implements Serializable {
 
   @Column(name = "book_id", updatable = false, insertable = false)
   private int bookId;
+
+  public static Ranking newRanking(final int score, final Book book) {
+    return new Ranking(score, book);
+  }
+
+  private Ranking(final int score, final Book book) {
+    this.score = score;
+    this.book = book;
+    this.bookId = book.getId();
+  }
 }

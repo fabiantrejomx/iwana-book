@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mx.dev.blank.entity.*;
-import mx.dev.blank.web.request.BookRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +19,30 @@ public class BookJpaDAO implements BookDAO {
 
   @Setter(onMethod = @__(@PersistenceContext), value = AccessLevel.PACKAGE)
   private EntityManager em;
+
+  /* create */
+  @Override
+  public void create(final Book book) {
+    em.persist(book);
+  }
+
+  /* update */
+  @Override
+  public void update(final Book book) {
+    em.merge(book);
+  }
+
+  /* Delete */
+  @Override
+  public void delete(final Book book) {
+    em.remove(book);
+  }
+
+  /* Select * FROM books WHERE id = ? */
+  @Override
+  public Book findById(final int id) {
+    return em.find(Book.class, id);
+  }
 
   @Override
   public List<Book> getBooksByYearOfPublication(String order, Integer limit, Integer offset) {
@@ -69,8 +92,8 @@ public class BookJpaDAO implements BookDAO {
         .where(
             builder.or(
                 builder.equal(authorJoin.get(Author_.name), author),
-                builder.equal(authorJoin.get(Author_.first_name), author),
-                builder.equal(authorJoin.get(Author_.second_name), author)));
+                builder.equal(authorJoin.get(Author_.firstName), author),
+                builder.equal(authorJoin.get(Author_.secondName), author)));
 
     return em.createQuery(query).getResultList();
   }
@@ -160,12 +183,12 @@ public class BookJpaDAO implements BookDAO {
 
     // count books written by an author
     Subquery sub = cq.subquery(Long.class);
-    Root subRoot = sub.from(Author.class);
+    Root subRoot = sub.from(Book.class);
 
-    final Join<Author, Book> bookJoinBookAuthor = subRoot.join(Author_.books);
+    final Join<Book, Author> bookJoinBookAuthor = subRoot.join(Book_.authors);
 
     sub.select(cb.count(subRoot.get(Book_.id)));
-    sub.where(cb.equal(root.get(Book_.id), bookJoinBookAuthor.get(Book_.id)));
+    sub.where(cb.equal(root.get(Book_.id), bookJoinBookAuthor.get(Author_.id)));
 
     // check the result of the subquery
     cq.where(cb.greaterThanOrEqualTo(sub, authors));
@@ -222,63 +245,5 @@ public class BookJpaDAO implements BookDAO {
         .where(builder.equal(root.get(Ranking_.book), book_id));
 
     return em.createQuery(query).getSingleResult();
-  }
-
-  /*create*/
-
-  public Book createBook(final BookRequest bookRequest) {
-    Book book =
-        Book.createNewBook(
-            bookRequest.getTitle(),
-            bookRequest.getPages(),
-            bookRequest.getIsbn(),
-            bookRequest.getPrice(),
-            bookRequest.getSummary(),
-            bookRequest.getEditorial(),
-            bookRequest.getDatePublication(),
-            null,
-            null);
-    System.out.println(book);
-
-    em.persist(book);
-
-    return book;
-  }
-
-  /*update*/
-
-  public Integer updateBook(final Integer bookId, final BookRequest bookRequest) {
-    CriteriaBuilder cb = this.em.getCriteriaBuilder();
-
-    // create update
-    CriteriaUpdate<Book> update = cb.createCriteriaUpdate(Book.class);
-
-    // set the root class
-    Root e = update.from(Book.class);
-
-    // set update and where clause
-    update.set("title", bookRequest.getTitle());
-    update.set("pages", bookRequest.getPages());
-    update.set("isbn", bookRequest.getIsbn());
-    update.set("price", bookRequest.getPrice());
-    update.set("summary", bookRequest.getSummary());
-    update.set("editorial", bookRequest.getEditorial());
-    update.set("datePublication", bookRequest.getDatePublication());
-
-    update.where(cb.equal(e.get("id"), bookId));
-
-    // perform update
-    return this.em.createQuery(update).executeUpdate();
-  }
-
-  /*Delete*/
-  public void deleteBook(final int bookId) {
-    final CriteriaBuilder cb = em.getCriteriaBuilder();
-    final CriteriaQuery<Book> query = cb.createQuery(Book.class);
-    final Root<Book> root = query.from(Book.class);
-
-    query.where(cb.equal(root.get(Book_.id), bookId));
-
-    this.em.remove(this.em.createQuery(query).getSingleResult());
   }
 }

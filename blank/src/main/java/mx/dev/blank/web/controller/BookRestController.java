@@ -6,15 +6,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.service.BookService;
 import mx.dev.blank.web.request.BookRequest;
+import mx.dev.blank.web.response.BaseResponse;
 import mx.dev.blank.web.response.BookWithRanking;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -22,15 +24,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/book")
 public class BookRestController {
 
-  @Autowired BookService bookService;
+  private final BookService bookService;
 
-  /*@GetMapping(value="/list")
-  public ResponseEntity<List<Book>> getBooks(){
+  @PostMapping
+  public ResponseEntity<BaseResponse> createBook(
+      @Valid @RequestBody final BookRequest bookRequest, final BindingResult errors) {
 
-      List<Book> books= bookService.getBooks();
-      return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+    if (errors.hasErrors()) {
+      return ResponseEntity.badRequest().body(BaseResponse.fail(errors.getAllErrors()));
+    }
 
-  }*/
+    bookService.createBook(bookRequest);
+
+    return ResponseEntity.ok(BaseResponse.success("Book created successfully"));
+  }
+
+  @PutMapping(path = "/{bookId}")
+  public ResponseEntity<BaseResponse> updateBook(
+      @PathVariable(name = "bookId") final int bookId,
+      @Valid @RequestBody final BookRequest bookRequest,
+      final BindingResult errors) {
+
+    if (errors.hasErrors()) {
+      return ResponseEntity.badRequest().body(BaseResponse.fail(errors.getAllErrors()));
+    }
+
+    bookService.updateBook(bookId, bookRequest);
+
+    return ResponseEntity.ok(BaseResponse.success("Book updated successfully"));
+  }
+
+  @DeleteMapping(path = "/{bookId}")
+  public ResponseEntity<BaseResponse> deleteBook(@PathVariable(name = "bookId") final int bookId) {
+
+    bookService.deleteBook(bookId);
+    return ResponseEntity.ok(BaseResponse.success("Book deleted successfully"));
+  }
 
   @GetMapping(value = "/list/ordered/asc")
   public ResponseEntity<List<Book>> getOrderAscBooks(
@@ -103,31 +132,6 @@ public class BookRestController {
   public ResponseEntity<List<Book>> getBooksByAmountAuthors(@RequestParam long authors) {
     List<Book> books = bookService.getBooksByAmountAuthors(authors);
     return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
-  }
-
-  @PostMapping(path = "/create")
-  public ResponseEntity<Book> createBook(@RequestBody final BookRequest bookRequest) {
-    System.out.println(bookRequest);
-    Book book = bookService.createBook(bookRequest);
-
-    return new ResponseEntity<Book>(book, HttpStatus.OK);
-  }
-
-  @PutMapping(path = "/update/{bookId}")
-  public ResponseEntity<Integer> updateBook(
-      @PathVariable final Integer bookId, @RequestBody final BookRequest bookRequest) {
-    System.out.println(bookRequest);
-    System.out.println(bookId);
-    Integer isUpdated = bookService.updateBook(bookId, bookRequest);
-
-    return new ResponseEntity<Integer>(isUpdated, HttpStatus.OK);
-  }
-
-  @DeleteMapping(path = "/delete/{bookId}")
-  public ResponseEntity<Integer> deleteBook2(@PathVariable final int bookId) {
-
-    bookService.deleteBook(bookId);
-    return new ResponseEntity<Integer>(1, HttpStatus.OK);
   }
 
   @GetMapping(value = "/list/ordered/ranking")
