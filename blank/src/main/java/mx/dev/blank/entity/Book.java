@@ -98,7 +98,7 @@ public class Book implements Serializable {
   @Column(name = "isbn", nullable = false, length = 13)
   private String isbn;
 
-  @Column(name = "price", nullable = false, scale = 6, precision = 2)
+  @Column(name = "price", nullable = false, scale = 2, precision = 8)
   private BigDecimal price;
 
   @Column(name = "summary", nullable = false, length = 350)

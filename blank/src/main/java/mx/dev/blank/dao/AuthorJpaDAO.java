@@ -1,11 +1,18 @@
 package mx.dev.blank.dao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mx.dev.blank.entity.Author;
+import mx.dev.blank.entity.Book;
+import mx.dev.blank.entity.Book_;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -37,5 +44,19 @@ public class AuthorJpaDAO implements AuthorDAO {
   @Override
   public Author findById(final int id) {
     return em.find(Author.class, id);
+  }
+
+  @Override
+  public List<Author> findByBookId(final int bookId) {
+
+    final CriteriaBuilder builder = em.getCriteriaBuilder();
+    final CriteriaQuery<Author> query = builder.createQuery(Author.class);
+    final Root<Book> root = query.from(Book.class);
+
+    final Join<Book, Author> authorJoin = root.join(Book_.authors);
+
+    query.select(authorJoin).where(builder.equal(root.get(Book_.id), bookId));
+
+    return em.createQuery(query).getResultList();
   }
 }

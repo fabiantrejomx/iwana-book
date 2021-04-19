@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.entity.Book;
+import mx.dev.blank.model.BookDTO;
 import mx.dev.blank.service.BookService;
 import mx.dev.blank.web.request.BookRequest;
 import mx.dev.blank.web.request.BookSearchForm;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookRestController {
 
   private final BookService bookService;
+  private final BookResourceAssembler.Factory assemblerFactory;
 
   @PostMapping
   public ResponseEntity<BaseResponse> createBook(
@@ -64,55 +66,80 @@ public class BookRestController {
    * Ejercicio 1, 2, 9
    */
   @GetMapping
-  public ResponseEntity<List<Book>> getBooks(@ModelAttribute BookSearchForm form) {
+  public ResponseEntity<List<BookDTO>> getBooks(
+      @ModelAttribute BookSearchForm form,
+      @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
 
     final List<Book> books = bookService.getBooks(form);
 
-    return ResponseEntity.ok(books);
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+
+    return ResponseEntity.ok(assembler.toDto(books));
   }
 
   /*
    * Ejercicio 3
    */
   @GetMapping(value = "/author")
-  public ResponseEntity<List<Book>> getBooksByAuthor(
-      @RequestParam(value = "author") String author) {
+  public ResponseEntity<List<BookDTO>> getBooksByAuthor(
+      @RequestParam(value = "author") String author,
+      @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
     final List<Book> books = bookService.getBooksByAuthor(author);
-    return ResponseEntity.ok(books);
+
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(books));
   }
 
   /*
    * Ejercicio 4
    */
   @GetMapping(value = "/price")
-  public ResponseEntity<List<Book>> getBooksByPrice(
-      @RequestParam BigDecimal priceMin, @RequestParam BigDecimal priceMax) {
+  public ResponseEntity<List<BookDTO>> getBooksByPrice(
+      @RequestParam BigDecimal priceMin,
+      @RequestParam BigDecimal priceMax,
+      @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
     final List<Book> books = bookService.getBooksByPrice(priceMin, priceMax);
-    return ResponseEntity.ok(books);
+
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(books));
   }
 
   /*
    * Ejercicio 5
    */
   @GetMapping(value = "/authors")
-  public ResponseEntity<List<Book>> getBooksByAmountAuthors(@RequestParam long authors) {
+  public ResponseEntity<List<BookDTO>> getBooksByAmountAuthors(
+      @RequestParam long authors,
+      @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
     final List<Book> books = bookService.getBooksByAmountAuthors(authors);
-    return ResponseEntity.ok(books);
+
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(books));
   }
 
   /*
    * Ejercicio 6
    */
   @GetMapping(value = "/datePublication")
-  public ResponseEntity<List<Book>> getBooksByDatePublication(
-      @RequestParam String startDate, @RequestParam String endDate) throws ParseException {
+  public ResponseEntity<List<BookDTO>> getBooksByDatePublication(
+      @RequestParam String startDate,
+      @RequestParam String endDate,
+      @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand)
+      throws ParseException {
 
     final DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
     final Date start = date.parse(startDate);
     final Date end = date.parse(endDate);
 
     final List<Book> books = bookService.getBooksByDate(start, end);
-    return ResponseEntity.ok(books);
+
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(books));
   }
 
   /*
@@ -128,9 +155,14 @@ public class BookRestController {
    * Ejercicio 8
    */
   @GetMapping(value = "/category")
-  public ResponseEntity<List<Book>> getBooksByCategory(@RequestParam String category) {
+  public ResponseEntity<List<BookDTO>> getBooksByCategory(
+      @RequestParam String category,
+      @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
     final List<Book> books = bookService.getBooksByCategory(category);
-    return ResponseEntity.ok(books);
+
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(books));
   }
 
   //  @GetMapping(value = "/list/ordered/ranking")

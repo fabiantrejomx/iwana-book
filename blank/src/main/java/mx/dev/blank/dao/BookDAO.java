@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.entity.SortingOrder;
@@ -21,6 +22,8 @@ public interface BookDAO {
 
   Book findById(@Min(1) int id);
 
+  List<Book> findByIds(@NotEmpty List<Integer> ids);
+
   // 1,2, 9
   List<Book> findBooks(
       String sortField, SortingOrder order, @Min(1) Integer limit, @Min(0) Integer offset);
@@ -32,7 +35,7 @@ public interface BookDAO {
   List<Book> getBooksByPrice(@NotNull BigDecimal priceMin, @NotNull BigDecimal priceMax);
 
   // 5
-  List<Book> getBooksByAmountAuthors(@Min(1) long amountAuthors);
+  List<Integer> getBooksByAmountAuthors(@Min(1) long amountAuthors);
 
   // 6
   List<Book> getBooksByDate(@NotNull Date startDate, @NotNull Date endDate);

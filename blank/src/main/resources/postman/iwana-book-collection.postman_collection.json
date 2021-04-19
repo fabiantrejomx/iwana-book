@@ -306,7 +306,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"title new book\",\r\n    \"pages\": 785,\r\n    \"isbn\": \"7766-0543-1\",\r\n    \"price\": 597.99,\r\n    \"summary\": \"summary 1\",\r\n    \"editorial\": \"Editorial test\",\r\n    \"datePublication\": \"1995-08-04\",\r\n    \"authors\": [1,3],\r\n    \"categories\": [1,2]\r\n}",
+							"raw": "{\r\n    \"score\": 4,\r\n    \"bookId\": \"1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -332,12 +332,12 @@
 			]
 		},
 		{
-			"name": "Order by date published ascendant",
+			"name": "1. Order by date published ascendant",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/ordered/asc?limit=2&offset=2",
+					"raw": "http://localhost:8080/blank-api/book/?sortField=releaseDate&sortingOrder=ASC&limit=2&offset=0&expand=categories",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -346,18 +346,28 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
-						"ordered",
-						"asc"
+						""
 					],
 					"query": [
+						{
+							"key": "sortField",
+							"value": "releaseDate"
+						},
+						{
+							"key": "sortingOrder",
+							"value": "ASC"
+						},
 						{
 							"key": "limit",
 							"value": "2"
 						},
 						{
 							"key": "offset",
-							"value": "2"
+							"value": "0"
+						},
+						{
+							"key": "expand",
+							"value": "categories"
 						}
 					]
 				},
@@ -366,12 +376,12 @@
 			"response": []
 		},
 		{
-			"name": "Order by date published descendant",
+			"name": "2. Order by date published descendant",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/ordered/desc?limit=2&offset=2",
+					"raw": "http://localhost:8080/blank-api/book/?sortField=releaseDate&sortingOrder=DESC&limit=2&offset=0&expand=authors",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -380,18 +390,28 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
-						"ordered",
-						"desc"
+						""
 					],
 					"query": [
+						{
+							"key": "sortField",
+							"value": "releaseDate"
+						},
+						{
+							"key": "sortingOrder",
+							"value": "DESC"
+						},
 						{
 							"key": "limit",
 							"value": "2"
 						},
 						{
 							"key": "offset",
-							"value": "2"
+							"value": "0"
+						},
+						{
+							"key": "expand",
+							"value": "authors"
 						}
 					]
 				},
@@ -400,12 +420,12 @@
 			"response": []
 		},
 		{
-			"name": "Order by pages ascendant",
+			"name": "3. Books by author",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/ordered/pages/asc?limit=2&offset=2",
+					"raw": "http://localhost:8080/blank-api/book/author?author=author-1&expand=authors,categories",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -414,83 +434,16 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
-						"ordered",
-						"pages",
-						"asc"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "2"
-						},
-						{
-							"key": "offset",
-							"value": "2"
-						}
-					]
-				},
-				"description": "Filtrar libros ascendente por número de páginas que contiene el libro."
-			},
-			"response": []
-		},
-		{
-			"name": "Order by pages descendant ",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/ordered/pages/desc?limit=2&offset=2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"blank-api",
-						"book",
-						"list",
-						"ordered",
-						"pages",
-						"desc"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "2"
-						},
-						{
-							"key": "offset",
-							"value": "2"
-						}
-					]
-				},
-				"description": "Filtrar libros descendente por número de páginas que contiene el libro."
-			},
-			"response": []
-		},
-		{
-			"name": "Books by author",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/author?author=author-1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"blank-api",
-						"book",
-						"list",
 						"author"
 					],
 					"query": [
 						{
 							"key": "author",
 							"value": "author-1"
+						},
+						{
+							"key": "expand",
+							"value": "authors,categories"
 						}
 					]
 				},
@@ -499,12 +452,12 @@
 			"response": []
 		},
 		{
-			"name": "Books by price",
+			"name": "4. Books by price",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/price?priceMin=300&priceMax=600",
+					"raw": "http://localhost:8080/blank-api/book/price?priceMin=300&priceMax=600",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -513,7 +466,6 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
 						"price"
 					],
 					"query": [
@@ -532,12 +484,12 @@
 			"response": []
 		},
 		{
-			"name": "Books by date",
+			"name": "5. Books with n authors",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/datePublication?startDate=1650-04-01&endDate=1800-05-01",
+					"raw": "http://localhost:8080/blank-api/book/authors?authors=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -546,7 +498,34 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
+						"authors"
+					],
+					"query": [
+						{
+							"key": "authors",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Dado un número, buscar aquellos libros donde contengan ese  número de autores."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Books by date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/blank-api/book/datePublication?startDate=1650-04-01&endDate=1800-05-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blank-api",
+						"book",
 						"datePublication"
 					],
 					"query": [
@@ -565,12 +544,12 @@
 			"response": []
 		},
 		{
-			"name": "Books by category",
+			"name": "7. Amount of books by category",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/datePublication?startDate=1650-04-01&endDate=1800-05-01",
+					"raw": "http://localhost:8080/blank-api/book/amountByCategory?category=drama",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -579,40 +558,6 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
-						"datePublication"
-					],
-					"query": [
-						{
-							"key": "startDate",
-							"value": "1650-04-01"
-						},
-						{
-							"key": "endDate",
-							"value": "1800-05-01"
-						}
-					]
-				},
-				"description": "Filtrar los libros por categoría."
-			},
-			"response": []
-		},
-		{
-			"name": "Amount of books by category",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/amountByCategory?category=drama",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"blank-api",
-						"book",
-						"list",
 						"amountByCategory"
 					],
 					"query": [
@@ -627,12 +572,12 @@
 			"response": []
 		},
 		{
-			"name": "Books by n authors",
+			"name": "8. Books by category",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book//list/amountAuthors?authors=3",
+					"raw": "http://localhost:8080/blank-api/book/category?category=Arte",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -641,18 +586,99 @@
 					"path": [
 						"blank-api",
 						"book",
-						"",
-						"list",
-						"amountAuthors"
+						"category"
 					],
 					"query": [
 						{
-							"key": "authors",
-							"value": "3"
+							"key": "category",
+							"value": "Arte"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
 						}
 					]
 				},
-				"description": "Dado un número, buscar aquellos libros donde contengan ese  número de autores."
+				"description": "Filtrar los libros por categoría."
+			},
+			"response": []
+		},
+		{
+			"name": "9A. Order by pages ascendant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/blank-api/book?limit=2&offset=0&sortField=pages&sortingOrder=ASC",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blank-api",
+						"book"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "sortField",
+							"value": "pages"
+						},
+						{
+							"key": "sortingOrder",
+							"value": "ASC"
+						}
+					]
+				},
+				"description": "Filtrar libros ascendente por número de páginas que contiene el libro."
+			},
+			"response": []
+		},
+		{
+			"name": "9B. Order by pages descendant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/blank-api/book?limit=2&offset=0&sortingOrder=DESC&sortField=pages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blank-api",
+						"book"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "sortingOrder",
+							"value": "DESC"
+						},
+						{
+							"key": "sortField",
+							"value": "pages"
+						}
+					]
+				},
+				"description": "Filtrar libros descendente por número de páginas que contiene el libro."
 			},
 			"response": []
 		},

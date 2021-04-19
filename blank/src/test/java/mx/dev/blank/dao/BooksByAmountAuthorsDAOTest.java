@@ -7,7 +7,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import java.util.List;
 import mx.dev.blank.DAOTestConfig;
 import mx.dev.blank.DBTestConfig;
-import mx.dev.blank.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -28,7 +27,7 @@ public class BooksByAmountAuthorsDAOTest extends AbstractTransactionalTestNGSpri
   @DatabaseSetup(DBUNIT_XML)
   public void getBooksByAmountAuthors() {
 
-    final List<Book> books = bookDAO.getBooksByAmountAuthors(2);
+    final List<Integer> books = bookDAO.getBooksByAmountAuthors(2);
     System.out.println(books.size());
 
     assertThat(books).isNotNull();

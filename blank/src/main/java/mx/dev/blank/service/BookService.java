@@ -1,6 +1,7 @@
 package mx.dev.blank.service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -120,9 +121,15 @@ public class BookService {
     return bookDAO.getBooksByPrice(priceMin, priceMax);
   }
 
+  @SuppressWarnings("unchecked")
   @Transactional(readOnly = true)
   public List<Book> getBooksByAmountAuthors(final long authors) {
-    return bookDAO.getBooksByAmountAuthors(authors);
+    final List<Integer> ids = bookDAO.getBooksByAmountAuthors(authors);
+    if (ids.isEmpty()) {
+      return Collections.EMPTY_LIST;
+    }
+
+    return bookDAO.findByIds(ids);
   }
 
   @Transactional(readOnly = true)

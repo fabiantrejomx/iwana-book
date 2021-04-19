@@ -45,6 +45,18 @@ public class BookJpaDAO implements BookDAO {
     return em.find(Book.class, id);
   }
 
+  /* Select * FROM books WHERE id in ? */
+  @Override
+  public List<Book> findByIds(final List<Integer> ids) {
+    final CriteriaBuilder builder = em.getCriteriaBuilder();
+    final CriteriaQuery<Book> query = builder.createQuery(Book.class);
+    final Root<Book> root = query.from(Book.class);
+
+    query.select(root).where(root.get(Book_.id).in(ids));
+
+    return em.createQuery(query).getResultList();
+  }
+
   /* SELECT * FROM books ORDER BY ? ASC|DESC LIMIT ?, ?
    *
    * 1. Mostrar todos los libros ordenados por año de publicación ascendente, los resultados deberán de ser paginados. (quedando 2 libros por página)
@@ -58,10 +70,6 @@ public class BookJpaDAO implements BookDAO {
     final CriteriaBuilder builder = em.getCriteriaBuilder();
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
-
-    // This should be loaded using expands
-    root.fetch(Book_.categories);
-    root.fetch(Book_.authors);
 
     if (StringUtils.isNotBlank(sortField)) {
       final Path<?> sortFieldValue = getSortField(root, sortField);
@@ -113,10 +121,6 @@ public class BookJpaDAO implements BookDAO {
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    // This should be loaded using expands
-    root.fetch(Book_.categories);
-    root.fetch(Book_.authors);
-
     final Join<Book, Author> authorJoin = root.join(Book_.authors);
     query
         .select(root)
@@ -124,8 +128,7 @@ public class BookJpaDAO implements BookDAO {
             builder.or(
                 builder.equal(authorJoin.get(Author_.name), author),
                 builder.equal(authorJoin.get(Author_.firstName), author),
-                builder.equal(authorJoin.get(Author_.secondName), author)))
-        .distinct(true);
+                builder.equal(authorJoin.get(Author_.secondName), author)));
 
     return em.createQuery(query).getResultList();
   }
@@ -142,14 +145,7 @@ public class BookJpaDAO implements BookDAO {
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    // This should be loaded using expands
-    root.fetch(Book_.categories);
-    root.fetch(Book_.authors);
-
-    query
-        .select(root)
-        .where(builder.between(root.get(Book_.price), priceMin, priceMax))
-        .distinct(true);
+    query.select(root).where(builder.between(root.get(Book_.price), priceMin, priceMax));
 
     return em.createQuery(query).getResultList();
   }
@@ -164,24 +160,19 @@ public class BookJpaDAO implements BookDAO {
    *
    * */
 
-  // TODO Fix grouping error
   @Override
-  public List<Book> getBooksByAmountAuthors(final long authors) {
+  public List<Integer> getBooksByAmountAuthors(final long authors) {
 
     final CriteriaBuilder builder = em.getCriteriaBuilder();
-    final CriteriaQuery<Book> query = builder.createQuery(Book.class);
+    final CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
     final Root<Book> root = query.from(Book.class);
-
-    // This should be loaded using expands
-    root.fetch(Book_.categories);
-    root.fetch(Book_.authors);
 
     final Join<Book, Author> authorJoin = root.join(Book_.authors);
 
     query
-        .select(root)
+        .select(root.get(Book_.id))
         .groupBy(root.get(Book_.id))
-        .having(builder.greaterThan(builder.count(authorJoin), authors));
+        .having(builder.equal(builder.count(authorJoin), authors));
 
     return em.createQuery(query).getResultList();
   }
@@ -199,14 +190,7 @@ public class BookJpaDAO implements BookDAO {
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    // This should be loaded using expands
-    root.fetch(Book_.categories);
-    root.fetch(Book_.authors);
-
-    query
-        .select(root)
-        .where(builder.between(root.get(Book_.releaseDate), startDate, endDate))
-        .distinct(true);
+    query.select(root).where(builder.between(root.get(Book_.releaseDate), startDate, endDate));
 
     return em.createQuery(query).getResultList();
   }
@@ -225,6 +209,7 @@ public class BookJpaDAO implements BookDAO {
     final CriteriaQuery<Long> query = builder.createQuery(Long.class);
     final Root<Book> root = query.from(Book.class);
     final Join<Book, Category> categoryJoin = root.join(Book_.categories);
+
     query
         .select(builder.count(root.get(Book_.id)))
         .where(builder.equal(categoryJoin.get(Category_.name), category));
@@ -245,16 +230,9 @@ public class BookJpaDAO implements BookDAO {
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    // This should be loaded using expands
-    root.fetch(Book_.categories);
-    root.fetch(Book_.authors);
-
     final Join<Book, Category> bookJoinCategory = root.join(Book_.categories);
 
-    query
-        .select(root)
-        .where(builder.equal(bookJoinCategory.get(Category_.name), category))
-        .distinct(true);
+    query.select(root).where(builder.equal(bookJoinCategory.get(Category_.name), category));
 
     return em.createQuery(query).getResultList();
   }

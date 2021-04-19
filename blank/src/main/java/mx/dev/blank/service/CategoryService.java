@@ -1,5 +1,6 @@
 package mx.dev.blank.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.CategoryDAO;
 import mx.dev.blank.entity.Category;
@@ -44,5 +45,10 @@ public class CategoryService {
     }
 
     categoryDAO.delete(category);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Category> findByBookId(final int bookId) {
+    return categoryDAO.findByBookId(bookId);
   }
 }

@@ -1,5 +1,6 @@
 package mx.dev.blank.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.AuthorDAO;
 import mx.dev.blank.entity.Author;
@@ -48,5 +49,10 @@ public class AuthorService {
     }
 
     authorDAO.delete(author);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Author> findByBookId(final int bookId) {
+    return authorDAO.findByBookId(bookId);
   }
 }
