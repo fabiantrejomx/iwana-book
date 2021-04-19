@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import mx.dev.blank.DAOTestConfig;
 import mx.dev.blank.DBTestConfig;
+import mx.dev.blank.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -38,9 +39,9 @@ public class BookPriceDAOTest extends AbstractTransactionalTestNGSpringContextTe
   public void getBooksByPrice(
       final BigDecimal priceMin, final BigDecimal priceMax, final List<String> nameBook) {
 
-    final List<String> price = bookDAO.getBooksByPrice(priceMin, priceMax);
+    final List<Book> price = bookDAO.getBooksByPrice(priceMin, priceMax);
 
     assertThat(price).isNotNull();
-    assertThat(price).isEqualTo(nameBook);
+    assertThat(price).extracting(Book::getTitle).containsOnlyElementsOf(nameBook);
   }
 }

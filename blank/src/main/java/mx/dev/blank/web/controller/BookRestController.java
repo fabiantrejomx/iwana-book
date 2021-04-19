@@ -11,9 +11,8 @@ import lombok.RequiredArgsConstructor;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.service.BookService;
 import mx.dev.blank.web.request.BookRequest;
+import mx.dev.blank.web.request.BookSearchForm;
 import mx.dev.blank.web.response.BaseResponse;
-import mx.dev.blank.web.response.BookWithRanking;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -61,83 +60,83 @@ public class BookRestController {
     return ResponseEntity.ok(BaseResponse.success("Book deleted successfully"));
   }
 
-  @GetMapping(value = "/list/ordered/asc")
-  public ResponseEntity<List<Book>> getOrderAscBooks(
-      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
-    List<Book> books = bookService.getOrderedBooks("asc", limit, offset);
-    return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+  /*
+   * Ejercicio 1, 2, 9
+   */
+  @GetMapping
+  public ResponseEntity<List<Book>> getBooks(@ModelAttribute BookSearchForm form) {
+
+    final List<Book> books = bookService.getBooks(form);
+
+    return ResponseEntity.ok(books);
   }
 
-  @GetMapping(value = "/list/ordered/desc")
-  public ResponseEntity<List<Book>> getOrderDescBooks(
-      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
-    List<Book> books = bookService.getOrderedBooks("desc", limit, offset);
-    return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+  /*
+   * Ejercicio 3
+   */
+  @GetMapping(value = "/author")
+  public ResponseEntity<List<Book>> getBooksByAuthor(
+      @RequestParam(value = "author") String author) {
+    final List<Book> books = bookService.getBooksByAuthor(author);
+    return ResponseEntity.ok(books);
   }
 
-  @GetMapping(value = "/list/ordered/pages/asc")
-  public ResponseEntity<List<Book>> getOrderAscBooksByPages(
-      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
-    List<Book> books = bookService.getOrderedBooksByPages("asc", limit, offset);
-    return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
-  }
-
-  @GetMapping(value = "/list/ordered/pages/desc")
-  public ResponseEntity<List<Book>> getOrderDescBooksByPages(
-      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
-    List<Book> books = bookService.getOrderedBooksByPages("desc", limit, offset);
-    return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
-  }
-
-  @GetMapping(value = "/list/author")
-  public ResponseEntity<List<String>> getBooksByAuthor(@RequestParam String author) {
-    List<String> books = bookService.getBooksByAuthor(author);
-    return new ResponseEntity<List<String>>(books, HttpStatus.OK);
-  }
-
-  @GetMapping(value = "/list/price")
-  public ResponseEntity<List<String>> getBooksByPrice(
+  /*
+   * Ejercicio 4
+   */
+  @GetMapping(value = "/price")
+  public ResponseEntity<List<Book>> getBooksByPrice(
       @RequestParam BigDecimal priceMin, @RequestParam BigDecimal priceMax) {
-    List<String> books = bookService.getBooksByPrice(priceMin, priceMax);
-    return new ResponseEntity<List<String>>(books, HttpStatus.OK);
+    final List<Book> books = bookService.getBooksByPrice(priceMin, priceMax);
+    return ResponseEntity.ok(books);
   }
 
-  @GetMapping(value = "/list/datePublication")
-  public ResponseEntity<List<String>> getBooksByDatePublication(
+  /*
+   * Ejercicio 5
+   */
+  @GetMapping(value = "/authors")
+  public ResponseEntity<List<Book>> getBooksByAmountAuthors(@RequestParam long authors) {
+    final List<Book> books = bookService.getBooksByAmountAuthors(authors);
+    return ResponseEntity.ok(books);
+  }
+
+  /*
+   * Ejercicio 6
+   */
+  @GetMapping(value = "/datePublication")
+  public ResponseEntity<List<Book>> getBooksByDatePublication(
       @RequestParam String startDate, @RequestParam String endDate) throws ParseException {
 
-    DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-    Date start = date.parse(startDate);
+    final DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+    final Date start = date.parse(startDate);
+    final Date end = date.parse(endDate);
 
-    DateFormat dateTwo = new SimpleDateFormat("yyyy-MM-dd");
-    Date end = dateTwo.parse(endDate);
-
-    List<String> books = bookService.getBooksByDate(start, end);
-    return new ResponseEntity<List<String>>(books, HttpStatus.OK);
+    final List<Book> books = bookService.getBooksByDate(start, end);
+    return ResponseEntity.ok(books);
   }
 
-  @GetMapping(value = "/list/category")
-  public ResponseEntity<List<String>> getBooksByCategory(@RequestParam String category) {
-    List<String> books = bookService.getBooksByCategory(category);
-    return new ResponseEntity<List<String>>(books, HttpStatus.OK);
-  }
-
-  @GetMapping(value = "/list/amountByCategory")
+  /*
+   * Ejercicio 7
+   */
+  @GetMapping(value = "/amountByCategory")
   public ResponseEntity<Long> getAmountOfBooksByCategory(@RequestParam String category) {
-    Long books = bookService.getAmountOfBooksByCategory(category);
-    return new ResponseEntity<Long>(books, HttpStatus.OK);
+    final Long books = bookService.getAmountOfBooksByCategory(category);
+    return ResponseEntity.ok(books);
   }
 
-  @GetMapping(value = "/list/amountAuthors")
-  public ResponseEntity<List<Book>> getBooksByAmountAuthors(@RequestParam long authors) {
-    List<Book> books = bookService.getBooksByAmountAuthors(authors);
-    return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+  /*
+   * Ejercicio 8
+   */
+  @GetMapping(value = "/category")
+  public ResponseEntity<List<Book>> getBooksByCategory(@RequestParam String category) {
+    final List<Book> books = bookService.getBooksByCategory(category);
+    return ResponseEntity.ok(books);
   }
 
-  @GetMapping(value = "/list/ordered/ranking")
-  public ResponseEntity<List<BookWithRanking>> getBooksWithScore(
-      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
-    List<BookWithRanking> books = bookService.getBooksWithScore("desc", limit, offset);
-    return new ResponseEntity<List<BookWithRanking>>(books, HttpStatus.OK);
-  }
+  //  @GetMapping(value = "/list/ordered/ranking")
+  //  public ResponseEntity<List<BookWithRanking>> getBooksWithScore(
+  //      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
+  //    List<BookWithRanking> books = bookService.getBooksWithScore("desc", limit, offset);
+  //    return new ResponseEntity<List<BookWithRanking>>(books, HttpStatus.OK);
+  //  }
 }

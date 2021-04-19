@@ -8,6 +8,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import java.util.List;
 import mx.dev.blank.DAOTestConfig;
 import mx.dev.blank.DBTestConfig;
+import mx.dev.blank.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -37,9 +38,9 @@ public class BookAuthorDAOTest extends AbstractTransactionalTestNGSpringContextT
   @DatabaseSetup(DBUNIT_XML)
   public void getBooksByAuthor(final String author, final List<String> nameBooks) {
     System.out.println(bookDAO);
-    final List<String> books = bookDAO.getBookByAuthor(author);
+    final List<Book> books = bookDAO.getBookByAuthor(author);
 
     assertThat(books).isNotNull();
-    assertThat(books).isEqualTo(nameBooks);
+    assertThat(books).extracting(Book::getTitle).containsAll(nameBooks);
   }
 }

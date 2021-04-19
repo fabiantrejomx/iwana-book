@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import mx.dev.blank.DAOTestConfig;
 import mx.dev.blank.DBTestConfig;
+import mx.dev.blank.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -51,9 +52,9 @@ public class BookDatePublicationDAOTest extends AbstractTransactionalTestNGSprin
   public void getBooksbyDate(
       final Date startDate, final Date endDate, final List<String> nameBook) {
     System.out.println(startDate);
-    final List<String> date = bookDAO.getBooksByDate(startDate, endDate);
+    final List<Book> date = bookDAO.getBooksByDate(startDate, endDate);
 
     assertThat(date).isNotNull();
-    assertThat(date).isEqualTo(nameBook);
+    assertThat(date).extracting(Book::getTitle).containsOnlyElementsOf(nameBook);
   }
 }

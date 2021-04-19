@@ -1,7 +1,6 @@
 package mx.dev.blank.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +14,7 @@ import mx.dev.blank.entity.Book;
 import mx.dev.blank.entity.Category;
 import mx.dev.blank.exception.ResourceNotFoundException;
 import mx.dev.blank.web.request.BookRequest;
-import mx.dev.blank.web.response.BookWithRanking;
+import mx.dev.blank.web.request.BookSearchForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,49 +104,52 @@ public class BookService {
     return categories;
   }
 
-  public List<Book> getOrderedBooks(String order, Integer limit, Integer offset) {
-    return bookDAO.getBooksByYearOfPublication(order, limit, offset);
+  @Transactional(readOnly = true)
+  public List<Book> getBooks(final BookSearchForm form) {
+    return bookDAO.findBooks(
+        form.getSortField(), form.getSortingOrder(), form.getLimit(), form.getOffset());
   }
 
-  public List<Book> getOrderedBooksByPages(String order, Integer limit, Integer offset) {
-    return bookDAO.getBooksByPages(order, limit, offset);
-  }
-
-  public List<String> getBooksByAuthor(String author) {
+  @Transactional(readOnly = true)
+  public List<Book> getBooksByAuthor(final String author) {
     return bookDAO.getBookByAuthor(author);
   }
 
-  public List<String> getBooksByPrice(final BigDecimal priceMin, final BigDecimal priceMax) {
+  @Transactional(readOnly = true)
+  public List<Book> getBooksByPrice(final BigDecimal priceMin, final BigDecimal priceMax) {
     return bookDAO.getBooksByPrice(priceMin, priceMax);
   }
 
-  public List<String> getBooksByDate(final Date startDate, final Date endDate) {
-    return bookDAO.getBooksByDate(startDate, endDate);
-  }
-
-  public List<String> getBooksByCategory(final String category) {
-
-    return bookDAO.getBooksByCategory(category);
-  }
-
-  public Long getAmountOfBooksByCategory(final String category) {
-    return bookDAO.getAmountOfBooksByCategory(category);
-  }
-
+  @Transactional(readOnly = true)
   public List<Book> getBooksByAmountAuthors(final long authors) {
     return bookDAO.getBooksByAmountAuthors(authors);
   }
 
-  public List<BookWithRanking> getBooksWithScore(String order, Integer limit, Integer offset) {
-    List<Book> books = bookDAO.getBooksByPages(order, limit, offset);
-    List<BookWithRanking> booksRankings = new ArrayList<>();
-
-    for (Book book : books) {
-      BookWithRanking br = new BookWithRanking();
-      Double ranking = bookDAO.getRankingByBook(book.getId());
-      br.setScore(ranking);
-      booksRankings.add(br);
-    }
-    return booksRankings;
+  @Transactional(readOnly = true)
+  public List<Book> getBooksByDate(final Date startDate, final Date endDate) {
+    return bookDAO.getBooksByDate(startDate, endDate);
   }
+
+  @Transactional(readOnly = true)
+  public Long getAmountOfBooksByCategory(final String category) {
+    return bookDAO.getAmountOfBooksByCategory(category);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Book> getBooksByCategory(final String category) {
+    return bookDAO.getBooksByCategory(category);
+  }
+
+  //  public List<BookWithRanking> getBooksWithScore(String order, Integer limit, Integer offset) {
+  //    List<Book> books = bookDAO.getBooksByPages(order, limit, offset);
+  //    List<BookWithRanking> booksRankings = new ArrayList<>();
+  //
+  //    for (Book book : books) {
+  //      BookWithRanking br = new BookWithRanking();
+  //      Double ranking = bookDAO.getRankingByBook(book.getId());
+  //      br.setScore(ranking);
+  //      booksRankings.add(br);
+  //    }
+  //    return booksRankings;
+  //  }
 }

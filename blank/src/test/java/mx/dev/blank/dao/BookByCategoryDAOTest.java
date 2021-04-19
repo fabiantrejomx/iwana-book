@@ -8,6 +8,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import java.util.List;
 import mx.dev.blank.DAOTestConfig;
 import mx.dev.blank.DBTestConfig;
+import mx.dev.blank.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -36,9 +37,9 @@ public class BookByCategoryDAOTest extends AbstractTransactionalTestNGSpringCont
   @Test(dataProvider = "findBookByCategory_dataProvider")
   @DatabaseSetup(DBUNIT_XML)
   public void getBooksByCategory(final String category, final List<String> nameBooks) {
-    final List<String> books = bookDAO.getBooksByCategory(category);
+    final List<Book> books = bookDAO.getBooksByCategory(category);
 
     assertThat(books).isNotNull();
-    assertThat(books).isEqualTo(nameBooks);
+    assertThat(books).extracting(Book::getTitle).containsOnlyElementsOf(nameBooks);
   }
 }

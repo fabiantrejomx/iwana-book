@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mx.dev.blank.entity.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -44,19 +45,31 @@ public class BookJpaDAO implements BookDAO {
     return em.find(Book.class, id);
   }
 
+  /* SELECT * FROM books ORDER BY ? ASC|DESC LIMIT ?, ?
+   *
+   * 1. Mostrar todos los libros ordenados por año de publicación ascendente, los resultados deberán de ser paginados. (quedando 2 libros por página)
+   * 2. Mostrar libros descendentes por año de publicación. (quedando 2 libros por página)
+   * 9. Filtrar libros ascendente y descendente por número de páginas que contiene el libro.
+   *
+   * */
   @Override
-  public List<Book> getBooksByYearOfPublication(String order, Integer limit, Integer offset) {
-
+  public List<Book> findBooks(
+      final String sortField, final SortingOrder order, final Integer limit, final Integer offset) {
     final CriteriaBuilder builder = em.getCriteriaBuilder();
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    query.select(root);
+    // This should be loaded using expands
+    root.fetch(Book_.categories);
+    root.fetch(Book_.authors);
 
-    if ("asc".equals(order)) {
-      query.orderBy(builder.asc(root.get(Book_.releaseDate)));
-    } else if ("desc".equals(order)) {
-      query.orderBy(builder.desc(root.get(Book_.releaseDate)));
+    if (StringUtils.isNotBlank(sortField)) {
+      final Path<?> sortFieldValue = getSortField(root, sortField);
+      if (SortingOrder.ASC == order) {
+        query.orderBy(builder.asc(sortFieldValue));
+      } else {
+        query.orderBy(builder.desc(sortFieldValue));
+      }
     }
 
     final TypedQuery<Book> typedQuery = em.createQuery(query);
@@ -72,160 +85,178 @@ public class BookJpaDAO implements BookDAO {
     return typedQuery.getResultList();
   }
 
-  /*Buscar aquellos libros donde participó X autor haciendo match ya sea con su nombre o apellidos
-  *
-  * select book.title from book
-          inner join book_author on book_author.book_id = book.id
-          inner join author on book_author.author_id = author.id
-    where author.name = "author-1" or author.first_name = "fn-1" or author.second_name="sn-name";
-  *
-  * */
+  private Path<?> getSortField(final Root<Book> root, final String sortField) {
+    switch (sortField) {
+      case "title":
+        return root.get(Book_.title);
+      case "pages":
+        return root.get(Book_.pages);
+      case "releaseDate":
+        return root.get(Book_.releaseDate);
+      default:
+        return root.get(Book_.id);
+    }
+  }
+
+  /*
+   * SELECT * from book
+   * INNER JOIN book_author ON book_author.book_id = book.id
+   * INNER JOIN author ON book_author.author_id = author.id
+   * WHERE author.name = "author-1" OR author.first_name = "fn-1" OR author.second_name="sn-name";
+   *
+   * 3. Buscar aquellos libros donde participó X autor haciendo match ya sea con su nombre o apellidos
+   *
+   * */
   @Override
-  public List<String> getBookByAuthor(final String author) {
+  public List<Book> getBookByAuthor(final String author) {
     final CriteriaBuilder builder = em.getCriteriaBuilder();
-    final CriteriaQuery<String> query = builder.createQuery(String.class);
+    final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
+
+    // This should be loaded using expands
+    root.fetch(Book_.categories);
+    root.fetch(Book_.authors);
 
     final Join<Book, Author> authorJoin = root.join(Book_.authors);
     query
-        .select(root.get(Book_.title))
+        .select(root)
         .where(
             builder.or(
                 builder.equal(authorJoin.get(Author_.name), author),
                 builder.equal(authorJoin.get(Author_.firstName), author),
-                builder.equal(authorJoin.get(Author_.secondName), author)));
+                builder.equal(authorJoin.get(Author_.secondName), author)))
+        .distinct(true);
 
     return em.createQuery(query).getResultList();
   }
 
-  /*Donde el precio esté en el rango de precioMinimo a precioMáximo
-  * select book.title from book
-  where price between 300 AND 599;*/
+  /* SELECT  * FROM book WHERE price BETWEENbetween ? AND ?;
+   *
+   * 4. Donde el precio esté en el rango de precioMinimo a precioMáximo
+   *
+   * */
   @Override
-  public List<String> getBooksByPrice(final BigDecimal priceMin, final BigDecimal priceMax) {
+  public List<Book> getBooksByPrice(final BigDecimal priceMin, final BigDecimal priceMax) {
 
     final CriteriaBuilder builder = em.getCriteriaBuilder();
-    final CriteriaQuery<String> query = builder.createQuery(String.class);
+    final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
+    // This should be loaded using expands
+    root.fetch(Book_.categories);
+    root.fetch(Book_.authors);
+
     query
-        .select(root.get(Book_.title))
-        .where(builder.between(root.get(Book_.price), priceMin, priceMax));
+        .select(root)
+        .where(builder.between(root.get(Book_.price), priceMin, priceMax))
+        .distinct(true);
 
     return em.createQuery(query).getResultList();
   }
 
-  /*-- Buscar aquellos libros en un rango de fechas (fechaInicial, fechaFinal) de publicación
-  select book.title from book
-  where date_publication between "1650-04-01" AND "1800-05-01";*/
+  /* SELECT book.* FROM book
+   * INNER JOIN book_author ON book_author.book_id = book.id
+   * INNER JOIN author ON book_author.author_id = author.id
+   * GROUP BY book.id
+   * HAVING Count(*) = ?
+   *
+   * 5. Dado un número, buscar aquellos libros donde contengan ese  número de autores.
+   *
+   * */
 
+  // TODO Fix grouping error
   @Override
-  public List<String> getBooksByDate(final Date startDate, final Date endDate) {
+  public List<Book> getBooksByAmountAuthors(final long authors) {
 
     final CriteriaBuilder builder = em.getCriteriaBuilder();
-    final CriteriaQuery<String> query = builder.createQuery(String.class);
+    final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
+    // This should be loaded using expands
+    root.fetch(Book_.categories);
+    root.fetch(Book_.authors);
+
+    final Join<Book, Author> authorJoin = root.join(Book_.authors);
+
     query
-        .select(root.get(Book_.title))
-        .where(builder.between(root.get(Book_.releaseDate), startDate, endDate));
+        .select(root)
+        .groupBy(root.get(Book_.id))
+        .having(builder.greaterThan(builder.count(authorJoin), authors));
 
     return em.createQuery(query).getResultList();
   }
 
-  /*-- Filtrar los libros por categoría.
-  select book.title from category
-  inner join book on category.id = book.category_id
-  where category.name= "Arte";*/
+  /* SELECT * FROM book WHERE date_publication BETWEEN ? AND ?;
+   *
+   * 6. Buscar aquellos libros en un rango de fechas (fechaInicial, fechaFinal) de publicación
+   *
+   * */
+
   @Override
-  public List<String> getBooksByCategory(final String category) {
+  public List<Book> getBooksByDate(final Date startDate, final Date endDate) {
+
     final CriteriaBuilder builder = em.getCriteriaBuilder();
-    final CriteriaQuery<String> query = builder.createQuery(String.class);
+    final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    final Join<Book, Category> bookJoinCategory = root.join(Book_.categories);
+    // This should be loaded using expands
+    root.fetch(Book_.categories);
+    root.fetch(Book_.authors);
+
     query
-        .select(root.get(Book_.title))
-        .where(builder.equal(bookJoinCategory.get(Category_.name), category));
+        .select(root)
+        .where(builder.between(root.get(Book_.releaseDate), startDate, endDate))
+        .distinct(true);
 
     return em.createQuery(query).getResultList();
   }
 
-  /*-- Número de libros que existe de x categoría
-  select category.name, COUNT(book.category_id) from book
-      inner join category on category.id = book.category_id
-  where category.name= "Arte";*/
+  /* SELECT Count(*) FROM book
+   *  INNER JOIN book_category ON book_category.book_id = book.id
+   *  INNER JOIN category ON book_category.category_id = category.id
+   *  WHERE category.name = "Arte";
+   *
+   * 7. Número de libros que existe de x categoría
+   *
+   */
   @Override
   public Long getAmountOfBooksByCategory(final String category) {
     final CriteriaBuilder builder = em.getCriteriaBuilder();
     final CriteriaQuery<Long> query = builder.createQuery(Long.class);
     final Root<Book> root = query.from(Book.class);
-    final Join<Book, Category> bookJoinCategory = root.join(Book_.categories);
+    final Join<Book, Category> categoryJoin = root.join(Book_.categories);
     query
         .select(builder.count(root.get(Book_.id)))
-        .where(builder.equal(bookJoinCategory.get(Category_.name), category));
+        .where(builder.equal(categoryJoin.get(Category_.name), category));
     return em.createQuery(query).getSingleResult();
   }
 
-  /*-- Dado un número, buscar aquellos libros donde contengan ese  número de autores
-  select bookTitle from
-      (select COUNT(book_author.book_id) as amount, book.title as bookTitle from book_author
-          inner join book on book_author.book_id = book.id
-       GROUP BY (book_author.book_id)) subquery
-  where amount =1;*/
-
-  @Override
-  public List<Book> getBooksByAmountAuthors(final long authors) {
-    // create the outer query
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery cq = cb.createQuery(Book.class);
-    Root root = cq.from(Book.class);
-
-    // count books written by an author
-    Subquery sub = cq.subquery(Long.class);
-    Root subRoot = sub.from(Book.class);
-
-    final Join<Book, Author> bookJoinBookAuthor = subRoot.join(Book_.authors);
-
-    sub.select(cb.count(subRoot.get(Book_.id)));
-    sub.where(cb.equal(root.get(Book_.id), bookJoinBookAuthor.get(Author_.id)));
-
-    // check the result of the subquery
-    cq.where(cb.greaterThanOrEqualTo(sub, authors));
-
-    TypedQuery query = em.createQuery(cq);
-    return query.getResultList();
-  }
-
-  /*Filtrar libros ascendente y descendente por número de páginas que contiene el libro
+  /* SELECT book.* FROM category
+   * INNER JOIN book_category ON book_category.book_id = book.id
+   * INNER JOIN category ON book_category.category_id = category.id
+   * WHERE category.name = ?;
+   *
+   * 8. Número de libros que existe de x categoría
+   *
    * */
-
   @Override
-  public List<Book> getBooksByPages(String order, Integer limit, Integer offset) {
-
+  public List<Book> getBooksByCategory(final String category) {
     final CriteriaBuilder builder = em.getCriteriaBuilder();
     final CriteriaQuery<Book> query = builder.createQuery(Book.class);
     final Root<Book> root = query.from(Book.class);
 
-    query.select(root);
+    // This should be loaded using expands
+    root.fetch(Book_.categories);
+    root.fetch(Book_.authors);
 
-    if ("asc".equals(order)) {
-      query.orderBy(builder.asc(root.get(Book_.pages)));
-    } else if ("desc".equals(order)) {
-      query.orderBy(builder.desc(root.get(Book_.pages)));
-    }
+    final Join<Book, Category> bookJoinCategory = root.join(Book_.categories);
 
-    final TypedQuery<Book> typedQuery = em.createQuery(query);
+    query
+        .select(root)
+        .where(builder.equal(bookJoinCategory.get(Category_.name), category))
+        .distinct(true);
 
-    if (offset != null) {
-      typedQuery.setFirstResult(offset);
-    }
-
-    if (limit != null) {
-      typedQuery.setMaxResults(limit);
-    }
-
-    return typedQuery.getResultList();
+    return em.createQuery(query).getResultList();
   }
 
   /*Ranking by book

@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import mx.dev.blank.entity.Book;
+import mx.dev.blank.entity.SortingOrder;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
@@ -19,22 +21,27 @@ public interface BookDAO {
 
   Book findById(@Min(1) int id);
 
-  List<Book> getBooksByYearOfPublication(
-      String order, @Min(1) Integer limit, @Min(0) Integer offset);
+  // 1,2, 9
+  List<Book> findBooks(
+      String sortField, SortingOrder order, @Min(1) Integer limit, @Min(0) Integer offset);
 
-  List<String> getBookByAuthor(String author);
+  // 3
+  List<Book> getBookByAuthor(@NotBlank String author);
 
-  List<String> getBooksByPrice(BigDecimal priceMin, BigDecimal priceMax);
+  // 4
+  List<Book> getBooksByPrice(@NotNull BigDecimal priceMin, @NotNull BigDecimal priceMax);
 
-  List<String> getBooksByDate(Date startDate, Date endDate);
+  // 5
+  List<Book> getBooksByAmountAuthors(@Min(1) long amountAuthors);
 
-  List<String> getBooksByCategory(String category);
+  // 6
+  List<Book> getBooksByDate(@NotNull Date startDate, @NotNull Date endDate);
 
+  // 7
   Long getAmountOfBooksByCategory(String category);
 
-  List<Book> getBooksByPages(String order, @Min(1) Integer limit, @Min(0) Integer offset);
-
-  List<Book> getBooksByAmountAuthors(long amountAuthors);
+  // 8
+  List<Book> getBooksByCategory(String category);
 
   Double getRankingByBook(final long book_id);
 }
