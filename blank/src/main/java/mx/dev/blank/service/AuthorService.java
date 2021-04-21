@@ -55,4 +55,9 @@ public class AuthorService {
   public List<Author> findByBookId(final int bookId) {
     return authorDAO.findByBookId(bookId);
   }
+
+  @Transactional(readOnly = true)
+  public List<Author> findAll() {
+    return authorDAO.findAll();
+  }
 }

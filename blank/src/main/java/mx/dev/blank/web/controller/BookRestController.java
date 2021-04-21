@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.model.BookDTO;
+import mx.dev.blank.model.BookRankingDTO;
 import mx.dev.blank.service.BookService;
 import mx.dev.blank.web.request.BookRequest;
 import mx.dev.blank.web.request.BookSearchForm;
@@ -165,10 +166,13 @@ public class BookRestController {
     return ResponseEntity.ok(assembler.toDto(books));
   }
 
-  //  @GetMapping(value = "/list/ordered/ranking")
-  //  public ResponseEntity<List<BookWithRanking>> getBooksWithScore(
-  //      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
-  //    List<BookWithRanking> books = bookService.getBooksWithScore("desc", limit, offset);
-  //    return new ResponseEntity<List<BookWithRanking>>(books, HttpStatus.OK);
-  //  }
+  /*
+   * Extra
+   */
+  @GetMapping(value = "/ranking")
+  public ResponseEntity<List<BookRankingDTO>> getBooksWithScore(
+      @RequestParam Integer limit, @RequestParam(defaultValue = "0") int offset) {
+    final List<BookRankingDTO> books = bookService.getBooksWithScore(limit, offset);
+    return ResponseEntity.ok(books);
+  }
 }

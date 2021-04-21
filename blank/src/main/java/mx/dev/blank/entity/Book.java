@@ -19,7 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import mx.dev.blank.web.request.BookRequest;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -28,7 +27,6 @@ import org.hibernate.annotations.Where;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 /*Soft delete*/
-@SQLDelete(sql = "UPDATE book SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Book implements Serializable {
 
@@ -82,6 +80,10 @@ public class Book implements Serializable {
     this.categories.addAll(categories);
     this.authors.clear();
     this.authors.addAll(authors);
+  }
+
+  public void markAsDeleted() {
+    this.deleted = true;
   }
 
   @Id

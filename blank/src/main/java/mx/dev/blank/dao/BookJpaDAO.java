@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mx.dev.blank.entity.*;
+import mx.dev.blank.model.BookRankingDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -35,8 +36,8 @@ public class BookJpaDAO implements BookDAO {
 
   /* Delete */
   @Override
-  public void delete(final Book book) {
-    em.remove(book);
+  public void softDelete(final Book book) {
+    em.merge(book);
   }
 
   /* Select * FROM books WHERE id = ? */
@@ -237,22 +238,37 @@ public class BookJpaDAO implements BookDAO {
     return em.createQuery(query).getResultList();
   }
 
-  /*Ranking by book
-  * select avg(ranking.score)  from ranking
-     inner join book on ranking.book_id = book.id
-    where ranking.book_id=2
-  * */
+  /* SELECT book.id, book.title, AVG(ranking.score) FROM ranking
+   * INNER JOIN book ON ranking.book_id = book.id
+   *
+   * Extra Ranking by book
+   *
+   * */
 
   @Override
-  public Double getRankingByBook(final long book_id) {
+  public List<BookRankingDTO> getRankings(final Integer limit, final Integer offset) {
     final CriteriaBuilder builder = em.getCriteriaBuilder();
-    final CriteriaQuery<Double> query = builder.createQuery(Double.class);
+    final CriteriaQuery<BookRankingDTO> query = builder.createQuery(BookRankingDTO.class);
     final Root<Ranking> root = query.from(Ranking.class);
+    final Join<Ranking, Book> bookJoin = root.join(Ranking_.book);
 
     query
-        .select(builder.avg(root.get(Ranking_.score)))
-        .where(builder.equal(root.get(Ranking_.book), book_id));
+        .multiselect(
+            bookJoin.get(Book_.id),
+            bookJoin.get(Book_.title),
+            builder.avg(root.get(Ranking_.score)))
+        .groupBy(bookJoin.get(Book_.id), bookJoin.get(Book_.title));
 
-    return em.createQuery(query).getSingleResult();
+    final TypedQuery<BookRankingDTO> typedQuery = em.createQuery(query);
+
+    if (offset != null) {
+      typedQuery.setFirstResult(offset);
+    }
+
+    if (limit != null) {
+      typedQuery.setMaxResults(limit);
+    }
+
+    return typedQuery.getResultList();
   }
 }

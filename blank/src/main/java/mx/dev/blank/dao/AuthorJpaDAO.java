@@ -59,4 +59,17 @@ public class AuthorJpaDAO implements AuthorDAO {
 
     return em.createQuery(query).getResultList();
   }
+
+  /* SELECT * FROM authors */
+  @Override
+  public List<Author> findAll() {
+
+    final CriteriaBuilder builder = em.getCriteriaBuilder();
+    final CriteriaQuery<Author> query = builder.createQuery(Author.class);
+    final Root<Author> root = query.from(Author.class);
+
+    query.select(root);
+
+    return em.createQuery(query).getResultList();
+  }
 }

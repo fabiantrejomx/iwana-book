@@ -59,4 +59,17 @@ public class CategoryJpaDAO implements CategoryDAO {
 
     return em.createQuery(query).getResultList();
   }
+
+  /* SELECT * FROM category */
+  @Override
+  public List<Category> findAll() {
+
+    final CriteriaBuilder builder = em.getCriteriaBuilder();
+    final CriteriaQuery<Category> query = builder.createQuery(Category.class);
+    final Root<Category> root = query.from(Category.class);
+
+    query.select(root);
+
+    return em.createQuery(query).getResultList();
+  }
 }

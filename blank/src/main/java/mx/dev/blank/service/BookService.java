@@ -14,6 +14,7 @@ import mx.dev.blank.entity.Author;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.entity.Category;
 import mx.dev.blank.exception.ResourceNotFoundException;
+import mx.dev.blank.model.BookRankingDTO;
 import mx.dev.blank.web.request.BookRequest;
 import mx.dev.blank.web.request.BookSearchForm;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,8 @@ public class BookService {
       throw new ResourceNotFoundException("Book not found: " + bookId);
     }
 
-    bookDAO.delete(book);
+    book.markAsDeleted();
+    bookDAO.softDelete(book);
   }
 
   private Set<Author> getAuthors(final Set<Integer> authorIds) {
@@ -147,16 +149,8 @@ public class BookService {
     return bookDAO.getBooksByCategory(category);
   }
 
-  //  public List<BookWithRanking> getBooksWithScore(String order, Integer limit, Integer offset) {
-  //    List<Book> books = bookDAO.getBooksByPages(order, limit, offset);
-  //    List<BookWithRanking> booksRankings = new ArrayList<>();
-  //
-  //    for (Book book : books) {
-  //      BookWithRanking br = new BookWithRanking();
-  //      Double ranking = bookDAO.getRankingByBook(book.getId());
-  //      br.setScore(ranking);
-  //      booksRankings.add(br);
-  //    }
-  //    return booksRankings;
-  //  }
+  @Transactional(readOnly = true)
+  public List<BookRankingDTO> getBooksWithScore(final Integer limit, final Integer offset) {
+    return bookDAO.getRankings(limit, offset);
+  }
 }

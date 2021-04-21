@@ -18,4 +18,6 @@ public interface AuthorDAO {
   Author findById(@Min(1) int id);
 
   List<Author> findByBookId(@Min(1) int bookId);
+
+  List<Author> findAll();
 }

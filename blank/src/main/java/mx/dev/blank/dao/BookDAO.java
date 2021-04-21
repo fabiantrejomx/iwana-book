@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.entity.SortingOrder;
+import mx.dev.blank.model.BookRankingDTO;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
@@ -18,7 +19,7 @@ public interface BookDAO {
 
   void update(@NotNull Book book);
 
-  void delete(@NotNull Book book);
+  void softDelete(@NotNull Book book);
 
   Book findById(@Min(1) int id);
 
@@ -41,10 +42,10 @@ public interface BookDAO {
   List<Book> getBooksByDate(@NotNull Date startDate, @NotNull Date endDate);
 
   // 7
-  Long getAmountOfBooksByCategory(String category);
+  Long getAmountOfBooksByCategory(@NotBlank String category);
 
   // 8
-  List<Book> getBooksByCategory(String category);
+  List<Book> getBooksByCategory(@NotBlank String category);
 
-  Double getRankingByBook(final long book_id);
+  List<BookRankingDTO> getRankings(@Min(1) final Integer limit, @Min(0) final Integer offset);
 }

@@ -278,7 +278,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/blank-api/book/4",
+							"raw": "http://localhost:8080/blank-api/book/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -287,7 +287,7 @@
 							"path": [
 								"blank-api",
 								"book",
-								"4"
+								"5"
 							]
 						},
 						"description": "delete book"
@@ -683,7 +683,7 @@
 			"response": []
 		},
 		{
-			"name": "Books with ranking",
+			"name": "Extra. Books with ranking",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -700,7 +700,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/blank-api/book/list/ordered/ranking?limit=5&offset=1",
+					"raw": "http://localhost:8080/blank-api/book/ranking?limit=5&offset=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -709,8 +709,6 @@
 					"path": [
 						"blank-api",
 						"book",
-						"list",
-						"ordered",
 						"ranking"
 					],
 					"query": [

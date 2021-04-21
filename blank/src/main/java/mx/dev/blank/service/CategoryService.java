@@ -51,4 +51,9 @@ public class CategoryService {
   public List<Category> findByBookId(final int bookId) {
     return categoryDAO.findByBookId(bookId);
   }
+
+  @Transactional(readOnly = true)
+  public List<Category> findAll() {
+    return categoryDAO.findAll();
+  }
 }
