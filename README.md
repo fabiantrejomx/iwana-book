@@ -13,7 +13,7 @@ https://vaadin.com/docs/v14/flow/tutorials/in-depth-course/project-setup
 
 #Test
 Postman:
-    https://drive.google.com/file/d/1sgQGSn6gZv3F7AXiC1gtPS8HzyggTFGX/view?usp=sharing
+    The file that can be imported to Postman is in: src/main/resources/postman
 
 ## Database
 
@@ -24,16 +24,16 @@ password: demo
 ## Description of the work performed
  Tasks:
  
-    - Create new books (Post)
-    - Update books (Put)
-    - Get Books (Get)
-    - Delete books (without soft delete)
+    - CRUD operations for:
+    	- Author
+    	- Book
+    	- Category
+    - DBUnit methods
+    - Use of Controller Advice to catch errors
+    - Custom exception
+    - Endpoints to retrieve information
     
- File:
- 
-    Postman collection
-    
- Endpoints
+ Endpoints:
 
     1. Show all books sorted by year of publication in ascending order, the results should be paginated. (10 books in total, leaving 2 books per page)
     2. Books descending by year of publication. (10 books in total, leaving 2 books per page)
@@ -44,18 +44,3 @@ password: demo
     7. Number of books that exist of x category
     8. Filter books by category.
     9. Filter books in ascending and descending order by number of pages contained in the book.
-
-## Description of the work TO DO
-    1. Soft delete
-    2. Pots review
-    3. Calcule record score
-    
-    
-#Review
-
-    Git compare VS develop
-    https://github.com/fabiantrejomx/iwana-book/compare/SENDY-CRUZ 
- 
- 
-
-
