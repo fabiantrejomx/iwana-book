@@ -13,10 +13,13 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.dev.blank.validators.BookValidator;
+import mx.dev.blank.validators.ISBN;
 
 @Getter
 @ToString
-@NoArgsConstructor()
+@NoArgsConstructor
+@BookValidator
 public class BookRequest implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -24,11 +27,10 @@ public class BookRequest implements Serializable {
   @Size(max = 255)
   private String title;
 
+  @Min(1)
   private int pages;
 
-  @NotNull
-  @Size(max = 13)
-  private String isbn;
+  @ISBN private String isbn;
 
   @NotNull
   @Min(0)
@@ -43,6 +45,7 @@ public class BookRequest implements Serializable {
   @Size(max = 35)
   private String editorial;
 
+  @NotNull
   @Temporal(TemporalType.DATE)
   private Date datePublication;
 

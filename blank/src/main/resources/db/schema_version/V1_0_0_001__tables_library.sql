@@ -9,7 +9,7 @@ CREATE TABLE book(
                      id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                      title varchar(50) NOT NULL,
                      pages int(10) NOT NULL,
-                     isbn varchar(13) NOT NULL,
+                     isbn varchar(17) NOT NULL,
                      price decimal(6,2) NOT NULL,
                      summary varchar(350) NOT NULL,
                      editorial varchar(35) NOT NULL,

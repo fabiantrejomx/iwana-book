@@ -12,6 +12,7 @@ import mx.dev.blank.entity.Book;
 import mx.dev.blank.model.BookDTO;
 import mx.dev.blank.model.BookRankingDTO;
 import mx.dev.blank.service.BookService;
+import mx.dev.blank.validators.BookRequestValidator;
 import mx.dev.blank.web.request.BookRequest;
 import mx.dev.blank.web.request.BookSearchForm;
 import mx.dev.blank.web.response.BaseResponse;
@@ -26,11 +27,14 @@ import org.springframework.web.bind.annotation.*;
 public class BookRestController {
 
   private final BookService bookService;
+  private final BookRequestValidator bookValidator;
   private final BookResourceAssembler.Factory assemblerFactory;
 
   @PostMapping
   public ResponseEntity<BaseResponse> createBook(
       @Valid @RequestBody final BookRequest bookRequest, final BindingResult errors) {
+
+    bookValidator.validate(bookRequest, errors);
 
     if (errors.hasErrors()) {
       return ResponseEntity.badRequest().body(BaseResponse.fail(errors.getAllErrors()));
