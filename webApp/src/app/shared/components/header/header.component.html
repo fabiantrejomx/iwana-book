@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">iWana-Book</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="">Book</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" [routerLink]="['/books/add']">Add</a>
+            <a class="dropdown-item" [routerLink]="['/books/list']">View</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="">Author</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" [routerLink]="['/authors/add']">Add</a>
+                <a class="dropdown-item" [routerLink]="['/authors/list']">View</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="">Category</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" [routerLink]="['/category/add']">Add</a>
+                <a class="dropdown-item" [routerLink]="['/category/list']">View</a>
+            </div>
+          </li>
+      </ul>
+    </div>
+  </nav>
