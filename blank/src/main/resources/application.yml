@@ -21,7 +21,7 @@ spring:
     open-in-view: false
   datasource:
     url: jdbc:mysql://localhost:3306/test?useSSL=false
-    username: dev
+    username: root
     password: demo
     validationQuery: SELECT 1
 
