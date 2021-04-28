@@ -11,12 +11,12 @@ export class BookService {
 
   constructor(private serviceCrud:ServiceCrudService) { }
 
-  public getCategories():Observable<Book[]> {
+  public getCategories(): Observable<Book[]> {
     const url = `${environment.apiBaseUrl}/book`;
-   return this.serviceCrud.getAll(url);
+    return this.serviceCrud.getAll(url);
   }
 
-  public deleteBook(bookID:number){
+  public deleteBook(bookID: number) {
     const url = `${environment.apiBaseUrl}/book/${bookID}`;
     return this.serviceCrud.delete(url);
   }

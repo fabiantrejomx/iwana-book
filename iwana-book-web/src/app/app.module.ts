@@ -9,17 +9,21 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import {ServiceCrudService} from './service-crud.service';
 import { BookComponent } from './book/book.component';
+import { FormsModule } from '@angular/forms';
+import { AuthorComponent } from './author/author.component';
 @NgModule({
   declarations: [
     AppComponent,
     CategoryComponent,
-    BookComponent
+    BookComponent,
+    AuthorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

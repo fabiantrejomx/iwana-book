@@ -10,17 +10,27 @@ import { CategoryService } from '../service/category.service';
 export class CategoryComponent implements OnInit {
 
   public categories:Category[];
+  public category:Category;
 
   constructor(private categoryService:CategoryService) { }
 
   ngOnInit(){
-   this.categoryService.getCategories()
-   .subscribe((response) => {
-    this.categories = response;
-  });
+   this.getCategories();
+  }
+
+  public getCategories(): void {
+    this.categoryService.getCategories()
+      .subscribe((response) => {
+        this.categories = response;
+      });
   }
 
 
-  tableColumns  :  string[] = ['id','name'];
-
+  public deleteCategory(id: number) {
+    this.categoryService.deleteCategory(id)
+      .subscribe((response) => {
+        this.category = response;
+        this.getCategories();
+      });
+  }
 }

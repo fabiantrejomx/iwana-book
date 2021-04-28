@@ -17,4 +17,9 @@ export class CategoryService {
     const url = `${environment.apiBaseUrl}/category/categories`;
    return this.serviceCrud.getAll(url);
   }
+
+  public deleteCategory(categoryID:number){
+    const url = `${environment.apiBaseUrl}/category/${categoryID}`;
+    return this.serviceCrud.delete(url);
+  }
 }
