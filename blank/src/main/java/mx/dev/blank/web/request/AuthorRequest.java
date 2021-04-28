@@ -21,12 +21,12 @@ public class AuthorRequest implements Serializable {
 
   @NotNull
   @Size(max = 255)
-  private String firstName;
+  private String firstSurname;
 
   @NotNull
   @Size(max = 255)
-  private String secondName;
+  private String secondSurname;
 
   @Temporal(TemporalType.DATE)
-  private Date birthday;
+  private Date birthdate;
 }

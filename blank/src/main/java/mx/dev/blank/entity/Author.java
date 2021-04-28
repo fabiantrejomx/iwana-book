@@ -50,8 +50,8 @@ public class Author implements Serializable {
 
   public void update(final AuthorRequest request) {
     this.name = request.getName();
-    this.firstName = request.getFirstName();
-    this.secondName = request.getSecondName();
-    this.birthday = request.getBirthday();
+    this.firstName = request.getFirstSurname();
+    this.secondName = request.getSecondSurname();
+    this.birthday = request.getBirthdate();
   }
 }

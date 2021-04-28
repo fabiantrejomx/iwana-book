@@ -1,1 +1,29 @@
-<p>add works!</p>
+<form class="normal-form" [formGroup]="form">
+    <mat-grid-list cols="2" rowHeight="300px">
+        <mat-grid-tile [colspan]="1" [rowspan]="">
+            <div class="controles-container">
+                <mat-form-field>
+                    <input formControlName="name" matInput placeholder="Name">
+                    <mat-error>The field is mandatory</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="firstSurname" matInput placeholder="First Surname">
+                    <mat-error>The field is mandatory</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="secondSurname" matInput placeholder="Second Surname">
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="birthdate" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="datepicker" placeholder="Birthdate">
+                    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker></mat-datepicker>
+                    <mat-error>The field is mandatory</mat-error>
+                </mat-form-field>
+                <div class="button-row">
+                    <button mat-stroked-button color="primary" type="submit" [disabled]="form.invalid" (click)="createAuthors()">Submit</button>
+                    <button mat-stroked-button color="warn" (click)="onClear()">Clear</button>
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>

@@ -22,9 +22,9 @@ public class AuthorService {
     final Author author =
         Author.newAuthor(
             request.getName(),
-            request.getFirstName(),
-            request.getSecondName(),
-            request.getBirthday());
+            request.getFirstSurname(),
+            request.getSecondSurname(),
+            request.getBirthdate());
     authorDAO.create(author);
   }
 

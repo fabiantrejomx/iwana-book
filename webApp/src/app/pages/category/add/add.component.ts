@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CategoryService } from '../category.service';
 
 @Component({
   selector: 'app-add',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddComponent implements OnInit {
 
-  constructor() { }
+  public form: FormGroup = new FormGroup({
+    category: new FormControl('', Validators.required)
+  });
+
+  constructor(private service: CategoryService) { }
 
   ngOnInit(): void {
+  }
+
+  onClear() {
+    this.form.reset();
   }
 
 }
