@@ -19,7 +19,6 @@ import { BookComponent } from './book/book.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatTableModule,
     HttpClientModule
     ],
   providers: [],

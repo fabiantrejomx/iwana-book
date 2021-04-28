@@ -9,13 +9,25 @@ import { BookService } from '../service/book.service';
 })
 export class BookComponent implements OnInit {
   public books:Book[];
+  public book:Book;
   constructor(private bookService:BookService) { }
 
   ngOnInit(): void {
+  this.getBooks();
+  }
+
+  public getBooks():void{
     this.bookService.getCategories()
-   .subscribe((response) => {
-    this.books = response;
-  });
+    .subscribe((response) => {
+     this.books = response;
+   });
+  }
+
+  public deleteBook(id:number){
+    this.bookService.deleteBook(id).subscribe(
+      (response)=>{this.book=response;
+        this.getBooks();}
+    )
   }
 
 }

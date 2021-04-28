@@ -25,5 +25,10 @@ export class ServiceCrudService {
       );
   }
 
+  public delete(url: string): Observable<any> {
+    return this.http
+      .delete(url);
+  }
+
 }
 
