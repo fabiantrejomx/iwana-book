@@ -1,0 +1,47 @@
+<div class="card border-primary mb-3">
+    <div class="card-header">Libros</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Catalogo de libros</h5>
+  
+        <div class="my-2 text-left">
+            <button class="btn btn-rounded btn-primary" type="button" >crear
+               libro</button>
+        </div>
+  
+        <div *ngIf="books?.length == 0" class="alert alert-info">
+            No hay registros en la base de datos
+        </div>
+  
+        <table class="table table-striped" *ngIf="books?.length > 0">
+            <thead>
+                <tr>
+                    <th>TITULO</th>
+                    <th>PÁGINAS</th>
+                    <th>ISBN</th>
+                    <th>PRECIO</th>
+                    <th>RESUMEN</th>
+                    <th>EDITORIAL</th>
+                    <th>FECHA</th>
+                    <th>EDITAR</th>
+                    <th>ELIMINAR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let book of books">
+                    <td>{{ book.title}}</td>
+                    <td>{{ book.pages }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.price }}</td>
+                    <td>{{ book.summary }}</td>
+                    <td>{{ book.editorial }}</td>
+                    <td>{{ book.releaseDate }}</td>
+                    <td><button type="button" name="editar"
+                      class="btn btn-primary">editar</button>
+              <td><button type="button" name="eliminar"
+                      class="btn btn-danger">eliminar</button>
+              </td>              
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>

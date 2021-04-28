@@ -20,6 +20,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/category")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CategoryRestController {
 
   private final CategoryService categoryService;
@@ -60,7 +61,7 @@ public class CategoryRestController {
     return ResponseEntity.ok(BaseResponse.success("Category deleted successfully"));
   }
 
-  @GetMapping
+  @GetMapping(path = "/categories")
   public ResponseEntity<List<CategoryDTO>> getCategories() {
     return ResponseEntity.ok(categoryService.findAll());
   }

@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,5 +18,13 @@ public class AppRestController {
   public ResponseEntity<String> getAppDetails() {
 
     return new ResponseEntity<>("Hello World", HttpStatus.OK);
+  }
+  public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/greeting-javaconfig").allowedOrigins("http://localhost:8080");
+      }
+    };
   }
 }

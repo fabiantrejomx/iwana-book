@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/book")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BookRestController {
 
   private final BookService bookService;

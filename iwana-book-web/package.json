@@ -21,7 +21,13 @@
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "chalk": "^2.4.2",
+    "ngx-bootstrap": "^6.2.0",
+    "puppeteer": "^9.0.0",
     "rxjs": "~6.5.4",
+    "rxjs-compat": "^6.6.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },

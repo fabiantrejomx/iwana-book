@@ -14,15 +14,12 @@ export class CategoryComponent implements OnInit {
   constructor(private categoryService:CategoryService) { }
 
   ngOnInit(){
-   
+   this.categoryService.getCategories()
+   .subscribe((response) => {
+    this.categories = response;
+  });
   }
 
-  public getCategories(){
-    this.categoryService.getCategories()
-    .subscribe((response)=>{    
-      this.categories  =  response;
-    });
-  }
 
   tableColumns  :  string[] = ['id','name'];
 
