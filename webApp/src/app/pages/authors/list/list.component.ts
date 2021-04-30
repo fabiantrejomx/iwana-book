@@ -1,5 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AuthorsResponse } from '../authors.response';
+import { AuthorsService } from '../authors.service';
+import { AuthorDTO } from "../author.dto";
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { AddComponent } from '../../authors/add/add.component';
+
+export interface DialogData {
+  authorId: number;
+  isPut: boolean;
+}
+
+
 
 @Component({
   selector: 'app-list',
@@ -7,23 +18,55 @@ import { NavigationExtras, Router } from '@angular/router';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  navigationExtras: NavigationExtras = {
-    state: {
-      value: null
-    }
-  }
-  constructor(private router: Router) { }
+
+  authors: AuthorDTO[];
+  displayedColumns: string[] = ['id','name', 'firstName', 'secondName', 'birthday', 'actions'];
+  authorId: number;
+
+
+  constructor(private authorsService: AuthorsService,
+    private dialog: MatDialog) { }
+
 
   ngOnInit(): void {
+    this.getList()
   }
 
-  onGoToEdit(item: any): void {
-    this.navigationExtras.state.value = item;
-    this.router.navigate(['/authors/edit'], this.navigationExtras);
+  
+  public getList(): void {
+    this.authorsService.getAuthors().subscribe((data: AuthorsResponse) =>{
+      console.log(data);
+      this.authors = data.authors;
+    })
+  } 
+
+  public onCreate() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "60%";
+    this.dialog.open(AddComponent,dialogConfig);
   }
-  onGoToDelete(item: any): void {
-    alert('Deleted');
+
+  public onEdit(row) {
+    this.authorId = row;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "60%";
+    dialogConfig.data = {authorId: this.authorId}
+    this.dialog.open(AddComponent,dialogConfig);
   }
+
+  public onDelete(row) {
+    this.authorId = row;
+    this.authorsService.deleteAuthors(this.authorId).subscribe(response => {
+      alert(response ? "Author Deleted" : "Author deleted failed")
+    });
+  }
+
+
+  
+
 
 
 }
+

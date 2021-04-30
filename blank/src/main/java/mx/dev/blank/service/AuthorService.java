@@ -1,10 +1,14 @@
 package mx.dev.blank.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.AuthorDAO;
 import mx.dev.blank.entity.Author;
 import mx.dev.blank.exception.ResourceNotFoundException;
+import mx.dev.blank.model.AuthorDTO;
 import mx.dev.blank.web.request.AuthorRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthorService {
 
   private final AuthorDAO authorDAO;
+  final SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 
   /*CRUD*/
 
@@ -57,7 +62,10 @@ public class AuthorService {
   }
 
   @Transactional(readOnly = true)
-  public List<Author> findAll() {
-    return authorDAO.findAll();
+  public List<AuthorDTO> findAll() {
+    return authorDAO.findAll().stream().map(author -> {
+      return new AuthorDTO(author.getId(), author.getName(), author.getFirstName(), author.getSecondName(),
+              author.getBirthday() != null ? df.format(author.getBirthday()) : "Unknowed");
+    }).collect(Collectors.toList());
   }
 }

@@ -17,6 +17,7 @@ import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
+import { AddComponent } from './pages/authors/add/add.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [BooksService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AddComponent]
 })
 export class AppModule { }

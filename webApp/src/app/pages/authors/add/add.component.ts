@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthorsRequest } from '../authors.request';
 import { AuthorsService } from '../authors.service';
-import { HttpErrorResponse } from "@angular/common/http";
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AddModule } from '../../authors/add/add.module';
+import { DialogData } from '../list/list.component';
 
 
 @Component({
@@ -21,7 +22,10 @@ export class AddComponent implements OnInit {
     birthdate: new FormControl('', Validators.required)
   })
 
-  constructor(private authorsService: AuthorsService) {
+  constructor(private authorsService: AuthorsService,
+    private dialogRef: MatDialogRef<AddModule>,
+    public dialogRefPut: MatDialogRef<AddComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
 
     const currentDate = new Date().getFullYear();
     this.minDate = new Date(currentDate - 572, 0, 1);
@@ -31,21 +35,37 @@ export class AddComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public createAuthors(): void {
-    this.authorsService.createAuthors({
-      name: this.form.get("name").value,
-      firstSurname: this.form.get("firstSurname").value,
-      secondSurname: this.form.get("secondSurname").value,
-      birthdate: this.form.get("birthdate").value
-    })
-    .subscribe(response => {
-      alert(response ? "Author Created" : "Author creation failed")
-    })
+  public onSubmit(): void {
+    if(!this.data) {
+      this.authorsService.createAuthors({
+        name: this.form.get("name").value,
+        firstSurname: this.form.get("firstSurname").value,
+        secondSurname: this.form.get("secondSurname").value,
+        birthdate: this.form.get("birthdate").value
+      })
+      .subscribe(response => {
+        alert(response ? "Author Created" : "Author creation failed")
+      })
+      this.form.reset();
+      this.onClose();
+    }
+      else {
+        this.authorsService.updateAuthors(this.data.authorId, {
+          name: this.form.get("name").value,
+          firstSurname: this.form.get("firstSurname").value,
+          secondSurname: this.form.get("secondSurname").value,
+          birthdate: this.form.get("birthdate").value
+        })
+        .subscribe(response => {
+          alert(response ? "Author Updated" : "Author updated failed")
+        })
+        this.onClose();
+      }
   }
 
-
-  handleError(arg0: (response: boolean) => void, handleError: any) {
-    throw new Error('Method not implemented.');
+  onClose() {
+    this.form.reset();
+    this.dialogRef.close();
   }
 
   onClear() {

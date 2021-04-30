@@ -1,5 +1,5 @@
 <form class="normal-form" [formGroup]="form">
-    <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-list cols="" rowHeight="300px">
         <mat-grid-tile [colspan]="1" [rowspan]="">
             <div class="controles-container">
                 <mat-form-field>
@@ -20,7 +20,7 @@
                     <mat-error>The field is mandatory</mat-error>
                 </mat-form-field>
                 <div class="button-row">
-                    <button mat-stroked-button color="primary" type="submit" [disabled]="form.invalid" (click)="createAuthors()">Submit</button>
+                    <button mat-stroked-button color="primary" type="submit" [disabled]="form.invalid" (click)="onSubmit()">Submit</button>
                     <button mat-stroked-button color="warn" (click)="onClear()">Clear</button>
                 </div>
             </div>

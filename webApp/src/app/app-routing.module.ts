@@ -10,14 +10,6 @@ const bookRoutes: Routes = [
     path: 'add',
     loadChildren: () => import('./pages/books/add/add.module').then(m => m.AddModule)
   },
- { 
-   path: 'edit', 
-   loadChildren: () => import('./pages/books/edit/edit.module').then(m => m.EditModule) 
-  },
- {
-   path: 'delete',
-   loadChildren: () => import('./pages/books/delete/delete.module').then(m => m.DeleteModule) 
-  },
 ]
 const authorsRoutes: Routes = [
   {
@@ -28,14 +20,7 @@ const authorsRoutes: Routes = [
     path: 'add',
     loadChildren: () => import('./pages/authors/add/add.module').then(m => m.AddModule)
   },
- { 
-   path: 'edit', 
-   loadChildren: () => import('./pages/authors/edit/edit.module').then(m => m.EditModule) 
-  },
- {
-   path: 'delete',
-   loadChildren: () => import('./pages/authors/delete/delete.module').then(m => m.DeleteModule) 
-  },
+  
 ]
 const categoryRoutes: Routes = [
   {
@@ -45,14 +30,6 @@ const categoryRoutes: Routes = [
   {
     path: 'add',
     loadChildren: () => import('./pages/category/add/add.module').then(m => m.AddModule)
-  },
- { 
-   path: 'edit', 
-   loadChildren: () => import('./pages/category/edit/edit.module').then(m => m.EditModule) 
-  },
- {
-   path: 'delete',
-   loadChildren: () => import('./pages/category/delete/delete.module').then(m => m.DeleteModule) 
   },
 ]
 
