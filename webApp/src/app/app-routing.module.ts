@@ -28,8 +28,8 @@ const categoryRoutes: Routes = [
     loadChildren: () => import('./pages/category/list/list.module').then(m => m.ListModule)
   },
   {
-    path: 'add',
-    loadChildren: () => import('./pages/category/add/add.module').then(m => m.AddModule)
+    path: 'category',
+    loadChildren: () => import('./pages/category/category/category.module').then(m => m.CategoryModule)
   },
 ]
 

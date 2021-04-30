@@ -2,12 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthorsResponse } from '../authors.response';
 import { AuthorsService } from '../authors.service';
 import { AuthorDTO } from "../author.dto";
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddComponent } from '../../authors/add/add.component';
 
 export interface DialogData {
   authorId: number;
-  isPut: boolean;
 }
 
 

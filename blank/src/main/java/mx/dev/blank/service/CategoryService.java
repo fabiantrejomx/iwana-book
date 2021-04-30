@@ -1,10 +1,13 @@
 package mx.dev.blank.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.CategoryDAO;
 import mx.dev.blank.entity.Category;
 import mx.dev.blank.exception.ResourceNotFoundException;
+import mx.dev.blank.model.CategoryDTO;
 import mx.dev.blank.web.request.CategoryRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +56,9 @@ public class CategoryService {
   }
 
   @Transactional(readOnly = true)
-  public List<Category> findAll() {
-    return categoryDAO.findAll();
+  public List<CategoryDTO> findAll() {
+    return categoryDAO.findAll().stream().map(category -> {
+      return new CategoryDTO(category.getId(), category.getName());
+    }).collect(Collectors.toList());
   }
 }

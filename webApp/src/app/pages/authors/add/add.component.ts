@@ -24,7 +24,6 @@ export class AddComponent implements OnInit {
 
   constructor(private authorsService: AuthorsService,
     private dialogRef: MatDialogRef<AddModule>,
-    public dialogRefPut: MatDialogRef<AddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
 
     const currentDate = new Date().getFullYear();
