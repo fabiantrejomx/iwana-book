@@ -1,0 +1,139 @@
+<div class="card  text-black">
+    <div class="card-header"></div>
+    <div class="card-body">
+  
+      <form #bookForm="ngForm">
+        <div class="form-group row">
+          <label for="name" class="col-form-label col-sm-2">Título</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" [(ngModel)]="book.title" name="title" #title="ngModel"> <!-- required -->
+            <div class="alert alert-danger" *ngIf="title.invalid && (title.dirty || title.touched)">
+              <div *ngIf="title.errors.required">
+                titulo es requerido
+              </div>
+              <div *ngIf="title.errors.maxlength">
+                el nombre debe tener máximo 255 caracteres
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="lastName" class="col-form-label col-sm-2">Páginas</label>
+          <div class="col-sm-6">
+            <input class="form-control" type="number" [(ngModel)]="book.pages" name="pages" #pages="ngModel"> 
+          </div>
+        </div>
+  
+        <div class="form-group row">
+            <label for="name" class="col-form-label col-sm-2">ISBN</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" [(ngModel)]="book.isbn" name="isbn" #isbn="ngModel"> <!-- required -->
+              <div class="alert alert-danger" *ngIf="isbn.invalid && (isbn.dirty || isbn.touched)">
+                <div *ngIf="isbn.errors.required">
+                  ISBN es requerido
+                </div>
+                <div *ngIf="isbn.errors.maxlength">
+                  el ISBN debe tener maxímo 13 caracteres
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="col-form-label col-sm-2">Precio</label>
+            <div class="col-sm-6">
+              <input type="number" min="0" max="999999" class="form-control" [(ngModel)]="book.price" name="price" #price="ngModel"> <!-- required -->
+              <div class="alert alert-danger" *ngIf="price.invalid && (price.dirty || price.touched)">
+                <div *ngIf="price.errors.required">
+                  Precio es requerido
+                </div>
+                <div *ngIf="price.errors.minlength">
+                  el precio  puede ser desde 0 hasta 999999 digitos.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="col-form-label col-sm-2">Resumen</label>
+            <div class="col-sm-6">
+              <textarea class="form-control" max="355" placeholder="Leave a comment here" id="summary" [(ngModel)]="book.summary" name="summary" #summary="ngModel"></textarea>
+              <div class="alert alert-danger" *ngIf="editorial.invalid && (editorial.dirty || editorial.touched)">
+            <div *ngIf="summary.errors.required">
+              Resumen es requerido
+            </div>
+            <div *ngIf="summary.errors.maxlength">
+              Resumen debe tener un máximo de 355 caracteres.
+            </div>
+          </div>
+          </div>
+        </div>
+
+          <div class="form-group row">
+            <label for="name" class="col-form-label col-sm-2">Editorial</label>
+            <div class="col-sm-6">
+              <input maxlength="35" type="text" class="form-control" [(ngModel)]="book.editorial" name="editorial" #editorial="ngModel"> <!-- required -->
+              <div class="alert alert-danger" *ngIf="editorial.invalid && (editorial.dirty || editorial.touched)">
+                <div *ngIf="editorial.errors.required">
+                  Editorial es requerido
+                </div>
+                <div *ngIf="editorial.errors.minlength">
+                  editorial debe tener máximo 35 caracteres
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="col-form-label col-sm-2">Fecha de publicación</label>
+            <div class="col-sm-6">
+                <input type="date" id="date" name="datemax" class="form-control" [(ngModel)]="book.datePublication" name="datePublication" #datePublication="ngModel"><br><br>
+            </div>
+          </div>
+
+          <div class="form-floating">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+              <option selected>selecciona...</option>
+              <option
+              *ngFor="let category of categories"
+              value="{{ category.id }}"
+
+            >
+
+              {{ category.name }}
+
+            </option>
+            </select>
+            <label for="floatingSelect">Works with selects</label>
+          </div>
+
+          <div class="form-floating">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                <option selected>selecciona...</option>
+                <option
+                *ngFor="let author of authors"
+                value="{{ author.id }}"
+  
+              >
+  
+                {{ author.name }}
+  
+              </option>
+            </select>
+            <label for="floatingSelect">Works with selects</label>
+          </div>
+          
+  
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!book.id else elseBlock"
+              [disabled]="!bookForm.form.valid">Crear</button>
+            <ng-template #elseBlock>
+              <button class="btn btn-primary" role="button" (click)='update()'
+                [disabled]="!bookForm.form.valid">Editar</button>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -1,1 +1,41 @@
-<p>author works!</p>
+<div class="card border-primary mb-3">
+    <div class="card-header">Libros</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Catalogo de libros</h5>
+  
+        <div class="my-2 text-left">
+            <button class="btn btn-rounded btn-primary" type="button" >crear
+               libro</button>
+        </div>
+  
+        <div *ngIf="authors?.length == 0" class="alert alert-info">
+            No hay registros en la base de datos
+        </div>
+  
+        <table class="table table-striped" *ngIf="authors?.length > 0">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO PATERNO</th>
+                    <th>APELLIDO MATERNO</th>
+                    <th>FECHA DE NACIMIENTO</th>
+                    <th>EDITAR</th>
+                    <th>ELIMINAR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let author of authors">
+                    <td>{{ author.name}}</td>
+                    <td>{{ author.firstName }}</td>
+                    <td>{{ author.secondName }}</td>
+                    <td>{{ author.birthday }}</td>
+                    <td><button type="button" name="editar"
+                      class="btn btn-primary">editar</button>
+              <td><button type="button" name="eliminar"
+                      class="btn btn-danger" (click)="deleteAuthor(author.id)">eliminar</button>
+              </td>              
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>

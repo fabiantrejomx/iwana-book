@@ -1,4 +1,7 @@
-export interface Book {
+import { Author } from "../author/author";
+import { Category } from "../category/category";
+
+export class Book {
   id:number;
   title:string;
   pages:number;
@@ -6,5 +9,8 @@ export interface Book {
   price:number;
   summary:string;
   editorial:string;
-  releaseDate:string;
+  datePublication:string;
+  categories:number[];
+  authors:number[];
+  
 }

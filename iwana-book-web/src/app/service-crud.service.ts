@@ -1,9 +1,12 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { Book } from './model/book/book';
+import { map, catchError } from 'rxjs/operators';
+import { Router, RouterLink } from '@angular/router';
 
 
 
@@ -11,8 +14,9 @@ import 'rxjs/add/operator/catch';
   providedIn: 'root'
 })
 export class ServiceCrudService {
+  httpHeaders: HttpHeaders | { [header: string]: string | string[]; };
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private router:Router) { }
 
   public getAll(url: string): Observable<any> {
     return this.http
@@ -23,11 +27,38 @@ export class ServiceCrudService {
       .catch((error: any) =>
         Observable.throw(error)
       );
-  }
+  } 
 
   public delete(url: string): Observable<any> {
     return this.http
       .delete(url);
+  }
+ 
+
+  getBook(url:string): Observable<Book> {
+    return this.http.get<Book>(url).pipe(
+      catchError((e) => {
+        this.router.navigate(['book']);
+        console.error(e.error.mensaje);
+        return throwError(e);
+      })
+    );
+  }
+
+  update(book: Book,url:string): Observable<any> {
+    return this.http
+      .put<any>(url, book, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        catchError((e) => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          console.error(e.error.mensaje);
+          return throwError(e);
+        })
+      );
   }
 
 }

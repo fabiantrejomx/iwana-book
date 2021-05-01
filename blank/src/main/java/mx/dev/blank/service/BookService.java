@@ -79,6 +79,12 @@ public class BookService {
     bookDAO.softDelete(book);
   }
 
+  @Transactional
+  public  Book getBookByID(final int bookID){
+    final Book book = bookDAO.findById(bookID);
+    return book;
+  }
+
   private Set<Author> getAuthors(final Set<Integer> authorIds) {
     final Set<Author> authors = new HashSet<>();
     authorIds.forEach(

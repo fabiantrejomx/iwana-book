@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Category } from '../model/category/category';
 import { CategoryService } from '../service/category.service';
+import { CategoryFormComponent } from './form/category-form/category-form.component';
 
 @Component({
   selector: 'app-category',
@@ -11,8 +13,10 @@ export class CategoryComponent implements OnInit {
 
   public categories:Category[];
   public category:Category;
+  private bsModalRef: BsModalRef;
 
-  constructor(private categoryService:CategoryService) { }
+
+  constructor(private categoryService:CategoryService,private modalService:BsModalService) { }
 
   ngOnInit(){
    this.getCategories();
@@ -32,5 +36,16 @@ export class CategoryComponent implements OnInit {
         this.category = response;
         this.getCategories();
       });
+  }
+
+  public openCreateModal(): void {
+    this.bsModalRef = this.modalService.show(CategoryFormComponent, {
+      class: 'modal-lg',
+    });
+    this.bsModalRef.content.title = 'Crear Category';
+    this.bsModalRef.content.onClose = () => {
+      this.bsModalRef.hide();
+      this.getCategories();
+    };
   }
 }

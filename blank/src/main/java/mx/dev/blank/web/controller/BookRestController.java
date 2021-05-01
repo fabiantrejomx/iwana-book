@@ -176,4 +176,13 @@ public class BookRestController {
     final List<BookRankingDTO> books = bookService.getBooksWithScore(limit, offset);
     return ResponseEntity.ok(books);
   }
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<List<BookDTO>> getBooksByID(
+          @RequestParam(value = "id") int id,
+          @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
+    final List<Book> books = (List<Book>) bookService.getBookByID(id);
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(books));
+  }
 }

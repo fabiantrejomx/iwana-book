@@ -2,6 +2,8 @@ package mx.dev.blank.web.controller;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mx.dev.blank.model.AuthorDTO;
+import mx.dev.blank.model.CategoryDTO;
 import mx.dev.blank.service.AuthorService;
 import mx.dev.blank.web.request.AuthorRequest;
 import mx.dev.blank.web.response.BaseResponse;
@@ -10,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/author")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthorRestController {
 
   private final AuthorService authorService;
@@ -51,5 +56,10 @@ public class AuthorRestController {
 
     authorService.deleteAuthor(authorId);
     return ResponseEntity.ok(BaseResponse.success("Author deleted successfully"));
+  }
+
+  @GetMapping()
+  public ResponseEntity<List<AuthorDTO>> getAuthors() {
+    return ResponseEntity.ok(authorService.findAll());
   }
 }

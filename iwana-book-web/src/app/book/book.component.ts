@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Author } from '../model/author/author';
 import { Book } from '../model/book/book';
+import { Category } from '../model/category/category';
 import { BookService } from '../service/book.service';
 
 @Component({
@@ -10,6 +12,8 @@ import { BookService } from '../service/book.service';
 export class BookComponent implements OnInit {
   public books:Book[];
   public book:Book;
+  public authors:Author[];
+  public categories:Category[];
   constructor(private bookService:BookService) { }
 
   ngOnInit(): void {
@@ -17,7 +21,7 @@ export class BookComponent implements OnInit {
   }
 
   public getBooks():void{
-    this.bookService.getCategories()
+    this.bookService.getBooks()
     .subscribe((response) => {
      this.books = response;
    });
@@ -29,5 +33,6 @@ export class BookComponent implements OnInit {
         this.getBooks();}
     )
   }
+
 
 }
