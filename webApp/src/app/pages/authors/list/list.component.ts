@@ -4,6 +4,9 @@ import { AuthorsService } from '../authors.service';
 import { AuthorDTO } from "../author.dto";
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddComponent } from '../../authors/add/add.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface DialogData {
   authorId: number;
@@ -18,9 +21,11 @@ export interface DialogData {
 })
 export class ListComponent implements OnInit {
 
-  authors: AuthorDTO[];
+  authors: MatTableDataSource<AuthorDTO>;
   displayedColumns: string[] = ['id','name', 'firstName', 'secondName', 'birthday', 'actions'];
   authorId: number;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
   constructor(private authorsService: AuthorsService,
@@ -35,7 +40,9 @@ export class ListComponent implements OnInit {
   public getList(): void {
     this.authorsService.getAuthors().subscribe((data: AuthorsResponse) =>{
       console.log(data);
-      this.authors = data.authors;
+      this.authors = new MatTableDataSource(data.authors);
+      this.authors.paginator = this.paginator;
+      this.authors.sort = this.sort;
     })
   } 
 

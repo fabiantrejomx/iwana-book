@@ -7,13 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
+import mx.dev.blank.entity.Author;
 import mx.dev.blank.entity.Book;
+import mx.dev.blank.entity.Category;
 
 @Getter
 public class BookDTO implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  private final int id;
   private final String title;
   private final int pages;
   private final String isbn;
@@ -21,6 +24,8 @@ public class BookDTO implements Serializable {
   private final String summary;
   private final String editorial;
   private final String releaseDate;
+  private final Set<Category> category;
+  private final Set<Author> author;
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private Set<AuthorDTO> authors = new HashSet<>();
@@ -29,6 +34,7 @@ public class BookDTO implements Serializable {
   private Set<CategoryDTO> categories = new HashSet<>();
 
   public BookDTO(final Book book) {
+    this.id = book.getId();
     this.title = book.getTitle();
     this.pages = book.getPages();
     this.isbn = book.getIsbn();
@@ -36,6 +42,8 @@ public class BookDTO implements Serializable {
     this.summary = book.getSummary();
     this.editorial = book.getEditorial();
     this.releaseDate = new SimpleDateFormat("MM-dd-yyyy").format(book.getReleaseDate());
+    this.category = book.getCategories();
+    this.author = book.getAuthors();
   }
 
   public void addAuthors(final Set<AuthorDTO> authors) {

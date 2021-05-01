@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { AddComponent } from './pages/authors/add/add.component';
 import { CategoryComponent } from './pages/category/category/category.component';
+import { BookComponent } from './pages/books/book/book.component';
 
 
 @NgModule({
@@ -45,9 +46,10 @@ import { CategoryComponent } from './pages/category/category/category.component'
     MatSelectModule,
     HttpClientModule
   ],
-  providers: [BooksService],
   bootstrap: [AppComponent],
-  entryComponents: [AddComponent,
-    CategoryComponent]
+  entryComponents: [
+    AddComponent,
+    CategoryComponent,
+    BookComponent]
 })
 export class AppModule { }

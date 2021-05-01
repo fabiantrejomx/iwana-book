@@ -66,7 +66,7 @@ public class BookRestController {
   /*
    * Ejercicio 1, 2, 9
    */
-  @GetMapping
+  @GetMapping(path = "/list")
   public ResponseEntity<List<BookDTO>> getBooks(
       @ModelAttribute BookSearchForm form,
       @RequestParam(required = false, value = "expand", defaultValue = "")

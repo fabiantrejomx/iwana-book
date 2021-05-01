@@ -28,5 +28,9 @@ export class AuthorsService {
   public deleteAuthors(authorId: number): Observable<boolean>{
     return this.http.delete<boolean>(HOST + `author/${authorId}`)
   }
+
+  public getAuthorName(authorId: number): Observable<boolean> {
+    return this.http.get<boolean>(HOST + `author/name/${authorId}`)
+  }
   
 }

@@ -7,8 +7,8 @@ const bookRoutes: Routes = [
     loadChildren: () => import('./pages/books/list/list.module').then(m => m.ListModule)
   },
   {
-    path: 'add',
-    loadChildren: () => import('./pages/books/add/add.module').then(m => m.AddModule)
+    path: 'book',
+    loadChildren: () => import('./pages/books/book/book.module').then(m => m.BookModule)
   },
 ]
 const authorsRoutes: Routes = [

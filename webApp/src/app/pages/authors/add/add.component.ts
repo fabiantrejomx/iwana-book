@@ -1,9 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AuthorsService } from '../authors.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddModule } from '../../authors/add/add.module';
 import { DialogData } from '../list/list.component';
+
+export function dateValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const today = new Date().getTime();
+
+    if(!(control && control.value)) {
+      return null;
+    }
+
+    return control.value.getTime() > today 
+      ? {invalidDate: 'You cannot use future dates' } 
+      : null;
+  }
+}
 
 
 @Component({
@@ -12,6 +26,7 @@ import { DialogData } from '../list/list.component';
   styleUrls: ['./add.component.scss']
 })
 export class AddComponent implements OnInit {
+  
     minDate: Date;
     maxDate: Date;
 
@@ -19,7 +34,7 @@ export class AddComponent implements OnInit {
     name: new FormControl('', Validators.required),
     firstSurname: new FormControl('', Validators.required),
     secondSurname: new FormControl(''),
-    birthdate: new FormControl('', Validators.required)
+    birthdate: new FormControl('', [dateValidator(),Validators.required])
   })
 
   constructor(private authorsService: AuthorsService,
@@ -28,7 +43,7 @@ export class AddComponent implements OnInit {
 
     const currentDate = new Date().getFullYear();
     this.minDate = new Date(currentDate - 572, 0, 1);
-    this.maxDate = new Date(currentDate + 1, 0, 0);
+    this.maxDate = new Date(currentDate - 15, 0, 0);
    }
 
   ngOnInit(): void {

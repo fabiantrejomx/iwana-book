@@ -14,10 +14,11 @@
                     <input formControlName="secondSurname" matInput placeholder="Second Surname">
                 </mat-form-field>
                 <mat-form-field>
-                    <input formControlName="birthdate" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="datepicker" placeholder="Birthdate">
+                    <mat-label>Birthdate</mat-label>
+                    <input formControlName="birthdate" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="datepicker" placeholder="mm/dd/yyyy">
                     <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                     <mat-datepicker #datepicker></mat-datepicker>
-                    <mat-error>The field is mandatory</mat-error>
+                    <mat-error *ngIf="form.controls['birthdate'].errors?.required">This field is mandatory or insert invalid date format</mat-error>
                 </mat-form-field>
                 <div class="button-row">
                     <button mat-stroked-button color="primary" type="submit" [disabled]="form.invalid" (click)="onSubmit()">Submit</button>
