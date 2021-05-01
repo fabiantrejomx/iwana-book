@@ -14,6 +14,7 @@ import { AuthorComponent } from './author/author.component';
 import { BookFormComponent } from './book/form/book-form/book-form.component';
 import { CategoryFormComponent } from './category/form/category-form/category-form.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AuthorFormComponent } from './author/author-form/author-form.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BookComponent,
     AuthorComponent,
     BookFormComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    AuthorFormComponent
   ],
   imports: [
     BrowserModule,

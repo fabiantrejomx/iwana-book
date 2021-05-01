@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+      <b>{{ title }}</b>
+    </h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="bsModalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label
+          >Nombre
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          formControlName="name"
+          maxlength="255"
+        />
+      </div>
+      <div class="form-group">
+        <label
+          >Apellido Paterno
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          formControlName="firstName"
+          maxlength="255"
+        />
+      </div>
+      <div class="form-group">
+        <label
+          >Apellido Materno
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="secondtName"
+          formControlName="secondName"
+          maxlength="255"
+        />
+      </div>
+      <div class="form-group">
+        <label
+          >Fecha de Nacimiento
+          <span class="text-danger">*</span>
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          name="birthday"
+          formControlName="birthday"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="bsModalRef.hide()"
+    >
+      <b>Cancelar</b>
+    </button>
+    <button
+    type="button"
+    class="btn btn-success"
+    (click)="create()"
+  ><b>Guardar</b></button>
+  </div>
