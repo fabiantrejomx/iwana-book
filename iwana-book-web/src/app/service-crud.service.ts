@@ -45,21 +45,5 @@ export class ServiceCrudService {
     );
   }
 
-  update(book: Book,url:string): Observable<any> {
-    return this.http
-      .put<any>(url, book, {
-        headers: this.httpHeaders,
-      })
-      .pipe(
-        catchError((e) => {
-          if (e.status == 400) {
-            return throwError(e);
-          }
-          console.error(e.error.mensaje);
-          return throwError(e);
-        })
-      );
-  }
-
 }
 

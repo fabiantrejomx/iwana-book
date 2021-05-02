@@ -4,7 +4,7 @@
         <h5 class="card-title">Catalogo de libros</h5>
   
         <div class="my-2 text-left">
-            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/book/form']">crear
+            <button class="btn btn-rounded btn-primary" type="button" >crear
                libro</button>
         </div>
   
@@ -22,6 +22,7 @@
                     <th>RESUMEN</th>
                     <th>EDITORIAL</th>
                     <th>FECHA</th>
+                    <th>AUTORES</th>
                     <th>EDITAR</th>
                     <th>ELIMINAR</th>
                 </tr>
@@ -35,6 +36,12 @@
                     <td>{{ book.summary }}</td>
                     <td>{{ book.editorial }}</td>
                     <td>{{ book.releaseDate }}</td>
+                    <td *ngFor="let author of book.authors">
+                        {{author.name}}
+                    </td>
+                    <td *ngFor="let category of book.categories">
+                        {{category.name}}
+                    </td>
                     <td><button type="button" name="editar"
                       class="btn btn-primary" [routerLink]="['/book/form', book.id]">editar</button>
               <td><button type="button" name="eliminar"

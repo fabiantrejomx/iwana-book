@@ -41,4 +41,21 @@ export class AuthorService {
         })
       );
   }
+
+  public update(author: AuthorForm,authorID:number): Observable<any> {
+    const url = `${environment.apiBaseUrl}/author/${authorID}`;
+    return this.http
+      .put<Author>(url, author, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        catchError((e) => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          console.error(e.error.mensaje);
+          return throwError(e);
+        })
+      );
+  }
 }

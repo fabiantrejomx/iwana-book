@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Author } from 'src/app/model/author/author';
 import { AuthorForm } from 'src/app/model/author/author.form';
 import { AuthorService } from 'src/app/service/author.service';
 
@@ -13,8 +14,11 @@ export class AuthorFormComponent implements OnInit {
 
   public title:string;
   public form: FormGroup;
-  public category:AuthorForm;
+  public authorForm:AuthorForm;
   public onClose: Function;
+  public author:Author;
+  public isSaving:boolean;
+  public id:number;
   
   constructor(
     public bsModalRef: BsModalRef,
@@ -32,11 +36,22 @@ export class AuthorFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
+  public save():void{
+    if(this.isSaving){
+      this.create();
+    }else{
+      console.log(this.id)
+      this.update();
+    }
+  }
 
   public create(): void {
+    this.isSaving=true;
     this.authorService
       .create(this.form.value)
       .subscribe( () => {
+        this.isSaving=false;
         this.onClose(true);
             console.log(
               "ha sido registrado."
@@ -50,4 +65,25 @@ export class AuthorFormComponent implements OnInit {
     );
   }
 
+  public update():void{
+    this.isSaving=false;
+    this.authorService
+    .update(
+     this.form.value,
+     this.id
+    )
+    .subscribe(
+      () => {
+        this.onClose(true);
+            console.log(
+              "ha sido actualizado."
+
+            );
+      },
+      err => {
+        console.error('codigo error backend ' + err.status);
+        console.error(err.error.errors);
+      }
+    );
+  }
 }

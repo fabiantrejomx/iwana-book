@@ -37,15 +37,31 @@ export class AuthorComponent implements OnInit {
     )
   }
 
+
   public openCreateModal(): void {
     this.bsModalRef = this.modalService.show(AuthorFormComponent, {
       class: 'modal-lg',
     });
-    this.bsModalRef.content.title = 'Crear Category';
+    this.bsModalRef.content.title = 'Crear Autor';
     this.bsModalRef.content.onClose = () => {
       this.bsModalRef.hide();
       this.getAuthors();
     };
   }
+
+  public updateAuthor(author:Author){
+    console.log(author);
+    console.log(author.id);
+    const bsModalRef = this.modalService.show(AuthorFormComponent);
+    bsModalRef.content.title =
+      "Editar Autor" 
+    bsModalRef.content.authorForm=author;
+    bsModalRef.content.id=author.id;
+    bsModalRef.content.onClose = (success) => {
+      if (success) {
+        bsModalRef.hide();
+      }
+      this.getAuthors();
+  }}
 
 }

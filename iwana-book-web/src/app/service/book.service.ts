@@ -28,15 +28,21 @@ export class BookService {
     return this.serviceCrud.getBook(url);
   }
 
-  public update(
-    book:Book,
-   bookID: number
-  ): Observable<Book> {
-    const url = `${environment.apiBaseUrl}/book/${bookID}`
-    return this.serviceCrud.update(
-      book,
-      url
-    );
+  public update(book: Book,bookID:number): Observable<any> {
+    const url = `${environment.apiBaseUrl}/book/${bookID}`;
+    return this.http
+      .put<any>(url, book, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        catchError((e) => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          console.error(e.error.mensaje);
+          return throwError(e);
+        })
+      );
   }
 
   create(book: Book): Observable<any> {

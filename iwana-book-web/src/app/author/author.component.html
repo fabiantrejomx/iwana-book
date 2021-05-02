@@ -1,7 +1,7 @@
 <div class="card border-primary mb-3">
     <div class="card-header">Libros</div>
     <div class="card-body text-primary">
-        <h5 class="card-title">Catalogo de libros</h5>
+        <h5 class="card-title">Catalogo de Autores</h5>
   
         <div class="my-2 text-left">
             <button class="btn btn-rounded btn-primary" type="button" (click)="openCreateModal()">crear
@@ -30,7 +30,7 @@
                     <td>{{ author.secondName }}</td>
                     <td>{{ author.birthday }}</td>
                     <td><button type="button" name="editar"
-                      class="btn btn-primary">editar</button>
+                      class="btn btn-primary" (click)="updateAuthor(author)">editar</button>
               <td><button type="button" name="eliminar"
                       class="btn btn-danger" (click)="deleteAuthor(author.id)">eliminar</button>
               </td>              

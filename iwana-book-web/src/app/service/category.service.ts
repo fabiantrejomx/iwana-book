@@ -41,4 +41,21 @@ export class CategoryService {
         })
       );
   }
+
+  public update(category: CategoryForm,categoryID:number): Observable<any> {
+    const url = `${environment.apiBaseUrl}/category/${categoryID}`;
+    return this.http
+      .put<any>(url, category, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        catchError((e) => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          console.error(e.error.mensaje);
+          return throwError(e);
+        })
+      );
+  }
 }

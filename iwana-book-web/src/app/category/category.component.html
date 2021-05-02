@@ -26,7 +26,7 @@
                   <td>{{ category.id }}</td>
                   <td>{{ category.name }}</td>
                   <td><button type="button" name="editar"
-                    class="btn btn-primary">editar</button>
+                    class="btn btn-primary" (click)="editCategoryModal(category.id)">editar</button>
             <td><button type="button" name="eliminar"
                     class="btn btn-danger" (click)="deleteCategory(category.id)">eliminar</button>
             </td>              

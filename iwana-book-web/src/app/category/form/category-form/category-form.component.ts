@@ -14,6 +14,8 @@ export class CategoryFormComponent implements OnInit {
   public form: FormGroup;
   public category:CategoryForm;
   public onClose: Function;
+  public id:number;
+  public isSaving:boolean;
   
   constructor(
     public bsModalRef: BsModalRef,
@@ -28,11 +30,21 @@ export class CategoryFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public save():void{
+    if(this.isSaving){
+      this.create();
+    }else{
+      console.log(this.id)
+      this.update();
+    }
+  }
 
   public create(): void {
+    this.isSaving=true;
     this.categoryService
       .create(this.form.value)
       .subscribe( () => {
+        this.isSaving=false;
         this.onClose(true);
             console.log(
               "ha sido registrado."
@@ -46,5 +58,26 @@ export class CategoryFormComponent implements OnInit {
     );
   }
 
+  public update():void{
+    this.isSaving=false;
+    this.categoryService
+    .update(
+     this.form.value,
+     this.id
+    )
+    .subscribe(
+      () => {
+        this.onClose(true);
+            console.log(
+              "ha sido actualizado."
+
+            );
+      },
+      err => {
+        console.error('codigo error backend ' + err.status);
+        console.error(err.error.errors);
+      }
+    );
+  }
 
 }

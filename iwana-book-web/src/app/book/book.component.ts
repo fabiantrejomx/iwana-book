@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Author } from '../model/author/author';
 import { Book } from '../model/book/book';
 import { Category } from '../model/category/category';
 import { BookService } from '../service/book.service';
+import { BookFormComponent } from './form/book-form/book-form.component';
 
 @Component({
   selector: 'app-book',
@@ -14,7 +16,7 @@ export class BookComponent implements OnInit {
   public book:Book;
   public authors:Author[];
   public categories:Category[];
-  constructor(private bookService:BookService) { }
+  constructor(private bookService:BookService,private modalService:BsModalService) { }
 
   ngOnInit(): void {
   this.getBooks();
@@ -34,5 +36,15 @@ export class BookComponent implements OnInit {
     )
   }
 
+  public openCreateModal(): void {
+    const bsModalRef = this.modalService.show(BookFormComponent, {
+      class: 'modal-lg',
+    });
+  bsModalRef.content.title = 'Crear Libro';
+  bsModalRef.content.onClose = () => {
+  bsModalRef.hide();
+      this.getBooks();
+    };
+  }
 
 }

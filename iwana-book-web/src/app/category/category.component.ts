@@ -48,4 +48,16 @@ export class CategoryComponent implements OnInit {
       this.getCategories();
     };
   }
+
+  public editCategoryModal(id:number): void {
+    this.bsModalRef = this.modalService.show(CategoryFormComponent, {
+      class: 'modal-lg',
+    });
+    this.bsModalRef.content.title = 'Editar Category';
+    this.bsModalRef.content.id=id;
+    this.bsModalRef.content.onClose = () => {
+      this.bsModalRef.hide();
+      this.getCategories();
+    };
+  }
 }
