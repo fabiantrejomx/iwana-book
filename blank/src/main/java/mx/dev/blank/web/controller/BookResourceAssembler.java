@@ -37,7 +37,7 @@ public class BookResourceAssembler {
     return books.stream().map(this::toDto).collect(Collectors.toList());
   }
 
-  private BookDTO toDto(final Book book) {
+  public BookDTO toDto(final Book book) {
     final BookDTO dto = new BookDTO(book);
 
     if (expand.contains(AUTHOR_EXPAND)) {

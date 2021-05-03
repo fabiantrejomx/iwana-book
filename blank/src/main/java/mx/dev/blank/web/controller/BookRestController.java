@@ -66,7 +66,7 @@ public class BookRestController {
   /*
    * Ejercicio 1, 2, 9
    */
-  @GetMapping(path = "/list")
+  @GetMapping
   public ResponseEntity<List<BookDTO>> getBooks(
       @ModelAttribute BookSearchForm form,
       @RequestParam(required = false, value = "expand", defaultValue = "")
@@ -77,6 +77,22 @@ public class BookRestController {
     final BookResourceAssembler assembler = assemblerFactory.create(expand);
 
     return ResponseEntity.ok(assembler.toDto(books));
+
+  }
+
+  @GetMapping(path = "/{bookId}")
+  public ResponseEntity<BookDTO> getBooks(
+          @PathVariable(name = "bookId") final int bookId,
+          @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand) {
+
+    final Book book = bookService.findByBookId(bookId);
+
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+
+    return ResponseEntity.ok(assembler.toDto(book));
+
+
   }
 
   /*

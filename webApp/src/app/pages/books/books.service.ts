@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { HOST } from "../constant/http.constant";
 import { BooksDTO } from "./books.dto";
 import { BooksRequest } from "./books.request";
-import { BooksResponse } from "./books.response";
 
 
 @Injectable({
@@ -18,16 +17,16 @@ export class BooksService {
       return this.http.post<boolean>(HOST + "book", request)
     }
   
-    public getBooks(): Observable<[BooksDTO[]]>{
-      return this.http.get<[BooksDTO[]]>(HOST + "book/list")
+    public getBook(API_URL: string): Observable<[BooksDTO[]]>{
+      return this.http.get<[BooksDTO[]]>(HOST + API_URL)
     }
   
-    public updateBooks(booksId: number, request: BooksRequest): Observable<boolean> {
-      return this.http.put<boolean>(HOST + `book/${booksId}`, request)
+    public updateBooks(bookId: number, request: BooksRequest): Observable<boolean> {
+      return this.http.put<boolean>(HOST + `book/${bookId}`, request)
     }
   
-    public deleteBooks(booksId: number): Observable<boolean>{
-      return this.http.delete<boolean>(HOST + `book/${booksId}`)
+    public deleteBooks(bookId: number): Observable<boolean>{
+      return this.http.delete<boolean>(HOST + `book/${bookId}`)
     }
 
 }

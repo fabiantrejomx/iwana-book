@@ -1,62 +1,63 @@
+
 <div class="search-div">
   <button mat-icon-button (click)="onCreate()">
     <mat-icon>add</mat-icon>
   </button>
 </div>
 <div class="mat-elevation-z8">
-  <mat-table [dataSource]="books" matSort>
+  <mat-table [dataSource]="books"  matSort>
 
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+      <mat-cell *matCellDef="let books"> {{books.id}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="title">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+      <mat-cell *matCellDef="let books"> {{books.title}} </mat-cell>
     </ng-container>
   
         <!-- First Surname Column -->
         <ng-container matColumnDef="pages">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Pages </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.pages}} </mat-cell>
+          <mat-cell *matCellDef="let books"> {{books.pages}} </mat-cell>
         </ng-container>
       
         <!-- Second Surname Column -->
         <ng-container matColumnDef="isbn">
           <mat-header-cell *matHeaderCellDef mat-sort-header> ISBN </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.isbn}} </mat-cell>
+          <mat-cell *matCellDef="let books"> {{books.isbn}} </mat-cell>
         </ng-container>
 
         <!-- Second Surname Column -->
         <ng-container matColumnDef="price">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+          <mat-cell *matCellDef="let books"> {{books.price}} </mat-cell>
         </ng-container>
 
          <!-- Second Surname Column -->
          <ng-container matColumnDef="editorial">
            <mat-header-cell *matHeaderCellDef mat-sort-header> Editorial </mat-header-cell>
-           <mat-cell *matCellDef="let element"> {{element.editorial}} </mat-cell>
+           <mat-cell *matCellDef="let books"> {{books.editorial}} </mat-cell>
          </ng-container>
 
         <!-- Birthdate Column -->
         <ng-container matColumnDef="releaseDate">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Publication Date </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.releaseDate}} </mat-cell>
+          <mat-cell *matCellDef="let books"> {{books.releaseDate}} </mat-cell>
         </ng-container>
 
         <!-- Second Surname Column -->
-        <ng-container matColumnDef="author">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Authors </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.author}} </mat-cell>
+        <ng-container matColumnDef="authors">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Authors </mat-header-cell>
+            <mat-cell *matCellDef="let books"><section >{{books.authors}}</section> </mat-cell>
         </ng-container>
 
         <!-- Second Surname Column -->
-        <ng-container matColumnDef="category">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Categories </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+        <ng-container matColumnDef="categories">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Categories </mat-header-cell>
+              <mat-cell *matCellDef="let books"> {{books.categories}} </mat-cell>
         </ng-container>
 
   

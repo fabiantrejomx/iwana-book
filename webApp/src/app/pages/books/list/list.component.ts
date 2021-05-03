@@ -21,7 +21,7 @@ export interface DialogData {
 export class ListComponent implements OnInit {
 
   books: MatTableDataSource<BooksDTO[]>;
-  displayedColumns: string[] = ['id','title','pages','isbn','price','editorial','releaseDate','category','author','actions']
+  displayedColumns: string[] = ['id','title','pages','isbn','price','editorial','releaseDate','authors','categories','actions']
   bookId: number;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,8 +35,8 @@ export class ListComponent implements OnInit {
     this.getList()
   }
 
-  public getList() {
-   this.booksService.getBooks().subscribe(
+  public getList(): void {
+   this.booksService.getBook('/book?expand=categories,authors').subscribe(
      (data: [BooksDTO[]]) => {
      console.log(data);
      this.books = new MatTableDataSource(data);

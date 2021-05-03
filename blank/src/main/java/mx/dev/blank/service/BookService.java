@@ -153,4 +153,14 @@ public class BookService {
   public List<BookRankingDTO> getBooksWithScore(final Integer limit, final Integer offset) {
     return bookDAO.getRankings(limit, offset);
   }
+
+  @Transactional(readOnly = true)
+  public Author findByAuthorId(final int authorId) {
+    return authorDAO.findById(authorId);
+  }
+
+  @Transactional(readOnly = true)
+  public Book findByBookId(final int bookId) {
+    return bookDAO.findById(bookId);
+  }
 }
