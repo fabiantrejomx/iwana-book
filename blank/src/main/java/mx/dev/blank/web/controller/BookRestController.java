@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.entity.Book;
+import mx.dev.blank.entity.Category;
 import mx.dev.blank.model.BookDTO;
 import mx.dev.blank.model.BookRankingDTO;
 import mx.dev.blank.service.BookService;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/book")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping( "/book")
 public class BookRestController {
 
   private final BookService bookService;
@@ -175,4 +177,15 @@ public class BookRestController {
     final List<BookRankingDTO> books = bookService.getBooksWithScore(limit, offset);
     return ResponseEntity.ok(books);
   }
+
+  @GetMapping(path = "/{bookId}")
+  public ResponseEntity<BookDTO> getBook(
+          @PathVariable(name = "bookId") final int bookId,
+  @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand){
+    final Book book = bookService.findByBookId(bookId);
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(book));
+  }
+
 }

@@ -4,10 +4,14 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mx.dev.blank.dao.AuthorDAO;
 import mx.dev.blank.entity.Author;
+import mx.dev.blank.entity.Category;
 import mx.dev.blank.exception.ResourceNotFoundException;
 import mx.dev.blank.web.request.AuthorRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +63,11 @@ public class AuthorService {
   @Transactional(readOnly = true)
   public List<Author> findAll() {
     return authorDAO.findAll();
+  }
+
+
+  @Transactional(readOnly = true)
+  public Author findByAuthorId(final int authorId) {
+    return authorDAO.findById(authorId);
   }
 }

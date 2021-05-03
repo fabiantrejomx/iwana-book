@@ -1,0 +1,90 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<ng-template #contentAdd let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Category</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <div class="input-group">
+          <input methotype="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': form.controls.name.errors }" />
+          <div *ngIf="form.controls.name.errors" class="invalid-feedback">
+            <div *ngIf="form.controls.name.errors.required">name is required</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(postCategory())">Save</button>
+  </div>
+</ng-template>
+
+<br>
+<div style="float: right">
+  <div  id="modal_footer">
+    <button type="button" id="btnAdd" (click)="openPost(contentAdd)"
+            class="btn btn-primary btn-lg"><i class="fa fa-check-square-o"></i> Add Book</button>
+  </div>
+</div>
+<br><br><br>
+
+<ng-template #contentUpdate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-update">Update Category</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+    <form [formGroup]="form" >
+      <div class="form-group">
+        <div class="input-group">
+          <input methotype="text" [ngModel]="category?.name" formControlName="name" value="{{category?.name}}" class="form-control" [ngClass]="{ 'is-invalid': form.controls.name.errors }" />
+          <div *ngIf="form.controls.name.errors" class="invalid-feedback">
+            <div *ngIf="form.controls.name.errors.required">name is required</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(putCategory(category.id))">Save</button>
+  </div>
+</ng-template>
+
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">NAME</th>
+    <th scope="col">OPTIONS</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let item of categories | paginate: {itemsPerPage:3, currentPage:pageActual}">
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+
+    <td>
+      <button class="btn" (click)="openUpdate(contentUpdate, item.id)" data-toggle="tooltip" title="Update"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+      </svg><i class="fa fa-update"></i></button>
+
+      <button class="btn"><i class="fa fa-trash" (click)="deleteCategory(item.id)" data-toggle="tooltip" title="Delete"></i></button>
+    </td>
+
+  </tr>
+  <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+
+
+  </tbody>
+</table>
+
