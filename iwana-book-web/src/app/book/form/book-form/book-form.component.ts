@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Author } from 'src/app/model/author/author';
+import { Author, Authors } from 'src/app/model/author/author';
 import { Book } from 'src/app/model/book/book';
-import { Category } from 'src/app/model/category/category';
+import { BookForm } from 'src/app/model/book/book.form';
+import { Categories, Category } from 'src/app/model/category/category';
 import { AuthorService } from 'src/app/service/author.service';
 import { BookService } from 'src/app/service/book.service';
 import { CategoryService } from 'src/app/service/category.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 
 @Component({
   selector: 'app-book-form',
@@ -16,33 +19,50 @@ import { CategoryService } from 'src/app/service/category.service';
 })
 export class BookFormComponent implements OnInit {
 
-  public book: Book=new Book();
+  public book: BookForm;
   public title: string;
   public errores: string[];
-  public categories: Category[];
-  public authors:Author[];
+  public categories: Categories[];
+  public authors:Authors[]=[];
+  public selectedAuthors:Author[];
+  public selectedCategories:Category[];
   public form: FormGroup;
   public onClose:Function;
   public isSaving:boolean;
-  public bsModalRef:BsModalRef;
+  dropdownSettings: any = {};
 
   constructor(private bookService:BookService,private router: Router, 
     private activatedRouter: ActivatedRoute,
+    public bsModalRef: BsModalRef,
+
     private categoryService:CategoryService,
     private authorService:AuthorService,
     private formBuilder:FormBuilder) { 
       this.form = this.formBuilder.group({
-        name: [, [Validators.required]],
-        firstName:[,Validators.compose([Validators.required,Validators.maxLength(255)])],
-        secondName:[,Validators.compose([Validators.required,Validators.maxLength(255)])],
-        birthday:[]
+        title: [, [Validators.required]],
+        pages:[],
+        isbn:[,Validators.compose([Validators.required,Validators.minLength(13)])],
+        price:[,Validators.compose([Validators.required,Validators.min(0),Validators.max(999999)])],
+        summary:[,Validators.required],
+        editorial:[,Validators.required],
+        datePublication:[,Validators.required],
+        authors:[this.selectedAuthors],
+        categories:[this.selectedCategories]
       });
     }
 
   ngOnInit(): void {
-    this.loadBook();
     this.getAuthors();
     this.getCategories();
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "name",
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
   public save(){
@@ -55,10 +75,14 @@ export class BookFormComponent implements OnInit {
   }
 
   create(): void {
-    this.bookService.create(this.book).subscribe(data => {
-      this.router.navigate(['book']);
-      alert("Succesfully Added Product details")}
-      ,
+    this.isSaving=true;
+    this.bookService.create(this.form.value).subscribe(()=> {
+      this.isSaving=false;
+        this.onClose(true);
+            console.log(
+              "ha sido registrado."
+
+            );},
       err => {
         this.errores = err.error.errors as string[];
         console.error('Error' + err.status);
@@ -67,19 +91,41 @@ export class BookFormComponent implements OnInit {
     );
   }
 
-  loadBook(): void {
-    this.activatedRouter.params.subscribe(params => {
-      let id = params['id']
-      if (id) {
-        this.bookService.getBookByID(id).subscribe((book) => this.book = book)
-      }
-    })
+  public onSelect() {
+    this.getAuthors();
+  }
+
+  public onDeSelect() {
+    this.getAuthors();
+  }
+
+  public onSelectAll(items: Authors[]) {
+    console.log(items)
+    this.selectedAuthors = items;
+    this.book = {
+      authors: this.selectedAuthors
+    };
+    this.getAuthors();
+  }
+
+  public onSelectCategories() {
+    this.getCategories();
+  }
+
+  public onDeSelectCategories() {
+    this.getCategories();
+  }
+
+  public onSelectAllCategories(items: Authors[]) {
+    this.selectedCategories = items;
+    this.book = {
+      categories: this.selectedCategories
+    };
+    this.getCategories();
   }
 
   update(): void{
-    this.bookService.update(this.book,this.book.id).subscribe( json => {
-      this.router.navigate(['/book'])
-    })
+    
   }
 
   public getAuthors() {

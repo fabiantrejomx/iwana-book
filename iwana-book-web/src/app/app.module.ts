@@ -15,6 +15,7 @@ import { BookFormComponent } from './book/form/book-form/book-form.component';
 import { CategoryFormComponent } from './category/form/category-form/category-form.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AuthorFormComponent } from './author/author-form/author-form.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AuthorFormComponent } from './author/author-form/author-form.component'
     HttpClientModule,
     FormsModule,
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot()
     ],
   providers: [],
   bootstrap: [AppComponent]

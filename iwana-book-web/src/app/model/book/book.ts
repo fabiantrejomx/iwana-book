@@ -1,4 +1,4 @@
-import { Author } from "../author/author";
+import { Author, Authors } from "../author/author";
 import { Category } from "../category/category";
 
 export class Book {
