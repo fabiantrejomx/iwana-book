@@ -32,6 +32,7 @@ public class Book implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+
   private Book(
       final String title,
       final int pages,
@@ -69,6 +70,7 @@ public class Book implements Serializable {
 
   public void update(
       final BookRequest request, final Set<Category> categories, final Set<Author> authors) {
+
     this.title = request.getTitle();
     this.pages = request.getPages();
     this.isbn = request.getIsbn();

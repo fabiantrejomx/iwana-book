@@ -123,6 +123,12 @@ public class BookService {
     return bookDAO.getBooksByPrice(priceMin, priceMax);
   }
 
+  @Transactional(readOnly = true)
+  public Book getByBookId(final int bookId) {
+    return bookDAO.findById(bookId);
+  }
+
+
   @SuppressWarnings("unchecked")
   @Transactional(readOnly = true)
   public List<Book> getBooksByAmountAuthors(final long authors) {

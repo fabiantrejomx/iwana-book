@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mx.dev.blank.entity.Author;
 import mx.dev.blank.entity.Book;
 import mx.dev.blank.model.BookDTO;
 import mx.dev.blank.model.BookRankingDTO;
@@ -15,14 +16,17 @@ import mx.dev.blank.service.BookService;
 import mx.dev.blank.web.request.BookRequest;
 import mx.dev.blank.web.request.BookSearchForm;
 import mx.dev.blank.web.response.BaseResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/book")
+
 public class BookRestController {
 
   private final BookService bookService;
@@ -91,6 +95,18 @@ public class BookRestController {
 
     final BookResourceAssembler assembler = assemblerFactory.create(expand);
     return ResponseEntity.ok(assembler.toDto(books));
+  }
+
+
+  @GetMapping(path = "/{bookId}")
+  public ResponseEntity<BookDTO> getBook(
+          @PathVariable(name = "bookId") final int bookId,
+          @RequestParam(required = false, value = "expand", defaultValue = "")
+          final List<String> expand){
+    final Book book = bookService.getByBookId(bookId);
+    //return ResponseEntity.ok(book);
+    final BookResourceAssembler assembler = assemblerFactory.create(expand);
+    return ResponseEntity.ok(assembler.toDto(book));
   }
 
   /*

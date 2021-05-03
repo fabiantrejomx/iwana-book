@@ -43,6 +43,9 @@ public class BookJpaDAO implements BookDAO {
   /* Select * FROM books WHERE id = ? */
   @Override
   public Book findById(final int id) {
+
+    System.out.println("id-jpa:" + id);
+
     return em.find(Book.class, id);
   }
 

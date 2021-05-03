@@ -14,6 +14,7 @@ public class BookDTO implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  private final int id;
   private final String title;
   private final int pages;
   private final String isbn;
@@ -29,6 +30,7 @@ public class BookDTO implements Serializable {
   private Set<CategoryDTO> categories = new HashSet<>();
 
   public BookDTO(final Book book) {
+    this.id = book.getId();
     this.title = book.getTitle();
     this.pages = book.getPages();
     this.isbn = book.getIsbn();

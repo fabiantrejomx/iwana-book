@@ -53,6 +53,10 @@ public class CategoryService {
   }
 
   @Transactional(readOnly = true)
+  public Category getByCategoryId(final int categoryId) { return categoryDAO.findById(categoryId);
+  }
+
+  @Transactional(readOnly = true)
   public List<Category> findAll() {
     return categoryDAO.findAll();
   }
