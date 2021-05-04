@@ -29,7 +29,7 @@ public class Author implements Serializable {
   @Column(name = "first_name", nullable = false, length = 50)
   private String firstName;
 
-  @Column(name = "second_nGETame", length = 50)
+  @Column(name = "second_name", length = 50)
   private String secondName;
 
   @Column(name = "birthday")

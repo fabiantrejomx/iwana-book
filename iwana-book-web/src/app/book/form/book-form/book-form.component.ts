@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Author, Authors } from 'src/app/model/author/author';
-import { Book } from 'src/app/model/book/book';
+import { Authors } from 'src/app/model/author/author';
 import { BookForm } from 'src/app/model/book/book.form';
-import { Categories, Category } from 'src/app/model/category/category';
+import { Categories } from 'src/app/model/category/category';
 import { AuthorService } from 'src/app/service/author.service';
 import { BookService } from 'src/app/service/book.service';
 import { CategoryService } from 'src/app/service/category.service';
@@ -23,13 +22,16 @@ export class BookFormComponent implements OnInit {
   public title: string;
   public errores: string[];
   public categories: Categories[];
-  public authors:Authors[]=[];
-  public selectedAuthors:Author[];
-  public selectedCategories:Category[];
+  public authors:Authors[];
+  public selectedAuthors:Authors[];
+  public selectedCategories:Categories[];
   public form: FormGroup;
   public onClose:Function;
   public isSaving:boolean;
+  public authorsID=[];
+  public categoriesID=[];
   dropdownSettings: any = {};
+
 
   constructor(private bookService:BookService,private router: Router, 
     private activatedRouter: ActivatedRoute,
@@ -65,18 +67,33 @@ export class BookFormComponent implements OnInit {
     };
   }
 
+  ngAfterViInit(){
+    console.log(this.selectedCategories.map(id =>this.authorsID.push(id)))
+    console.log(this.form.value)
+  }
   public save(){
-    if(this.isSaving){
+    console.log(this.form.value);    
       this.create();
-    }else{
-      this.update();
-    }
+    
     
   }
 
   create(): void {
+    this.authorsID=this.form.value.authors.map((author) => author.id);
+    this.categoriesID=this.form.value.categories.map((category) => category.id);
     this.isSaving=true;
-    this.bookService.create(this.form.value).subscribe(()=> {
+    this.bookService.create(
+      { title:this.form.value.title,
+        pages:this.form.value.pages,
+        isbn:this.form.value.isbn,
+        price:this.form.value.price,
+        summary:this.form.value.summary,
+        editorial:this.form.value.editorial,
+        datePublication:this.form.value.datePublication,
+        authors:this.authorsID,
+        categories:this.categoriesID
+      }
+      ).subscribe(()=> {
       this.isSaving=false;
         this.onClose(true);
             console.log(
@@ -116,7 +133,7 @@ export class BookFormComponent implements OnInit {
     this.getCategories();
   }
 
-  public onSelectAllCategories(items: Authors[]) {
+  public onSelectAllCategories(items: Categories[]) {
     this.selectedCategories = items;
     this.book = {
       categories: this.selectedCategories
