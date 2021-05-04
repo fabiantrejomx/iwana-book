@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BookComponent } from './shared/components/pages/books/book/book.component';
+import { CategoryComponent } from './shared/components/pages/categories/category/category.component';
+import { AuthorComponent } from './shared/components/pages/authors/author/author.component';
+import { AuthorsListComponent } from './shared/components/pages/authors/authors-list/authors-list.component';
+import { BooksListComponent } from './shared/components/pages/books/books-list/books-list.component';
+import { CategoriesListComponent } from './shared/components/pages/categories/categories-list/categories-list.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './shared/components/header/header.component';
-import { HeaderModule } from './shared/components/header/header.module';
-import { BooksService } from './pages/books/books.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,20 +20,32 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
-import { AddComponent } from './pages/authors/add/add.component';
-import { CategoryComponent } from './pages/category/category/category.component';
-import { BookComponent } from './pages/books/book/book.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    AuthorComponent,
+    AuthorsListComponent,
+    BookComponent,
+    BooksListComponent,
+    CategoryComponent,
+    CategoriesListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HeaderModule,
     ReactiveFormsModule,
     MatGridListModule,
     BrowserAnimationsModule,
@@ -44,12 +59,24 @@ import { BookComponent } from './pages/books/book/book.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule,
+    MatGridListModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatIconModule,
+    MatSortModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatTabsModule
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    AddComponent,
+  bootstrap: [AppComponent,
+    AuthorComponent,
+    AuthorsListComponent,
+    BookComponent,
+    BooksListComponent,
     CategoryComponent,
-    BookComponent]
+    CategoriesListComponent],
+  entryComponents: []
 })
 export class AppModule { }

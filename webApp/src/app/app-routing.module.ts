@@ -1,56 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthorsListComponent } from './shared/components/pages/authors/authors-list/authors-list.component';
+import { BooksListComponent } from './shared/components/pages/books/books-list/books-list.component';
+import { CategoriesListComponent } from './shared/components/pages/categories/categories-list/categories-list.component';
 
-const bookRoutes: Routes = [
-  {
-    path: 'list', 
-    loadChildren: () => import('./pages/books/list/list.module').then(m => m.ListModule)
-  },
-  {
-    path: 'book',
-    loadChildren: () => import('./pages/books/book/book.module').then(m => m.BookModule)
-  },
-]
-const authorsRoutes: Routes = [
-  {
-    path: 'list', 
-    loadChildren: () => import('./pages/authors/list/list.module').then(m => m.ListModule)
-  },
-  {
-    path: 'add',
-    loadChildren: () => import('./pages/authors/add/add.module').then(m => m.AddModule)
-  },
-  
-]
-const categoryRoutes: Routes = [
-  {
-    path: 'list', 
-    loadChildren: () => import('./pages/category/list/list.module').then(m => m.ListModule)
-  },
-  {
-    path: 'category',
-    loadChildren: () => import('./pages/category/category/category.module').then(m => m.CategoryModule)
-  },
-]
+
 
 const routes: Routes = [
-  {
-    path: 'books',
-    children: bookRoutes
-  },
-  {
-    path: 'authors',
-    children: authorsRoutes
-  },
-  {
-    path: 'category',
-    children: categoryRoutes
-  },
-
+  { path: '', redirectTo: '/first', pathMatch: 'full' },
+  { path: 'first', component:  AuthorsListComponent},
+  { path: 'second', component:  BooksListComponent},
+  { path: 'third', component: CategoriesListComponent},
 ];
-
+export const appRouting = RouterModule.forRoot(routes);
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),
+  CommonModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
