@@ -45,4 +45,21 @@ export class BookService {
         })
       );
   }
+
+  public update(book: BookForm,bookID:number): Observable<any> {
+    const url = `${environment.apiBaseUrl}/book/${bookID}`;
+    return this.http
+      .put<any>(url, book, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        catchError((e) => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          console.error(e.error.mensaje);
+          return throwError(e);
+        })
+      );
+  }
 }

@@ -9,6 +9,7 @@ import { AuthorService } from 'src/app/service/author.service';
 import { BookService } from 'src/app/service/book.service';
 import { CategoryService } from 'src/app/service/category.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Book } from 'src/app/model/book/book';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 export class BookFormComponent implements OnInit {
 
   public book: BookForm;
+  public books:Book;
   public title: string;
   public errores: string[];
   public categories: Categories[];
@@ -28,6 +30,7 @@ export class BookFormComponent implements OnInit {
   public form: FormGroup;
   public onClose:Function;
   public isSaving:boolean;
+  public isUpdate:boolean;
   public authorsID=[];
   public categoriesID=[];
   dropdownSettings: any = {};
@@ -68,12 +71,17 @@ export class BookFormComponent implements OnInit {
   }
 
   ngAfterViInit(){
-    console.log(this.selectedCategories.map(id =>this.authorsID.push(id)))
-    console.log(this.form.value)
+   setTimeout(()=>{
+
+   })
   }
   public save(){
-    console.log(this.form.value);    
+    if(this.isSaving){
       this.create();
+    }else{
+      this.update();
+    }
+     
     
     
   }
@@ -141,8 +149,35 @@ export class BookFormComponent implements OnInit {
     this.getCategories();
   }
 
-  update(): void{
-    
+ public update(): void{
+    this.authorsID=this.form.value.authors.map((author) => author.id);
+    this.categoriesID=this.form.value.categories.map((category) => category.id);
+    this.isUpdate=true;
+    this.bookService.update(
+      { title:this.form.value.title,
+        pages:this.form.value.pages,
+        isbn:this.form.value.isbn,
+        price:this.form.value.price,
+        summary:this.form.value.summary,
+        editorial:this.form.value.editorial,
+        datePublication:this.form.value.datePublication,
+        authors:this.authorsID,
+        categories:this.categoriesID
+      },
+      this.books.id
+      ).subscribe(()=> {
+      this.isUpdate=false;
+        this.onClose(true);
+            console.log(
+              "ha sido actualizado."
+
+            );},
+      err => {
+        this.errores = err.error.errors as string[];
+        console.error('Error' + err.status);
+        console.error(err.error.errors);
+      }
+    );   
   }
 
   public getAuthors() {

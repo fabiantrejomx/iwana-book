@@ -47,4 +47,15 @@ export class BookComponent implements OnInit {
     };
   }
 
+  public updateBook(book:Book): void {
+    const bsModalRef = this.modalService.show(BookFormComponent, {
+      class: 'modal-lg',
+    });
+  bsModalRef.content.title = 'Editar Libro';
+  bsModalRef.content.books=book;
+  bsModalRef.content.onClose = () => {
+  bsModalRef.hide();
+      this.getBooks();
+    };
+  }
 }

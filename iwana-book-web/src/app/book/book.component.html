@@ -43,7 +43,7 @@
                         {{category.name}}
                     </td>
                     <td><button type="button" name="editar"
-                      class="btn btn-primary" [routerLink]="['/book/form', book.id]">editar</button>
+                      class="btn btn-primary" (click)="updateBook(book)">editar</button>
               <td><button type="button" name="eliminar"
                       class="btn btn-danger" (click)="deleteBook(book.id)">eliminar</button>
               </td>              
